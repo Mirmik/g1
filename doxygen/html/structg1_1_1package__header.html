@@ -102,26 +102,32 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 Public Attributes</h2></td></tr>
 <tr class="memitem:a77aeda3b76d39b1067afd494c58873af"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a77aeda3b76d39b1067afd494c58873af"></a>
 uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structg1_1_1package__header.html#a77aeda3b76d39b1067afd494c58873af">type</a></td></tr>
-<tr class="memdesc:a77aeda3b76d39b1067afd494c58873af"><td class="mdescLeft">&#160;</td><td class="mdescRight">Тип <br /></td></tr>
+<tr class="memdesc:a77aeda3b76d39b1067afd494c58873af"><td class="mdescLeft">&#160;</td><td class="mdescRight">Тип. <br /></td></tr>
 <tr class="separator:a77aeda3b76d39b1067afd494c58873af"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a148b733fe97c06f0ded129f2a1d953c1"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a148b733fe97c06f0ded129f2a1d953c1"></a>
-uint16_t&#160;</td><td class="memItemRight" valign="bottom"><b>flen</b></td></tr>
+uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structg1_1_1package__header.html#a148b733fe97c06f0ded129f2a1d953c1">flen</a></td></tr>
+<tr class="memdesc:a148b733fe97c06f0ded129f2a1d953c1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Полная длина пакета <br /></td></tr>
 <tr class="separator:a148b733fe97c06f0ded129f2a1d953c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8f706d30ff3d9154aff97827aa291af8"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a8f706d30ff3d9154aff97827aa291af8"></a>
-uint16_t&#160;</td><td class="memItemRight" valign="bottom"><b>seqid</b></td></tr>
+uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structg1_1_1package__header.html#a8f706d30ff3d9154aff97827aa291af8">seqid</a></td></tr>
+<tr class="memdesc:a8f706d30ff3d9154aff97827aa291af8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Порядковый номер пакета. Присваивается отправителем. <br /></td></tr>
 <tr class="separator:a8f706d30ff3d9154aff97827aa291af8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aca2dc89b824e81d9aaa99488aab21fe7"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aca2dc89b824e81d9aaa99488aab21fe7"></a>
-uint8_t&#160;</td><td class="memItemRight" valign="bottom"><b>alen</b></td></tr>
+uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structg1_1_1package__header.html#aca2dc89b824e81d9aaa99488aab21fe7">alen</a></td></tr>
+<tr class="memdesc:aca2dc89b824e81d9aaa99488aab21fe7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Длина поля адреса. <br /></td></tr>
 <tr class="separator:aca2dc89b824e81d9aaa99488aab21fe7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ade59c95e617ca8789a408c9aaa0ab088"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ade59c95e617ca8789a408c9aaa0ab088"></a>
-uint8_t&#160;</td><td class="memItemRight" valign="bottom"><b>stg</b></td></tr>
+uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structg1_1_1package__header.html#ade59c95e617ca8789a408c9aaa0ab088">stg</a></td></tr>
+<tr class="memdesc:ade59c95e617ca8789a408c9aaa0ab088"><td class="mdescLeft">&#160;</td><td class="mdescRight">Поля стадии. Используется для того, чтобы цепочка врат знала, какую часть адреса обрабатывать. <br /></td></tr>
 <tr class="separator:ade59c95e617ca8789a408c9aaa0ab088"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aea47ad75b2af7d91d1f460ff5887c751"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aea47ad75b2af7d91d1f460ff5887c751"></a>
-<a class="el" href="g1_8h.html#a157fb77f1b8142697dc1b88efaae6a0a">QoS</a>&#160;</td><td class="memItemRight" valign="bottom"><b>qos</b></td></tr>
+<a class="el" href="g1_8h.html#a157fb77f1b8142697dc1b88efaae6a0a">QoS</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structg1_1_1package__header.html#aea47ad75b2af7d91d1f460ff5887c751">qos</a></td></tr>
+<tr class="memdesc:aea47ad75b2af7d91d1f460ff5887c751"><td class="mdescLeft">&#160;</td><td class="mdescRight">Поле качества обслуживания. <br /></td></tr>
 <tr class="separator:aea47ad75b2af7d91d1f460ff5887c751"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Структура заголовок пакета. </p>
+<p>Заголовок пакета располагается в первых байтах пакета. за заголовком следует поле адреса переменной длины, а за ним данные. </p>
 </div><hr/>The documentation for this struct was generated from the following file:<ul>
 <li>/home/rfmeas/project/g1/g1/<a class="el" href="g1_8h_source.html">g1.h</a></li>
 </ul>
