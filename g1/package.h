@@ -31,7 +31,8 @@ namespace g1 {
 	};
 
 	///Структура-описатель блока. Создается поверх пакета для упрощения работы с ним.
-	struct package {
+	struct travelled_package {
+		dlist_head glnk;
 		package_header* bptr; ///< Указатель на заголовок реферируемого блока
 
 		///Отметить в пакете прохождение врат.
@@ -39,12 +40,12 @@ namespace g1 {
 	};
 
 	///Добавляет к пакету некоторые контрольные поля. Нужен для поддержки качества обслуживания.
-	struct controlled_package : public package {
+	struct controlled_package : public travelled_package {
 		dlist_head tlnk; ///< К списку хешированных пакетов.
 		uint8_t resend_count = 0; ///< Счетчик попыток пересылки.
 	};
 
-	
+	struct 
 
 }
 
