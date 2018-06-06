@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['type',['type',['../structg1_1_1package__header.html#a77aeda3b76d39b1067afd494c58873af',1,'g1::package_header']]]
+  ['qos',['qos',['../structg1_1_1package__header.html#aea47ad75b2af7d91d1f460ff5887c751',1,'g1::package_header']]]
 ];

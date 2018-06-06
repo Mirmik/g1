@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['revert_5fstage',['revert_stage',['../structg1_1_1package.html#a667ed03d442d2c9cfe28917c75525e4e',1,'g1::package']]]
+  ['qos',['qos',['../structg1_1_1package__header.html#aea47ad75b2af7d91d1f460ff5887c751',1,'g1::package_header::qos()'],['../package_8h.html#a157fb77f1b8142697dc1b88efaae6a0a',1,'g1::QoS()']]]
 ];

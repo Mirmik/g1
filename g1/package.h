@@ -1,6 +1,6 @@
 /**
 @file 
-@brief G1 main file
+@brief Всё, что касается работы с пакетом.
 */
 
 #ifndef G1_H
@@ -34,15 +34,9 @@ namespace g1 {
 	struct package {
 		package_header* bptr; ///< Указатель на заголовок реферируемого блока
 
-		/**
-			Отметить в пакете прохождение врат.
-		*/
+		///Отметить в пакете прохождение врат.
 		void revert_stage(uint8_t size, void* addr);
-
 	};
-
-	///Переместить пакет дальше по конвееру врат.
-	void transport(package pack);
 
 }
 

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['one',['One',['../g1_8h.html#a157fb77f1b8142697dc1b88efaae6a0aa3a08e2a74d22aa3fcb0ba7207d30814e',1,'g1']]]
+  ['lnk',['lnk',['../structg1_1_1gateway.html#a9b30f9f8c97681eb9b8ce01594200916',1,'g1::gateway']]]
 ];

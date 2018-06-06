@@ -1,0 +1,61 @@
+\hypertarget{structg1_1_1gateway}{}\section{g1\+:\+:gateway Struct Reference}
+\label{structg1_1_1gateway}\index{g1\+::gateway@{g1\+::gateway}}
+
+
+{\ttfamily \#include $<$gateway.\+h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+int \hyperlink{structg1_1_1gateway_abf8bda3d6c126eddf0f81984096be2d6}{send} (\hyperlink{structg1_1_1package}{g1\+::package} pack)=0
+\begin{DoxyCompactList}\small\item\em Отправить пакет в целевой мир, согласно адресу стадии. \end{DoxyCompactList}\item 
+int \hyperlink{structg1_1_1gateway_a2d8892e9c42ab223c4e1c9ab75080b93}{receive\+\_\+handler} (void $\ast$buf, size\+\_\+t sz)=0
+\begin{DoxyCompactList}\small\item\em Обработка пакета, пришедшего из другого мира. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+dlist\+\_\+head \hyperlink{structg1_1_1gateway_a9b30f9f8c97681eb9b8ce01594200916}{lnk}\hypertarget{structg1_1_1gateway_a9b30f9f8c97681eb9b8ce01594200916}{}\label{structg1_1_1gateway_a9b30f9f8c97681eb9b8ce01594200916}
+
+\begin{DoxyCompactList}\small\item\em intrusive list link on tower list. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Абстрактный класс врат. Врата отвечают за пересылку пакетов между мирами. 
+
+\subsection{Member Function Documentation}
+\index{g1\+::gateway@{g1\+::gateway}!receive\+\_\+handler@{receive\+\_\+handler}}
+\index{receive\+\_\+handler@{receive\+\_\+handler}!g1\+::gateway@{g1\+::gateway}}
+\subsubsection[{\texorpdfstring{receive\+\_\+handler(void $\ast$buf, size\+\_\+t sz)=0}{receive_handler(void *buf, size_t sz)=0}}]{\setlength{\rightskip}{0pt plus 5cm}int g1\+::gateway\+::receive\+\_\+handler (
+\begin{DoxyParamCaption}
+\item[{void $\ast$}]{buf, }
+\item[{size\+\_\+t}]{sz}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [pure virtual]}}\hypertarget{structg1_1_1gateway_a2d8892e9c42ab223c4e1c9ab75080b93}{}\label{structg1_1_1gateway_a2d8892e9c42ab223c4e1c9ab75080b93}
+
+
+Обработка пакета, пришедшего из другого мира. 
+
+Здесь происходит реверт адреса и переправка в башню. \index{g1\+::gateway@{g1\+::gateway}!send@{send}}
+\index{send@{send}!g1\+::gateway@{g1\+::gateway}}
+\subsubsection[{\texorpdfstring{send(g1\+::package pack)=0}{send(g1::package pack)=0}}]{\setlength{\rightskip}{0pt plus 5cm}int g1\+::gateway\+::send (
+\begin{DoxyParamCaption}
+\item[{{\bf g1\+::package}}]{pack}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [pure virtual]}}\hypertarget{structg1_1_1gateway_abf8bda3d6c126eddf0f81984096be2d6}{}\label{structg1_1_1gateway_abf8bda3d6c126eddf0f81984096be2d6}
+
+
+Отправить пакет в целевой мир, согласно адресу стадии. 
+
+Убить зверя. 
+\begin{DoxyParams}{Parameters}
+{\em pack} & Пересылаемый пакет \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Статус ошибки. 
+\end{DoxyReturn}
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/home/mirmik/project/g1/g1/gateway.\+h\end{DoxyCompactItemize}
