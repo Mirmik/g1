@@ -62,6 +62,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="annotated.html"><span>Class&#160;List</span></a></li>
       <li><a href="classes.html"><span>Class&#160;Index</span></a></li>
+      <li><a href="inherits.html"><span>Class&#160;Hierarchy</span></a></li>
       <li><a href="functions.html"><span>Class&#160;Members</span></a></li>
     </ul>
   </div>
@@ -98,29 +99,30 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:abf8bda3d6c126eddf0f81984096be2d6"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structg1_1_1gateway.html#abf8bda3d6c126eddf0f81984096be2d6">send</a> (<a class="el" href="structg1_1_1package.html">g1::package</a> pack)=0</td></tr>
-<tr class="memdesc:abf8bda3d6c126eddf0f81984096be2d6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Отправить пакет в целевой мир, согласно адресу стадии.  <a href="#abf8bda3d6c126eddf0f81984096be2d6">More...</a><br /></td></tr>
-<tr class="separator:abf8bda3d6c126eddf0f81984096be2d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2d8892e9c42ab223c4e1c9ab75080b93"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structg1_1_1gateway.html#a2d8892e9c42ab223c4e1c9ab75080b93">receive_handler</a> (void *buf, size_t sz)=0</td></tr>
-<tr class="memdesc:a2d8892e9c42ab223c4e1c9ab75080b93"><td class="mdescLeft">&#160;</td><td class="mdescRight">Обработка пакета, пришедшего из другого мира.  <a href="#a2d8892e9c42ab223c4e1c9ab75080b93">More...</a><br /></td></tr>
-<tr class="separator:a2d8892e9c42ab223c4e1c9ab75080b93"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a73ffda2f32b50767a31a4a29cef408d3"><td class="memItemLeft" align="right" valign="top">virtual int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structg1_1_1gateway.html#a73ffda2f32b50767a31a4a29cef408d3">send</a> (<a class="el" href="structg1_1_1package.html">g1::package</a> pack)=0</td></tr>
+<tr class="memdesc:a73ffda2f32b50767a31a4a29cef408d3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Отправить пакет в целевой мир, согласно адресу стадии.  <a href="#a73ffda2f32b50767a31a4a29cef408d3">More...</a><br /></td></tr>
+<tr class="separator:a73ffda2f32b50767a31a4a29cef408d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8554ef0120b9fbb279087eb1d8c205dd"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structg1_1_1gateway.html#a8554ef0120b9fbb279087eb1d8c205dd">receive_handler</a> (void *buf, size_t sz)</td></tr>
+<tr class="memdesc:a8554ef0120b9fbb279087eb1d8c205dd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Обработка пакета, пришедшего из другого мира.  <a href="#a8554ef0120b9fbb279087eb1d8c205dd">More...</a><br /></td></tr>
+<tr class="separator:a8554ef0120b9fbb279087eb1d8c205dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
 <tr class="memitem:a9b30f9f8c97681eb9b8ce01594200916"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a9b30f9f8c97681eb9b8ce01594200916"></a>
 dlist_head&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structg1_1_1gateway.html#a9b30f9f8c97681eb9b8ce01594200916">lnk</a></td></tr>
-<tr class="memdesc:a9b30f9f8c97681eb9b8ce01594200916"><td class="mdescLeft">&#160;</td><td class="mdescRight">intrusive list link on tower list. <br /></td></tr>
+<tr class="memdesc:a9b30f9f8c97681eb9b8ce01594200916"><td class="mdescLeft">&#160;</td><td class="mdescRight">встроенное поле списка. <br /></td></tr>
 <tr class="separator:a9b30f9f8c97681eb9b8ce01594200916"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9bc58cdaebf54c916deb87c4c44c0a59"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a9bc58cdaebf54c916deb87c4c44c0a59"></a>
+uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structg1_1_1gateway.html#a9bc58cdaebf54c916deb87c4c44c0a59">id</a></td></tr>
+<tr class="memdesc:a9bc58cdaebf54c916deb87c4c44c0a59"><td class="mdescLeft">&#160;</td><td class="mdescRight">номер врат. <br /></td></tr>
+<tr class="separator:a9bc58cdaebf54c916deb87c4c44c0a59"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Абстрактный класс врат. Врата отвечают за пересылку пакетов между мирами. </p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="a2d8892e9c42ab223c4e1c9ab75080b93"></a>
+<a class="anchor" id="a8554ef0120b9fbb279087eb1d8c205dd"></a>
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">int g1::gateway::receive_handler </td>
@@ -140,11 +142,6 @@ dlist_head&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href
           <td></td><td></td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 
 <p>Обработка пакета, пришедшего из другого мира. </p>
@@ -152,7 +149,7 @@ dlist_head&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href
 
 </div>
 </div>
-<a class="anchor" id="abf8bda3d6c126eddf0f81984096be2d6"></a>
+<a class="anchor" id="a73ffda2f32b50767a31a4a29cef408d3"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -160,7 +157,7 @@ dlist_head&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">int g1::gateway::send </td>
+          <td class="memname">virtual int g1::gateway::send </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="structg1_1_1package.html">g1::package</a>&#160;</td>
           <td class="paramname"><em>pack</em></td><td>)</td>
@@ -186,7 +183,7 @@ dlist_head&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href
 </div>
 </div>
 <hr/>The documentation for this struct was generated from the following file:<ul>
-<li>/home/mirmik/project/g1/g1/<a class="el" href="gateway_8h_source.html">gateway.h</a></li>
+<li>/home/rfmeas/project/g1/g1/<a class="el" href="gateway_8h_source.html">gateway.h</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

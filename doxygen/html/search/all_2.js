@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['flen',['flen',['../structg1_1_1package__header.html#a148b733fe97c06f0ded129f2a1d953c1',1,'g1::package_header']]]
+  ['controlled_5fpackage',['controlled_package',['../structg1_1_1controlled__package.html',1,'g1']]]
 ];

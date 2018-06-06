@@ -38,6 +38,14 @@ namespace g1 {
 		void revert_stage(uint8_t size, void* addr);
 	};
 
+	///Добавляет к пакету некоторые контрольные поля. Нужен для поддержки качества обслуживания.
+	struct controlled_package : public package {
+		dlist_head tlnk; ///< К списку хешированных пакетов.
+		uint8_t resend_count = 0; ///< Счетчик попыток пересылки.
+	};
+
+	
+
 }
 
 #endif

@@ -7,16 +7,19 @@
 \subsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-int \hyperlink{structg1_1_1gateway_abf8bda3d6c126eddf0f81984096be2d6}{send} (\hyperlink{structg1_1_1package}{g1\+::package} pack)=0
+virtual int \hyperlink{structg1_1_1gateway_a73ffda2f32b50767a31a4a29cef408d3}{send} (\hyperlink{structg1_1_1package}{g1\+::package} pack)=0
 \begin{DoxyCompactList}\small\item\em Отправить пакет в целевой мир, согласно адресу стадии. \end{DoxyCompactList}\item 
-int \hyperlink{structg1_1_1gateway_a2d8892e9c42ab223c4e1c9ab75080b93}{receive\+\_\+handler} (void $\ast$buf, size\+\_\+t sz)=0
+int \hyperlink{structg1_1_1gateway_a8554ef0120b9fbb279087eb1d8c205dd}{receive\+\_\+handler} (void $\ast$buf, size\+\_\+t sz)
 \begin{DoxyCompactList}\small\item\em Обработка пакета, пришедшего из другого мира. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Public Attributes}
 \begin{DoxyCompactItemize}
 \item 
 dlist\+\_\+head \hyperlink{structg1_1_1gateway_a9b30f9f8c97681eb9b8ce01594200916}{lnk}\hypertarget{structg1_1_1gateway_a9b30f9f8c97681eb9b8ce01594200916}{}\label{structg1_1_1gateway_a9b30f9f8c97681eb9b8ce01594200916}
 
-\begin{DoxyCompactList}\small\item\em intrusive list link on tower list. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em встроенное поле списка. \end{DoxyCompactList}\item 
+uint16\+\_\+t \hyperlink{structg1_1_1gateway_a9bc58cdaebf54c916deb87c4c44c0a59}{id}\hypertarget{structg1_1_1gateway_a9bc58cdaebf54c916deb87c4c44c0a59}{}\label{structg1_1_1gateway_a9bc58cdaebf54c916deb87c4c44c0a59}
+
+\begin{DoxyCompactList}\small\item\em номер врат. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \subsection{Detailed Description}
@@ -25,23 +28,23 @@ dlist\+\_\+head \hyperlink{structg1_1_1gateway_a9b30f9f8c97681eb9b8ce01594200916
 \subsection{Member Function Documentation}
 \index{g1\+::gateway@{g1\+::gateway}!receive\+\_\+handler@{receive\+\_\+handler}}
 \index{receive\+\_\+handler@{receive\+\_\+handler}!g1\+::gateway@{g1\+::gateway}}
-\subsubsection[{\texorpdfstring{receive\+\_\+handler(void $\ast$buf, size\+\_\+t sz)=0}{receive_handler(void *buf, size_t sz)=0}}]{\setlength{\rightskip}{0pt plus 5cm}int g1\+::gateway\+::receive\+\_\+handler (
+\subsubsection[{\texorpdfstring{receive\+\_\+handler(void $\ast$buf, size\+\_\+t sz)}{receive_handler(void *buf, size_t sz)}}]{\setlength{\rightskip}{0pt plus 5cm}int g1\+::gateway\+::receive\+\_\+handler (
 \begin{DoxyParamCaption}
 \item[{void $\ast$}]{buf, }
 \item[{size\+\_\+t}]{sz}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [pure virtual]}}\hypertarget{structg1_1_1gateway_a2d8892e9c42ab223c4e1c9ab75080b93}{}\label{structg1_1_1gateway_a2d8892e9c42ab223c4e1c9ab75080b93}
+)}\hypertarget{structg1_1_1gateway_a8554ef0120b9fbb279087eb1d8c205dd}{}\label{structg1_1_1gateway_a8554ef0120b9fbb279087eb1d8c205dd}
 
 
 Обработка пакета, пришедшего из другого мира. 
 
 Здесь происходит реверт адреса и переправка в башню. \index{g1\+::gateway@{g1\+::gateway}!send@{send}}
 \index{send@{send}!g1\+::gateway@{g1\+::gateway}}
-\subsubsection[{\texorpdfstring{send(g1\+::package pack)=0}{send(g1::package pack)=0}}]{\setlength{\rightskip}{0pt plus 5cm}int g1\+::gateway\+::send (
+\subsubsection[{\texorpdfstring{send(g1\+::package pack)=0}{send(g1::package pack)=0}}]{\setlength{\rightskip}{0pt plus 5cm}virtual int g1\+::gateway\+::send (
 \begin{DoxyParamCaption}
 \item[{{\bf g1\+::package}}]{pack}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [pure virtual]}}\hypertarget{structg1_1_1gateway_abf8bda3d6c126eddf0f81984096be2d6}{}\label{structg1_1_1gateway_abf8bda3d6c126eddf0f81984096be2d6}
+)\hspace{0.3cm}{\ttfamily [pure virtual]}}\hypertarget{structg1_1_1gateway_a73ffda2f32b50767a31a4a29cef408d3}{}\label{structg1_1_1gateway_a73ffda2f32b50767a31a4a29cef408d3}
 
 
 Отправить пакет в целевой мир, согласно адресу стадии. 
@@ -58,4 +61,4 @@ dlist\+\_\+head \hyperlink{structg1_1_1gateway_a9b30f9f8c97681eb9b8ce01594200916
 
 The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
 \item 
-/home/mirmik/project/g1/g1/gateway.\+h\end{DoxyCompactItemize}
+/home/rfmeas/project/g1/g1/gateway.\+h\end{DoxyCompactItemize}

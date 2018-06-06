@@ -1,6 +1,4 @@
 var searchData=
 [
-  ['send',['send',['../structg1_1_1gateway.html#abf8bda3d6c126eddf0f81984096be2d6',1,'g1::gateway']]],
-  ['seqid',['seqid',['../structg1_1_1package__header.html#a8f706d30ff3d9154aff97827aa291af8',1,'g1::package_header']]],
-  ['stg',['stg',['../structg1_1_1package__header.html#ade59c95e617ca8789a408c9aaa0ab088',1,'g1::package_header']]]
+  ['qos',['qos',['../structg1_1_1package__header.html#aea47ad75b2af7d91d1f460ff5887c751',1,'g1::package_header::qos()'],['../package_8h.html#a157fb77f1b8142697dc1b88efaae6a0a',1,'g1::QoS()']]]
 ];

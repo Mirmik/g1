@@ -8,18 +8,19 @@
 
 #include <gxx/container/dlist.h>
 #include <g1/gateway.h>
+#include <vector>
 
 namespace g1 {
 	class gateway;
 
-	extern gxx::dlist<g1::gateway, &g1::gateway::lnk> gateways; ///Список индексированных врат
+	///Список врат.
+	extern gxx::dlist<g1::gateway, &g1::gateway::lnk> gateways;
 
 	///Переместить пакет дальше по конвееру врат.
 	void transport(g1::package pack); 
 
 	///Подключить врата к башне.
-	inline void registry_gate(g1::gateway& gate) { gateways.move_back(gate); } 
-
+	inline void link_gate(g1::gateway& gate) { gateways.move_back(gate); } 
 }
 
 #endif

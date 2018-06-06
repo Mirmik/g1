@@ -8,10 +8,9 @@ namespace g1 {
 		Абстрактный класс врат. Врата отвечают за пересылку пакетов между мирами.
 	*/
 	struct gateway {
-
-		///intrusive list link on tower list.
-		dlist_head lnk;
-
+		dlist_head lnk; ///< встроенное поле списка.
+		uint16_t id; ///< номер врат.
+		
 		/** 
 			@brief Отправить пакет в целевой мир, согласно адресу стадии.
 			@details Убить зверя.
