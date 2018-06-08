@@ -18,6 +18,7 @@ application("target",
 		("gxx.dprint", "cout"),
 
 		("g1"),
+		("g1.allocator", "malloc"),
 	],
 )
 

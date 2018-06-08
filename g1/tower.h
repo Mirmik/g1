@@ -23,13 +23,16 @@ namespace g1 {
 	extern gxx::dlist<g1::gateway, &g1::gateway::lnk> gateways;
 
 	///Переместить пакет дальше по конвееру врат.
-	void transport(const g1::packet& pack); 
+	void transport(g1::packet* pack); 
 
 	///Вызывается на только что отправленный пакет. Башня или уничтожает его, или кеширует для контроля качества.
-	void return_to_tower(const g1::packet& pack, uint8_t status);
+	void return_to_tower(g1::packet* pack, status sts);
 
 	///Подключить врата к башне.
-	inline void link_gate(g1::gateway& gate) { gateways.move_back(gate); } 
+	inline void link_gate(g1::gateway* gate) { gateways.move_back(*gate); } 
+
+
+	g1::gateway* find_target_gateway(const g1::packet* pack);
 }
 
 #endif

@@ -1,26 +1,38 @@
 #include <g1/tower.h>
-#include <g1/package.h>
+#include <g1/packet.h>
+#include <g1/gateway.h>
 
-gxx::dlist<gateway, &gateway::lnk> gateways;
+#include <gxx/print.h>
+#include <gxx/trace.h>
 
-g1::gateway* g1::find_target_gateway(const g1::packet& pack) {
-	uint8_t gidx = pack.gateway_index();
+gxx::dlist<g1::gateway, &g1::gateway::lnk> g1::gateways;
+
+g1::gateway* g1::find_target_gateway(const g1::packet* pack) {
+	 GXX_TRACE_SIMPLE();
+	uint8_t gidx = pack->gateway_index();
 	for (auto& g : gateways) {
 		if (g.id == gidx) return &g;
 	}
 	return nullptr;
 }
 
-void g1::transport(const g1::packet& pack) {
+void g1::transport(g1::packet* pack) {
+	 GXX_TRACE_SIMPLE();
 	g1::gateway* gate = g1::find_target_gateway(pack);
 	if (gate == nullptr) return_to_tower(pack, status::WrongGate);
 	else gate->send(pack);
 }
 
-void g1::return_to_tower(const g1::packet& pack) {
+void g1::return_to_tower(g1::packet* pack, g1::status sts) {
+	 GXX_TRACE_SIMPLE();
+	///@debug
+	if (sts == g1::status::WrongGate) {
+		gxx::println("WrongGate");
+	}
+
 	if (pack->bptr->qos == One) {
 		utilize_block(pack->bptr);
-		utilize_pack(pack);
+		utilize_packet(pack);
 	}
 
 }

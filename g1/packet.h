@@ -7,9 +7,14 @@
 #define G1_PACKAGE_H
 
 #include <cstdint>
-#include <gxx/refcountered.h>
+#include <gxx/buffer.h>
+#include <gxx/datastruct/dlist_head.h>
+
+#define PACKED __attribute__((packed))
 
 namespace g1 {
+	struct gateway;
+
 	/// Качество обслуживания.
 	enum QoS : uint8_t {
 		One, ///< one
@@ -29,7 +34,7 @@ namespace g1 {
 		uint8_t alen; ///< Длина поля адреса.
 		uint8_t stg; ///< Поля стадии. Используется для того, чтобы цепочка врат знала, какую часть адреса обрабатывать.
 		QoS qos; ///< Поле качества обслуживания.
-	};
+	} PACKED;
 
 	///Структура-описатель блока. Создается поверх пакета для упрощения работы с ним.
 	struct packet {
@@ -42,14 +47,20 @@ namespace g1 {
 		///Отметить в пакете прохождение врат.
 		void revert_stage(uint8_t size, void* addr);
 
-		uint8_t gateway_index();
-		gxx::buffer gateway_address(uint8_t asz);
+		uint8_t gateway_index() const;
+		gxx::buffer gateway_address(uint8_t asz) const;
+
+		bool is_travelled() { return ingate != nullptr; } 
+
+		char* data() { return (char*)(bptr+1) + bptr->alen; }
 	};
 
-	packet_header* allocate_block(size_t asz, size_t bsz);
+	packet_header* allocate_block(uint8_t asz, uint16_t bsz);
+	packet_header* create_block(uint8_t asz, uint16_t bsz);
 	void utilize_block(packet_header* block);
 
 	packet* allocate_packet(); 
+	packet* create_packet(gateway* ingate, packet_header* block); 
 	void utilize_packet(packet* pack);
 }
 
