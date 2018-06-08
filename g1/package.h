@@ -3,10 +3,11 @@
 @brief Всё, что касается работы с пакетом.
 */
 
-#ifndef G1_H
-#define G1_H
+#ifndef G1_PACKAGE_H
+#define G1_PACKAGE_H
 
 #include <cstdint>
+#include <gxx/refcountered.h>
 
 namespace g1 {
 	/// Качество обслуживания.
@@ -21,7 +22,7 @@ namespace g1 {
 		@details Заголовок пакета располагается в первых байтах пакета.
 		за заголовком следует поле адреса переменной длины, а за ним данные.
 	*/
-	struct package_header {
+	struct packet_header {
 		uint8_t type; ///< Тип.
 		uint16_t flen; ///< Полная длина пакета
 		uint16_t seqid; ///< Порядковый номер пакета. Присваивается отправителем.
@@ -31,22 +32,25 @@ namespace g1 {
 	};
 
 	///Структура-описатель блока. Создается поверх пакета для упрощения работы с ним.
-	struct travelled_package {
-		dlist_head glnk;
-		package_header* bptr; ///< Указатель на заголовок реферируемого блока
+	struct packet {
+		dlist_head lnk; /// < Для подключения в список.
+		g1::gateway* ingate; /// < gate, которым пакет прибыл в систему.
+
+		//dlist_head tlnk;
+		packet_header* bptr; ///< Указатель на заголовок реферируемого блока
 
 		///Отметить в пакете прохождение врат.
 		void revert_stage(uint8_t size, void* addr);
+
+		uint8_t gateway_index();
+		gxx::buffer gateway_address(uint8_t asz);
 	};
 
-	///Добавляет к пакету некоторые контрольные поля. Нужен для поддержки качества обслуживания.
-	struct controlled_package : public travelled_package {
-		dlist_head tlnk; ///< К списку хешированных пакетов.
-		uint8_t resend_count = 0; ///< Счетчик попыток пересылки.
-	};
+	packet_header* allocate_block(size_t asz, size_t bsz);
+	void utilize_block(packet_header* block);
 
-	struct 
-
+	packet* allocate_packet(); 
+	void utilize_packet(packet* pack);
 }
 
 #endif

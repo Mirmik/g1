@@ -13,11 +13,20 @@
 namespace g1 {
 	class gateway;
 
+	enum class status : uint8_t {
+		Sended,
+		WrongGate,
+		WrongAddress,
+	};
+
 	///Список врат.
 	extern gxx::dlist<g1::gateway, &g1::gateway::lnk> gateways;
 
 	///Переместить пакет дальше по конвееру врат.
-	void transport(g1::package pack); 
+	void transport(const g1::packet& pack); 
+
+	///Вызывается на только что отправленный пакет. Башня или уничтожает его, или кеширует для контроля качества.
+	void return_to_tower(const g1::packet& pack, uint8_t status);
 
 	///Подключить врата к башне.
 	inline void link_gate(g1::gateway& gate) { gateways.move_back(gate); } 
