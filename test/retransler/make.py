@@ -21,6 +21,8 @@ application("target",
 		("g1"),
 		("g1.allocator", "malloc"),
 	],
+
+	libs = ["pthread", "readline"]
 )
 
 licant.ex("target")

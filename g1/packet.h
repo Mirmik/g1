@@ -42,7 +42,7 @@ namespace g1 {
 		g1::gateway* ingate; /// < gate, которым пакет прибыл в систему.
 
 		//dlist_head tlnk;
-		packet_header* bptr; ///< Указатель на заголовок реферируемого блока
+		packet_header* block; ///< Указатель на заголовок реферируемого блока
 
 		///Отметить в пакете прохождение врат.
 		void revert_stage(uint8_t size, void* addr);
@@ -52,7 +52,17 @@ namespace g1 {
 
 		bool is_travelled() { return ingate != nullptr; } 
 
-		char* data() { return (char*)(bptr+1) + bptr->alen; }
+		char* addrptr() { return (char*)(block + 1); }
+		char* dataptr() { return (char*)(block + 1) + block->alen; }
+		char* stageptr() { return (char*)(block + 1) + block->stg; }
+
+		gxx::buffer addrsect() { return gxx::buffer(addrptr(), block->alen); }
+		gxx::buffer datasect() { return gxx::buffer(dataptr(), datasize()); }
+
+		void set_type(uint8_t type) { block->type = type; }
+		void push_addr(uint8_t addr) { *stageptr() = addr; block->stg += 1; }
+		void push_addr(gxx::buffer addr) { memcpy(stageptr(), addr.data(), addr.size()); block->stg += addr.size(); }
+		uint16_t datasize() { return block->flen - block->alen - sizeof(packet_header); }
 	};
 
 	packet_header* allocate_block(uint8_t asz, uint16_t bsz);
@@ -62,6 +72,8 @@ namespace g1 {
 	packet* allocate_packet(); 
 	packet* create_packet(gateway* ingate, packet_header* block); 
 	void utilize_packet(packet* pack);
+
+	void utilize(packet* pack);
 }
 
 #endif
