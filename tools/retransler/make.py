@@ -10,15 +10,7 @@ import licant.cxx_make
 licant.libs.include("gxx")
 licant.execute("../../g1.g.py")
 
-#bu = licant.cxx_make.binutils(
-#	cxx="clang++",
-#	cc="clang",
-#	ld="clang",
-#	ar="ar",
-#	objdump="objdump"
-#)
-
-application("target",
+application("g1-retransler",
 	sources = ["main.cpp"],
 	include_paths = ["../.."],
 	include_modules = [
@@ -36,4 +28,7 @@ application("target",
 	libs = ["pthread", "readline"]
 )
 
-licant.ex("target")
+licant.make.copy(src="g1-retransler", tgt="/usr/local/bin/g1-retransler")
+licant.make.add_makefile_target("install", ["/usr/local/bin/g1-retransler"])
+
+licant.ex("g1-retransler")

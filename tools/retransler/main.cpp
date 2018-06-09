@@ -170,11 +170,6 @@ int com_pushudp(gxx::strvec& vec) {
 }
 
 int com_send(gxx::strvec& vec) {
-	/*if (addr.size() == 0) {
-		gxx::println("null address packet prevented");
-		return -1;
-	}*/
-
 	std::string data = vec[1];
 	auto block = g1::create_block(addr.size(), data.size());
 	auto pack = g1::create_packet(nullptr, block);

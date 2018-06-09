@@ -24,7 +24,6 @@ namespace g1 {
 
 		void exec_syncrecv() {
 			while(1) {
-				//char buf[128];
 				g1::packet_header* block = (g1::packet_header*) malloc(128);
 
 				gxx::inet::netaddr in;
