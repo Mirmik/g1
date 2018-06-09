@@ -3,5 +3,6 @@
 
 #define G1_UDPGATE 12
 #define G1_TESTGATE 99
+#define G1_SELFGATE 100
 
 #endif

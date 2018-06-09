@@ -1,6 +1,8 @@
 #ifndef G1_TESTGATE_H
 #define G1_TESTGATE_H
 
+#include <g1/gateway.h>
+
 namespace g1 {
 	struct testgate : public gateway {
 		void send(g1::packet* pack) override {

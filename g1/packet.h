@@ -45,7 +45,9 @@ namespace g1 {
 		packet_header* block; ///< Указатель на заголовок реферируемого блока
 
 		///Отметить в пакете прохождение врат.
-		void revert_stage(uint8_t size, void* addr);
+		void revert_stage(void* addr1, uint8_t size1, void* addr2, uint8_t size2, uint8_t gateindex);
+		void revert_stage(void* addr, uint8_t size, uint8_t gateindex);
+		void revert_stage(uint8_t gateindex);
 
 		uint8_t gateway_index() const;
 		gxx::buffer gateway_address(uint8_t asz) const;

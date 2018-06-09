@@ -25,6 +25,7 @@ namespace g1 {
 
 	///Список врат.
 	extern gxx::dlist<g1::gateway, &g1::gateway::lnk> gateways;
+	extern gxx::dlist<g1::packet, &g1::packet::lnk> incoming;
 
 	///Переместить пакет дальше по конвееру врат.
 	void travell(g1::packet* pack); 
@@ -42,6 +43,14 @@ namespace g1 {
 
 
 	g1::gateway* find_target_gateway(const g1::packet* pack);
+
+	void quality_notify(g1::packet* pack);
+
+	void release(g1::packet* pack);
+	void qos_release(g1::packet* pack);
+	void print(g1::packet* pack);
+
+	extern void (*incoming_handler)(g1::packet* pack);
 }
 
 #endif

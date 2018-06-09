@@ -10,13 +10,13 @@ import licant.cxx_make
 licant.libs.include("gxx")
 licant.execute("../../g1.g.py")
 
-bu = licant.cxx_make.binutils(
-	cxx="clang++",
-	cc="clang",
-	ld="clang",
-	ar="ar",
-	objdump="objdump"
-)
+#bu = licant.cxx_make.binutils(
+#	cxx="clang++",
+#	cc="clang",
+#	ld="clang",
+#	ar="ar",
+#	objdump="objdump"
+#)
 
 application("target",
 	sources = ["main.cpp"],
@@ -26,12 +26,13 @@ application("target",
 		("gxx.print", "cout"),
 		("gxx.dprint", "cout"),
 		("gxx.log2"),
+		("gxx.inet", "posix"),
 
 		("g1"),
 		("g1.allocator", "malloc"),
 	],
 
-	binutils = bu,
+	#binutils = bu,
 	libs = ["pthread", "readline"]
 )
 

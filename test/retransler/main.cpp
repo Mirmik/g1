@@ -5,6 +5,7 @@
 #include <g1/packet.h>
 #include <g1/gateway.h>
 #include <g1/gates/testgate.h>
+#include <g1/gates/selfgate.h>
 #include <g1/gates/udpgate.h>
 #include <g1/indexes.h>
 
@@ -24,11 +25,16 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 
+#include <getopt.h>
+
 gxx::log::colored_stdout_target console_target;
 g1::testgate testgate;
+g1::selfgate selfgate;
 g1::udpgate udpgate;
 
 gxx::sshell sshell;
+
+void udplistener();
 
 int console();
 int com_help(gxx::strvec&);
@@ -38,16 +44,45 @@ int com_send(gxx::strvec&);
 int com_deladdr(gxx::strvec&);
 int com_pushudp(gxx::strvec&);
 
-int main() {
+void incoming_handler(g1::packet* pack);
+
+int main(int argc, char* argv[]) {
 	g1::logger.link(console_target, gxx::log::level::debug);
 	gxx::println("G1 Retransler");
 
+	int udpport = 10004;
+
+	const struct option long_options[] = {
+		{"udp", required_argument, NULL, 'u'},
+		{NULL,0,NULL,0}
+	};
+
+    int long_index =0;
+	int opt= 0;
+	while ((opt = getopt_long(argc, argv, "u", long_options, &long_index)) != -1) {
+		GXX_PRINT(optarg);
+		GXX_PRINT(long_index);
+		GXX_PRINT(opt);
+		switch (opt) {
+			 case 'u': udpport = atoi(optarg); break;
+			 case 0: break;
+		}
+	}
+
+	g1::logger.debug("udpport: {}", udpport);
+
+	udpgate.open(udpport);
+
+	g1::incoming_handler = incoming_handler;
 	g1::link_gate(&testgate, G1_TESTGATE);
 	g1::link_gate(&udpgate, G1_UDPGATE);
+	g1::link_gate(&selfgate, G1_SELFGATE);
 
-	std::thread thr(console);
+	std::thread thr_com(console);
+	std::thread thr_udp(udplistener);
 
-	thr.join();
+	thr_com.join();
+	thr_udp.join();
 }
 
 char* line_read;
@@ -126,11 +161,8 @@ int com_push8(gxx::strvec& vec) {
 }
 
 int com_pushudp(gxx::strvec& vec) {
-	//addr.push_back((char)atoi(vec[1].c_str()));
-
 	uint32_t iaddr = inet_addr(vec[1].c_str());
 	uint16_t port = htons(atoi(vec[2].c_str()));
-
 	addr.push_back(G1_UDPGATE);
 	addr.append((const char*)&iaddr, 4);
 	addr.append((const char*)&port, 2);
@@ -138,10 +170,10 @@ int com_pushudp(gxx::strvec& vec) {
 }
 
 int com_send(gxx::strvec& vec) {
-	if (addr.size() == 0) {
+	/*if (addr.size() == 0) {
 		gxx::println("null address packet prevented");
 		return -1;
-	}
+	}*/
 
 	std::string data = vec[1];
 	auto block = g1::create_block(addr.size(), data.size());
@@ -152,4 +184,16 @@ int com_send(gxx::strvec& vec) {
 
 	g1::transport(pack);
 	return (0);
+}
+
+void incoming_handler(g1::packet* pack) {
+	gxx::println("main incoming handler");
+	g1::print(pack);
+	g1::release(pack);
+}
+
+void udplistener() {
+	while(1) {
+		udpgate.exec_syncrecv();
+	}
 }
