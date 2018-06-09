@@ -107,18 +107,22 @@ int com_help(gxx::strvec& vec) {
 	for (COMMAND& cmd : commands) {
 		gxx::fprintln("{} - {}", cmd.name, cmd.doc);
 	}
+	return (0);
 }
 
 int com_exit(gxx::strvec& vec) {
 	exit(0);
+	return (0);
 }
 
 int com_deladdr(gxx::strvec& vec) {
 	addr.clear();
+	return (0);
 }
 
 int com_push8(gxx::strvec& vec) {
 	addr.push_back((char)atoi(vec[1].c_str()));
+	return (0);
 }
 
 int com_pushudp(gxx::strvec& vec) {
@@ -130,6 +134,7 @@ int com_pushudp(gxx::strvec& vec) {
 	addr.push_back(G1_UDPGATE);
 	addr.append((const char*)&iaddr, 4);
 	addr.append((const char*)&port, 2);
+	return (0);
 }
 
 int com_send(gxx::strvec& vec) {
@@ -146,4 +151,5 @@ int com_send(gxx::strvec& vec) {
 	memcpy(pack->dataptr(), data.data(), data.size());
 
 	g1::transport(pack);
+	return (0);
 }
