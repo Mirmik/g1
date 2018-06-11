@@ -43,6 +43,8 @@ int com_push8(gxx::strvec&);
 int com_send(gxx::strvec&);
 int com_deladdr(gxx::strvec&);
 int com_pushudp(gxx::strvec&);
+int com_setqos(gxx::strvec&);
+int com_printtower(gxx::strvec&);
 
 void incoming_handler(g1::packet* pack);
 
@@ -115,10 +117,13 @@ COMMAND commands[] = {
 	{ "push", com_push8, "Add byte to address buffer" },
 	{ "pushudp", com_pushudp, "Add udp address to address buffer" },
 	{ "send", com_send, "Send packet to address" },
-	{ "clraddr", com_deladdr, "Clear address buffer" }
+	{ "clraddr", com_deladdr, "Clear address buffer" },
+	{ "setqos", com_setqos, "Set QoS for send operation" },
+	{ "printtower", com_printtower, "Print tower state" }
 };
 
 std::string addr;
+g1::QoS curqos = g1::WithoutACK;
 int console() {
 	__label__ __waitline__;
 	while(1) {
@@ -174,10 +179,23 @@ int com_send(gxx::strvec& vec) {
 	auto block = g1::create_block(addr.size(), data.size());
 	auto pack = g1::create_packet(nullptr, block);
 	pack->set_type(1);
+	pack->block->qos = curqos;
 	memcpy(pack->addrptr(), addr.data(), addr.size());
 	memcpy(pack->dataptr(), data.data(), data.size());
 
 	g1::transport(pack);
+	return (0);
+}
+
+int com_setqos(gxx::strvec& vec) {
+	if (vec.size() < 2) { gxx::println("need specify qos [0-2]"); return -1; }
+	curqos = (g1::QoS) atoi(vec[1].c_str());
+	return (0);
+}
+
+int com_printtower(gxx::strvec& vec) {
+	gxx::fprintln("incoming list size: {0}", g1::incoming.size());
+	gxx::fprintln("outers list size: {0}", g1::outters.size());
 	return (0);
 }
 

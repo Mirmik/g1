@@ -17,9 +17,9 @@ namespace g1 {
 
 	/// Качество обслуживания.
 	enum QoS : uint8_t {
-		One, ///< one
-		Two, ///< two
-		Three ///< three
+		WithoutACK = 0, ///< one
+		TargetACK = 1, ///< two
+		BinaryACK = 2 ///< three
 	};
 
 	/**
@@ -40,6 +40,14 @@ namespace g1 {
 	struct packet {
 		dlist_head lnk; /// < Для подключения в список.
 		g1::gateway* ingate; /// < gate, которым пакет прибыл в систему.
+
+		union {
+			uint8_t flags;
+			struct {
+				uint8_t released_by_world : 1;
+				uint8_t released_by_tower : 1;
+			};
+		};
 
 		//dlist_head tlnk;
 		packet_header* block; ///< Указатель на заголовок реферируемого блока

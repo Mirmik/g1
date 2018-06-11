@@ -26,6 +26,7 @@ namespace g1 {
 	///Список врат.
 	extern gxx::dlist<g1::gateway, &g1::gateway::lnk> gateways;
 	extern gxx::dlist<g1::packet, &g1::packet::lnk> incoming;
+	extern gxx::dlist<g1::packet, &g1::packet::lnk> outters;
 
 	///Переместить пакет дальше по конвееру врат.
 	void travell(g1::packet* pack); 
@@ -33,6 +34,9 @@ namespace g1 {
 
 	///Вызывается на только что отправленный пакет. Башня или уничтожает его, или кеширует для контроля качества.
 	void return_to_tower(g1::packet* pack, status sts);
+
+	///Вызывается на принятый пакет. Выполняет кеширование (если надо) и отправку ACK пакетов.
+	void quality_notify(g1::packet* pack);
 
 	///Подключить врата к башне.
 	inline void link_gate(g1::gateway* gate, uint8_t id) { 
@@ -44,11 +48,16 @@ namespace g1 {
 
 	g1::gateway* find_target_gateway(const g1::packet* pack);
 
-	void quality_notify(g1::packet* pack);
 
 	void release(g1::packet* pack);
 	void qos_release(g1::packet* pack);
 	void print(g1::packet* pack);
+
+	void revert_address(g1::packet* pack);
+
+	void send_ack(g1::packet* pack);
+
+	void release_if_need(g1::packet* pack);
 
 	extern void (*incoming_handler)(g1::packet* pack);
 }
