@@ -45,6 +45,8 @@ int com_deladdr(gxx::strvec&);
 int com_pushudp(gxx::strvec&);
 int com_setqos(gxx::strvec&);
 int com_printtower(gxx::strvec&);
+int com_printin(gxx::strvec&);
+int com_printout(gxx::strvec&);
 
 void incoming_handler(g1::packet* pack);
 
@@ -119,7 +121,9 @@ COMMAND commands[] = {
 	{ "send", com_send, "Send packet to address" },
 	{ "clraddr", com_deladdr, "Clear address buffer" },
 	{ "setqos", com_setqos, "Set QoS for send operation" },
-	{ "printtower", com_printtower, "Print tower state" }
+	{ "printtower", com_printtower, "Print tower state" },
+	{ "printin", com_printin, "debug" },
+	{ "printout", com_printout, "debug" }
 };
 
 std::string addr;
@@ -197,6 +201,16 @@ int com_printtower(gxx::strvec& vec) {
 	gxx::fprintln("incoming list size: {0}", g1::incoming.size());
 	gxx::fprintln("outers list size: {0}", g1::outters.size());
 	return (0);
+}
+
+int com_printin(gxx::strvec& vec) {
+	for (auto& pack : g1::incoming) g1::print(&pack);
+	return 0;
+}
+
+int com_printout(gxx::strvec& vec) {
+	for (auto& pack : g1::outters) g1::print(&pack);
+	return 0;
 }
 
 void incoming_handler(g1::packet* pack) {

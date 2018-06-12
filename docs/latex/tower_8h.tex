@@ -1,0 +1,92 @@
+\hypertarget{tower_8h}{}\section{/home/mirmik/project/g1/g1/tower.h File Reference}
+\label{tower_8h}\index{/home/mirmik/project/g1/g1/tower.\+h@{/home/mirmik/project/g1/g1/tower.\+h}}
+
+
+tower file  
+
+
+{\ttfamily \#include $<$gxx/container/dlist.\+h$>$}\\*
+{\ttfamily \#include $<$gxx/log/logger2.\+h$>$}\\*
+{\ttfamily \#include $<$g1/gateway.\+h$>$}\\*
+{\ttfamily \#include $<$vector$>$}\\*
+Include dependency graph for tower.\+h\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{tower_8h__incl}
+\end{center}
+\end{figure}
+\subsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum {\bfseries status} \+: uint8\+\_\+t \{ {\bfseries Sended}, 
+{\bfseries Wrong\+Gate}, 
+{\bfseries Wrong\+Address}
+ \}\hypertarget{tower_8h_afcc951f624b8944952869f6a618d675f}{}\label{tower_8h_afcc951f624b8944952869f6a618d675f}
+
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{tower_8h_ad7aa84d123bb744ea74b665b55b7568d}{g1\+::travell} (\hyperlink{structg1_1_1packet}{g1\+::packet} $\ast$pack)\hypertarget{tower_8h_ad7aa84d123bb744ea74b665b55b7568d}{}\label{tower_8h_ad7aa84d123bb744ea74b665b55b7568d}
+
+\begin{DoxyCompactList}\small\item\em Переместить пакет дальше по конвееру врат. \end{DoxyCompactList}\item 
+void {\bfseries g1\+::transport} (\hyperlink{structg1_1_1packet}{g1\+::packet} $\ast$pack)\hypertarget{tower_8h_af15367f737fe434c742f47892cad74a1}{}\label{tower_8h_af15367f737fe434c742f47892cad74a1}
+
+\item 
+void \hyperlink{tower_8h_ac3a23a26f8fff05aca0fd1572a28d995}{g1\+::return\+\_\+to\+\_\+tower} (\hyperlink{structg1_1_1packet}{g1\+::packet} $\ast$pack, status sts)\hypertarget{tower_8h_ac3a23a26f8fff05aca0fd1572a28d995}{}\label{tower_8h_ac3a23a26f8fff05aca0fd1572a28d995}
+
+\begin{DoxyCompactList}\small\item\em Вызывается на только что отправленный пакет. Башня или уничтожает его, или кеширует для контроля качества. \end{DoxyCompactList}\item 
+void \hyperlink{tower_8h_a45d1465880b33f8ac8459ae9ca8d118b}{g1\+::quality\+\_\+notify} (\hyperlink{structg1_1_1packet}{g1\+::packet} $\ast$pack)\hypertarget{tower_8h_a45d1465880b33f8ac8459ae9ca8d118b}{}\label{tower_8h_a45d1465880b33f8ac8459ae9ca8d118b}
+
+\begin{DoxyCompactList}\small\item\em Вызывается на принятый пакет. Выполняет кеширование (если надо) и отправку A\+CK пакетов. \end{DoxyCompactList}\item 
+void \hyperlink{tower_8h_a64ee25212304fecad5e7eef373454dd6}{g1\+::link\+\_\+gate} (\hyperlink{structg1_1_1gateway}{g1\+::gateway} $\ast$gate, uint8\+\_\+t id)\hypertarget{tower_8h_a64ee25212304fecad5e7eef373454dd6}{}\label{tower_8h_a64ee25212304fecad5e7eef373454dd6}
+
+\begin{DoxyCompactList}\small\item\em Подключить врата к башне. \end{DoxyCompactList}\item 
+\hyperlink{structg1_1_1gateway}{g1\+::gateway} $\ast$ {\bfseries g1\+::find\+\_\+target\+\_\+gateway} (const \hyperlink{structg1_1_1packet}{g1\+::packet} $\ast$pack)\hypertarget{tower_8h_a6ac4b08e953a4b469a84bb098aa867be}{}\label{tower_8h_a6ac4b08e953a4b469a84bb098aa867be}
+
+\item 
+void {\bfseries g1\+::release} (\hyperlink{structg1_1_1packet}{g1\+::packet} $\ast$pack)\hypertarget{tower_8h_a102e2f815bc35cd32ff7ff66fe7354b3}{}\label{tower_8h_a102e2f815bc35cd32ff7ff66fe7354b3}
+
+\item 
+void {\bfseries g1\+::qos\+\_\+release} (\hyperlink{structg1_1_1packet}{g1\+::packet} $\ast$pack)\hypertarget{tower_8h_a9d0a86adb0c4de933767c72098666477}{}\label{tower_8h_a9d0a86adb0c4de933767c72098666477}
+
+\item 
+void {\bfseries g1\+::print} (\hyperlink{structg1_1_1packet}{g1\+::packet} $\ast$pack)\hypertarget{tower_8h_a59e49a27b238914e32aa4ccf4ddaf6e1}{}\label{tower_8h_a59e49a27b238914e32aa4ccf4ddaf6e1}
+
+\item 
+void {\bfseries g1\+::revert\+\_\+address} (\hyperlink{structg1_1_1packet}{g1\+::packet} $\ast$pack)\hypertarget{tower_8h_a14c84dfd0adfddf0963b796ab4c8c750}{}\label{tower_8h_a14c84dfd0adfddf0963b796ab4c8c750}
+
+\item 
+void {\bfseries g1\+::send\+\_\+ack} (\hyperlink{structg1_1_1packet}{g1\+::packet} $\ast$pack)\hypertarget{tower_8h_ab1f33c84a8f7a6358c9f261d94e3ba90}{}\label{tower_8h_ab1f33c84a8f7a6358c9f261d94e3ba90}
+
+\item 
+void {\bfseries g1\+::send\+\_\+ack2} (\hyperlink{structg1_1_1packet}{g1\+::packet} $\ast$pack)\hypertarget{tower_8h_af835f5c4dd2b20edfa0af981448220e3}{}\label{tower_8h_af835f5c4dd2b20edfa0af981448220e3}
+
+\item 
+void {\bfseries g1\+::release\+\_\+if\+\_\+need} (\hyperlink{structg1_1_1packet}{g1\+::packet} $\ast$pack)\hypertarget{tower_8h_a5e21eb4e86dda1751909ce0b1661e177}{}\label{tower_8h_a5e21eb4e86dda1751909ce0b1661e177}
+
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+gxx\+::log\+::logger {\bfseries g1\+::logger}\hypertarget{tower_8h_a31df268f98bfc93f9900632703385212}{}\label{tower_8h_a31df268f98bfc93f9900632703385212}
+
+\item 
+gxx\+::dlist$<$ \hyperlink{structg1_1_1gateway}{g1\+::gateway},\&\hyperlink{structg1_1_1gateway_a9b30f9f8c97681eb9b8ce01594200916}{g1\+::gateway\+::lnk} $>$ \hyperlink{tower_8h_a4b05b396a51091fcfe773740f033e0e1}{g1\+::gateways}\hypertarget{tower_8h_a4b05b396a51091fcfe773740f033e0e1}{}\label{tower_8h_a4b05b396a51091fcfe773740f033e0e1}
+
+\begin{DoxyCompactList}\small\item\em Список врат. \end{DoxyCompactList}\item 
+gxx\+::dlist$<$ \hyperlink{structg1_1_1packet}{g1\+::packet},\&\hyperlink{structg1_1_1packet_ad385dbb95d429aa9616059bd374b359b}{g1\+::packet\+::lnk} $>$ {\bfseries g1\+::incoming}\hypertarget{tower_8h_a8273f41a72c4be15217577b5817ea0ac}{}\label{tower_8h_a8273f41a72c4be15217577b5817ea0ac}
+
+\item 
+gxx\+::dlist$<$ \hyperlink{structg1_1_1packet}{g1\+::packet},\&\hyperlink{structg1_1_1packet_ad385dbb95d429aa9616059bd374b359b}{g1\+::packet\+::lnk} $>$ {\bfseries g1\+::outters}\hypertarget{tower_8h_a25edc78f817da3cdb42c3e97628c4355}{}\label{tower_8h_a25edc78f817da3cdb42c3e97628c4355}
+
+\item 
+void($\ast$ {\bfseries g1\+::incoming\+\_\+handler} )(\hyperlink{structg1_1_1packet}{g1\+::packet} $\ast$pack)\hypertarget{tower_8h_a99741a3fbef5f532f0e4a89fef95e06f}{}\label{tower_8h_a99741a3fbef5f532f0e4a89fef95e06f}
+
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+tower file 
+

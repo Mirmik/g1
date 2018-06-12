@@ -1,0 +1,119 @@
+\hypertarget{structg1_1_1packet}{}\section{g1\+:\+:packet Struct Reference}
+\label{structg1_1_1packet}\index{g1\+::packet@{g1\+::packet}}
+
+
+Структура-\/описатель блока. Создается поверх пакета для упрощения работы с ним.  
+
+
+
+
+{\ttfamily \#include $<$packet.\+h$>$}
+
+
+
+Collaboration diagram for g1\+:\+:packet\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=266pt]{structg1_1_1packet__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{structg1_1_1packet_ad49ed95720c1fa6cfaaa090cc656ba0e}{revert\+\_\+stage} (void $\ast$addr1, uint8\+\_\+t size1, void $\ast$addr2, uint8\+\_\+t size2, uint8\+\_\+t gateindex)\hypertarget{structg1_1_1packet_ad49ed95720c1fa6cfaaa090cc656ba0e}{}\label{structg1_1_1packet_ad49ed95720c1fa6cfaaa090cc656ba0e}
+
+\begin{DoxyCompactList}\small\item\em Отметить в пакете прохождение врат. \end{DoxyCompactList}\item 
+void {\bfseries revert\+\_\+stage} (void $\ast$addr, uint8\+\_\+t size, uint8\+\_\+t gateindex)\hypertarget{structg1_1_1packet_a1477ce6289dcf4f43fd8f13a1b67dcc2}{}\label{structg1_1_1packet_a1477ce6289dcf4f43fd8f13a1b67dcc2}
+
+\item 
+void {\bfseries revert\+\_\+stage} (uint8\+\_\+t gateindex)\hypertarget{structg1_1_1packet_aa874d40c216570159b4ca4e3a1ec9b3e}{}\label{structg1_1_1packet_aa874d40c216570159b4ca4e3a1ec9b3e}
+
+\item 
+uint8\+\_\+t {\bfseries gateway\+\_\+index} () const \hypertarget{structg1_1_1packet_a90a155e6bab5bcda6a30197fd9d5be35}{}\label{structg1_1_1packet_a90a155e6bab5bcda6a30197fd9d5be35}
+
+\item 
+gxx\+::buffer {\bfseries gateway\+\_\+address} (uint8\+\_\+t asz) const \hypertarget{structg1_1_1packet_a573fc5d020f3722647b960ff7ced4c4c}{}\label{structg1_1_1packet_a573fc5d020f3722647b960ff7ced4c4c}
+
+\item 
+bool {\bfseries is\+\_\+travelled} ()\hypertarget{structg1_1_1packet_a0de6bfa7627181490bd91164c33f38e1}{}\label{structg1_1_1packet_a0de6bfa7627181490bd91164c33f38e1}
+
+\item 
+char $\ast$ {\bfseries addrptr} ()\hypertarget{structg1_1_1packet_ada96086a5e461e198b226d8457470dcd}{}\label{structg1_1_1packet_ada96086a5e461e198b226d8457470dcd}
+
+\item 
+char $\ast$ {\bfseries dataptr} ()\hypertarget{structg1_1_1packet_afec6bda1de0b77ff21f34943daa5e04c}{}\label{structg1_1_1packet_afec6bda1de0b77ff21f34943daa5e04c}
+
+\item 
+char $\ast$ {\bfseries stageptr} ()\hypertarget{structg1_1_1packet_ad73d0cfaee06a9f92da17366b21e4532}{}\label{structg1_1_1packet_ad73d0cfaee06a9f92da17366b21e4532}
+
+\item 
+gxx\+::buffer {\bfseries addrsect} ()\hypertarget{structg1_1_1packet_ac3af772227e60f6bb522f54a19690461}{}\label{structg1_1_1packet_ac3af772227e60f6bb522f54a19690461}
+
+\item 
+gxx\+::buffer {\bfseries datasect} ()\hypertarget{structg1_1_1packet_a4fb1dd7f771981b0322ae6ef55b5400d}{}\label{structg1_1_1packet_a4fb1dd7f771981b0322ae6ef55b5400d}
+
+\item 
+void {\bfseries set\+\_\+type} (uint8\+\_\+t type)\hypertarget{structg1_1_1packet_a003cd27b118d0b74a40828224bc20504}{}\label{structg1_1_1packet_a003cd27b118d0b74a40828224bc20504}
+
+\item 
+void {\bfseries push\+\_\+addr} (uint8\+\_\+t addr)\hypertarget{structg1_1_1packet_a88b4e9d93ba038bfb13e465ec48c6a70}{}\label{structg1_1_1packet_a88b4e9d93ba038bfb13e465ec48c6a70}
+
+\item 
+void {\bfseries push\+\_\+addr} (gxx\+::buffer addr)\hypertarget{structg1_1_1packet_aa1e0166471e5a7cb52ac5f9dcec55530}{}\label{structg1_1_1packet_aa1e0166471e5a7cb52ac5f9dcec55530}
+
+\item 
+uint16\+\_\+t {\bfseries datasize} ()\hypertarget{structg1_1_1packet_afb750c10b51e0d1f5c337f6b0a142841}{}\label{structg1_1_1packet_afb750c10b51e0d1f5c337f6b0a142841}
+
+\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+dlist\+\_\+head \hyperlink{structg1_1_1packet_ad385dbb95d429aa9616059bd374b359b}{lnk}\hypertarget{structg1_1_1packet_ad385dbb95d429aa9616059bd374b359b}{}\label{structg1_1_1packet_ad385dbb95d429aa9616059bd374b359b}
+
+\begin{DoxyCompactList}\small\item\em Для подключения в список. \end{DoxyCompactList}\item 
+\hyperlink{structg1_1_1gateway}{g1\+::gateway} $\ast$ \hyperlink{structg1_1_1packet_ae5b9f8200d6c128cd9a4a436c1f8d1dc}{ingate}\hypertarget{structg1_1_1packet_ae5b9f8200d6c128cd9a4a436c1f8d1dc}{}\label{structg1_1_1packet_ae5b9f8200d6c128cd9a4a436c1f8d1dc}
+
+\begin{DoxyCompactList}\small\item\em gate, которым пакет прибыл в систему. \end{DoxyCompactList}\item 
+uint16\+\_\+t \hyperlink{structg1_1_1packet_a3a260b0ab8300cd034be8a023ff8189d}{last\+\_\+ack}
+\item 
+uint8\+\_\+t \hyperlink{structg1_1_1packet_a885a0ecdce163a529a58cc9b53ff323b}{ackcounts}
+\item 
+\begin{tabbing}
+xx\=xx\=xx\=xx\=xx\=xx\=xx\=xx\=xx\=\kill
+union \{\\
+\>uint8\_t \hyperlink{structg1_1_1packet_aeb31a298732861167f07f7ae38e25c07}{flags}\\
+\>\>{\em Местные флаги }\\
+\>struct \{\\
+\>\>uint8\_t {\bfseries released\_by\_world}: 1\\
+\>\>uint8\_t {\bfseries released\_by\_tower}: 1\\
+\>\} \hypertarget{uniong1_1_1packet_1_1_0D4_a13673b76b09c9f880f62f539488b7117}{}\label{uniong1_1_1packet_1_1_0D4_a13673b76b09c9f880f62f539488b7117}
+\\
+\}; \hypertarget{structg1_1_1packet_af94d16abf234fdcfb447b00ed332ba9d}{}\label{structg1_1_1packet_af94d16abf234fdcfb447b00ed332ba9d}
+\\
+
+\end{tabbing}\item 
+\hyperlink{structg1_1_1packet__header}{packet\+\_\+header} $\ast$ \hyperlink{structg1_1_1packet_a0647831e03bcc456f9d4349ac4db440e}{block}\hypertarget{structg1_1_1packet_a0647831e03bcc456f9d4349ac4db440e}{}\label{structg1_1_1packet_a0647831e03bcc456f9d4349ac4db440e}
+
+\begin{DoxyCompactList}\small\item\em Указатель на заголовок реферируемого блока \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Структура-\/описатель блока. Создается поверх пакета для упрощения работы с ним. 
+
+\subsection{Member Data Documentation}
+\index{g1\+::packet@{g1\+::packet}!ackcounts@{ackcounts}}
+\index{ackcounts@{ackcounts}!g1\+::packet@{g1\+::packet}}
+\subsubsection[{\texorpdfstring{ackcounts}{ackcounts}}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t g1\+::packet\+::ackcounts}\hypertarget{structg1_1_1packet_a885a0ecdce163a529a58cc9b53ff323b}{}\label{structg1_1_1packet_a885a0ecdce163a529a58cc9b53ff323b}
+\begin{DoxyRefDesc}{Todo}
+\item[\hyperlink{todo__todo000002}{Todo}]\end{DoxyRefDesc}
+\index{g1\+::packet@{g1\+::packet}!last\+\_\+ack@{last\+\_\+ack}}
+\index{last\+\_\+ack@{last\+\_\+ack}!g1\+::packet@{g1\+::packet}}
+\subsubsection[{\texorpdfstring{last\+\_\+ack}{last_ack}}]{\setlength{\rightskip}{0pt plus 5cm}uint16\+\_\+t g1\+::packet\+::last\+\_\+ack}\hypertarget{structg1_1_1packet_a3a260b0ab8300cd034be8a023ff8189d}{}\label{structg1_1_1packet_a3a260b0ab8300cd034be8a023ff8189d}
+\begin{DoxyRefDesc}{Todo}
+\item[\hyperlink{todo__todo000001}{Todo}]\end{DoxyRefDesc}
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/home/mirmik/project/g1/g1/\hyperlink{packet_8h}{packet.\+h}\end{DoxyCompactItemize}

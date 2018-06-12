@@ -56,6 +56,7 @@ namespace g1 {
 	void revert_address(g1::packet* pack);
 
 	void send_ack(g1::packet* pack);
+	void send_ack2(g1::packet* pack);
 
 	void release_if_need(g1::packet* pack);
 

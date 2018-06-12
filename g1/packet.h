@@ -28,7 +28,14 @@ namespace g1 {
 		за заголовком следует поле адреса переменной длины, а за ним данные.
 	*/
 	struct packet_header {
-		uint8_t type; ///< Тип.
+		union {
+			uint8_t pflag; ///< Флаги пакета
+			struct {
+				uint8_t ack : 1;
+				uint8_t vaddr : 1;
+				uint8_t type : 6;
+			};
+		};
 		uint16_t flen; ///< Полная длина пакета
 		uint16_t seqid; ///< Порядковый номер пакета. Присваивается отправителем.
 		uint8_t alen; ///< Длина поля адреса.
@@ -38,11 +45,13 @@ namespace g1 {
 
 	///Структура-описатель блока. Создается поверх пакета для упрощения работы с ним.
 	struct packet {
-		dlist_head lnk; /// < Для подключения в список.
-		g1::gateway* ingate; /// < gate, которым пакет прибыл в систему.
+		dlist_head lnk; ///< Для подключения в список.
+		g1::gateway* ingate; ///< gate, которым пакет прибыл в систему.
+		uint16_t last_ack; ///< @todo
+		uint8_t ackcounts; ///< @todo
 
 		union {
-			uint8_t flags;
+			uint8_t flags; ///< Местные флаги
 			struct {
 				uint8_t released_by_world : 1;
 				uint8_t released_by_tower : 1;

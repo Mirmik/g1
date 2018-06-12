@@ -1,10 +1,13 @@
 #include <g1/tower.h>
 #include <g1/packet.h>
 #include <g1/gateway.h>
+#include <g1/indexes.h>
 
 #include <gxx/print.h>
 #include <gxx/util/hexascii.h>
 #include <gxx/trace.h>
+
+using namespace gxx::argument_literal;
 
 gxx::dlist<g1::gateway, &g1::gateway::lnk> g1::gateways;
 gxx::dlist<g1::packet, &g1::packet::lnk> g1::incoming;
@@ -33,28 +36,53 @@ void g1::qos_release(g1::packet* pack) {
 	g1::release_if_need(pack);
 }
 
+void utilize_from_outers(g1::packet* pack) {
+	g1::logger.debug("utilize_from_list");
+	for (auto& el : g1::outters) {
+		if (el.block->seqid == pack->block->seqid && el.addrsect() == pack->addrsect()) {
+			g1::utilize(&el);
+			return;
+		}
+	}
+}
+
+void qos_release_from_incoming(g1::packet* pack) {
+	for (auto& el : g1::incoming) {
+		if (el.block->seqid == pack->block->seqid && el.addrsect() == pack->addrsect()) {
+			g1::qos_release(&el);
+			return;
+		}
+	}
+}
+
 void g1::travell(g1::packet* pack) {
 	if (pack->block->stg == pack->block->alen) {
-		g1::logger.info("incoming packet");
 		g1::revert_address(pack);
-		g1::quality_notify(pack);			
-
-		if (g1::incoming_handler) g1::incoming_handler(pack);
-		else {
-			g1::logger.debug("empty incoming handler");
-			g1::release(pack);
+		if (pack->block->ack) {
+			switch(pack->block->type) {
+				case G1_ACK_TYPE: utilize_from_outers(pack); break;
+				case G1_ACK21_TYPE: utilize_from_outers(pack); send_ack2(pack); break;
+				case G1_ACK22_TYPE: qos_release_from_incoming(pack); break;
+				default: break;
+			}
+			g1::utilize(pack);
+			return;
 		}
+		if (pack->ingate) g1::quality_notify(pack);			
+		if (g1::incoming_handler) g1::incoming_handler(pack);
+		else g1::release(pack);
 		return;
-	}
-
-	g1::logger.info("travelled: (type:{}, addr:{}, stg:{}, data:{})", pack->block->type, gxx::hexascii_encode((const uint8_t*)pack->addrptr(), pack->block->alen), pack->block->stg, pack->datasect());
+	}	
 	g1::gateway* gate = g1::find_target_gateway(pack);
 	if (gate == nullptr) g1::utilize(pack);
 	else gate->send(pack);
 }
 
+uint16_t __seqcounter = 0;
 void g1::transport(g1::packet* pack) {
 	pack->block->stg = 0;
+	pack->block->ack = 0;
+	pack->block->seqid = __seqcounter++;
 	g1::travell(pack);
 }
 
@@ -62,19 +90,18 @@ void g1::quality_notify(g1::packet* pack) {
 	if (pack->block->qos == g1::TargetACK || pack->block->qos == g1::BinaryACK) {
 		g1::send_ack(pack);
 	}
-
-	if (pack->block->qos == g1::BinaryACK) {
-		g1::incoming.move_back(*pack);
-	}
+	if (pack->block->qos == g1::BinaryACK) g1::incoming.move_back(*pack);
+	else qos_release(pack);
 }
 
 void g1::return_to_tower(g1::packet* pack, g1::status sts) {
-	if (pack->block->qos == WithoutACK) g1::utilize(pack);
+	if (pack->ingate != nullptr || sts != g1::status::Sended || pack->block->qos == WithoutACK) 
+		g1::utilize(pack);
 	else g1::outters.move_back(*pack);
 }
 
 void g1::print(g1::packet* pack) {
-	gxx::fprintln("(type:{}, addr:{}, stg:{}, data:{})", pack->block->type, gxx::hexascii_encode((const uint8_t*)pack->addrptr(), pack->block->alen), pack->block->stg, pack->datasect());
+	gxx::fprintln("(type:{}, addr:{}, stg:{}, data:{}, released:{})", (uint8_t)pack->block->type, gxx::hexascii_encode((const uint8_t*)pack->addrptr(), pack->block->alen), pack->block->stg, pack->datasect(), pack->flags);
 }
 
 void g1::release_if_need(g1::packet* pack) {
@@ -83,15 +110,31 @@ void g1::release_if_need(g1::packet* pack) {
 
 void g1::revert_address(g1::packet* pack) {
 	gxx::buffer addr = pack->addrsect();
-
 	auto first = addr.begin();
 	auto last = addr.end();
-
 	while ((first != last) && (first != --last)) {
         std::iter_swap(first++, last);
     }
 }
 
 void g1::send_ack(g1::packet* pack) {
-	gxx::println("send ack");
+	auto block = g1::create_block(pack->block->alen, 0);
+	auto ack = g1::create_packet(nullptr, block);
+	ack->set_type(pack->block->qos == g1::QoS::BinaryACK ? G1_ACK21_TYPE : G1_ACK_TYPE);
+	ack->block->ack = 1;
+	ack->block->qos = g1::QoS::WithoutACK;
+	ack->block->seqid = pack->block->seqid;
+	memcpy(ack->addrptr(), pack->addrptr(), pack->block->alen);
+	g1::travell(ack);
+}
+
+void g1::send_ack2(g1::packet* pack) {
+	auto block = g1::create_block(pack->block->alen, 0);
+	auto ack = g1::create_packet(nullptr, block);
+	ack->set_type(G1_ACK22_TYPE);
+	ack->block->ack = 1;
+	ack->block->qos = g1::QoS::WithoutACK;
+	ack->block->seqid = pack->block->seqid;
+	memcpy(ack->addrptr(), pack->addrptr(), pack->block->alen);
+	g1::travell(ack);
 }

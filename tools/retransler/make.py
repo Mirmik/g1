@@ -10,6 +10,14 @@ import licant.cxx_make
 licant.libs.include("gxx")
 licant.execute("../../g1.g.py")
 
+bu = licant.cxx_make.binutils(
+	cc="clang",
+	cxx="clang++",
+	ld="clang++",
+	ar="ar",
+	objdump="objdump",
+)
+
 application("g1-retransler",
 	sources = ["main.cpp"],
 	include_paths = ["../.."],

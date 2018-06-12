@@ -5,4 +5,8 @@
 #define G1_TESTGATE 99
 #define G1_SELFGATE 100
 
+#define G1_ACK_TYPE 0
+#define G1_ACK21_TYPE 1
+#define G1_ACK22_TYPE 2
+
 #endif
