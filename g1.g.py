@@ -3,7 +3,8 @@ import licant.modules
 licant.modules.module("g1",
 	sources = [
 		"g1/src/tower.cpp", "g1/src/packet.cpp"
-	]
+	],
+	include_paths=["."]
 )
 
 licant.modules.module("g1.allocator", "malloc",

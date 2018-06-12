@@ -27,6 +27,7 @@ application("g1-retransler",
 		("gxx.dprint", "cout"),
 		("gxx.log2"),
 		("gxx.inet", "posix"),
+		("gxx.atomic_section", "mutex"),
 
 		("g1"),
 		("g1.allocator", "malloc"),

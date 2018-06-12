@@ -71,6 +71,9 @@ namespace g1 {
 	extern void(*undelivered_handler)(g1::packet* pack);
 
 	uint16_t millis();
+
+	void pushudp(std::string& addr, const char* ip, uint16_t port);
+	void pushgate(std::string& addr, uint8_t gate);
 }
 
 #endif

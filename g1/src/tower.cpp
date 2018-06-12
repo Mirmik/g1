@@ -12,6 +12,7 @@
 #include <gxx/trace.h>
 
 #include <gxx/algorithm.h>
+#include <gxx/atomic_section.h>
 
 using namespace gxx::argument_literal;
 
@@ -21,6 +22,7 @@ gxx::dlist<g1::packet, &g1::packet::lnk> g1::outters;
 void(*g1::incoming_handler)(g1::packet* pack) = nullptr;
 void(*g1::undelivered_handler)(g1::packet* pack) = nullptr;
 gxx::log::logger g1::logger("g1");
+static gxx::atomic_section atomic;
 
 g1::gateway* g1::find_target_gateway(const g1::packet* pack) {
 	uint8_t gidx = pack->gateway_index();
@@ -62,7 +64,20 @@ void qos_release_from_incoming(g1::packet* pack) {
 	}
 }
 
+void add_to_incoming_list(g1::packet* pack) {
+	atomic.lock();
+	g1::incoming.move_back(*pack);
+	atomic.unlock();
+}
+
+void add_to_outters_list(g1::packet* pack) {
+	atomic.lock();
+	g1::outters.move_back(*pack);
+	atomic.unlock();	
+}
+
 void g1::travell(g1::packet* pack) {
+	g1::print(pack);
 	if (pack->block->stg == pack->block->alen) {
 		g1::revert_address(pack);
 		if (pack->block->ack) {
@@ -105,14 +120,14 @@ void g1::quality_notify(g1::packet* pack) {
 	if (pack->block->qos == g1::TargetACK || pack->block->qos == g1::BinaryACK) {
 		g1::send_ack(pack);
 	}
-	if (pack->block->qos == g1::BinaryACK) g1::incoming.move_back(*pack);
+	if (pack->block->qos == g1::BinaryACK) add_to_incoming_list(pack);
 	else qos_release(pack);
 }
 
 void g1::return_to_tower(g1::packet* pack, g1::status sts) {
 	if (pack->ingate != nullptr || sts != g1::status::Sended || pack->block->qos == WithoutACK) 
 		g1::utilize(pack);
-	else g1::outters.move_back(*pack);
+	else add_to_outters_list(pack);
 }
 
 void g1::print(g1::packet* pack) {
@@ -186,4 +201,15 @@ void g1::quality_work_execute() {
 			}		
 		}
 	});
+}
+
+#include <gxx/inet/dgramm.h>
+void g1::pushudp(std::string& addr, const char* ip, uint16_t port) {
+	addr.resize(addr.size() + 6);
+	*(uint32_t*)(addr.data() + addr.size() - 6) = inet_addr(ip);
+	*(uint32_t*)(addr.data() + addr.size() - 2) = htons(port);
+}
+
+void g1::pushgate(std::string& addr, uint8_t c) {
+	addr.push_back(c);
 }

@@ -9,6 +9,9 @@
 #include <gxx/print.h>
 #include <gxx/trace.h>
 #include <gxx/panic.h>
+#include <gxx/atomic_section.h>
+
+static gxx::atomic_section atomic;
 
 uint8_t g1::packet::gateway_index() const {
 	return *((uint8_t*)(block + 1) + block->stg);
@@ -35,7 +38,9 @@ g1::packet* g1::create_packet(g1::gateway* ingate, g1::packet_header* block) {
 }
 
 void g1::utilize(g1::packet* pack) {
+	atomic.lock();
 	dlist_del(&pack->lnk);
+	atomic.unlock();
 	utilize_block(pack->block);
 	utilize_packet(pack);
 }
