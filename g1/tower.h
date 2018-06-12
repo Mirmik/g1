@@ -61,6 +61,16 @@ namespace g1 {
 	void release_if_need(g1::packet* pack);
 
 	extern void (*incoming_handler)(g1::packet* pack);
+
+	/** @brief Проведение работ по обеспечению качества обслуживания.
+		@details может вызывать g1::undelivered_handler
+	*/
+	void quality_work_execute();
+
+	/// Обработчик недоставленного пакета. Определяется локальным софтом.
+	extern void(*undelivered_handler)(g1::packet* pack);
+
+	uint16_t millis();
 }
 
 #endif

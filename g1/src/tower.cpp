@@ -1,3 +1,7 @@
+/**
+@file tower.cpp
+*/
+
 #include <g1/tower.h>
 #include <g1/packet.h>
 #include <g1/gateway.h>
@@ -7,12 +11,15 @@
 #include <gxx/util/hexascii.h>
 #include <gxx/trace.h>
 
+#include <gxx/algorithm.h>
+
 using namespace gxx::argument_literal;
 
 gxx::dlist<g1::gateway, &g1::gateway::lnk> g1::gateways;
 gxx::dlist<g1::packet, &g1::packet::lnk> g1::incoming;
 gxx::dlist<g1::packet, &g1::packet::lnk> g1::outters;
-void (*g1::incoming_handler)(g1::packet* pack) = nullptr;
+void(*g1::incoming_handler)(g1::packet* pack) = nullptr;
+void(*g1::undelivered_handler)(g1::packet* pack) = nullptr;
 gxx::log::logger g1::logger("g1");
 
 g1::gateway* g1::find_target_gateway(const g1::packet* pack) {
@@ -69,13 +76,21 @@ void g1::travell(g1::packet* pack) {
 			return;
 		}
 		if (pack->ingate) g1::quality_notify(pack);			
-		if (g1::incoming_handler) g1::incoming_handler(pack);
+		if (!pack->block->noexec && g1::incoming_handler) g1::incoming_handler(pack);
 		else g1::release(pack);
 		return;
-	}	
-	g1::gateway* gate = g1::find_target_gateway(pack);
-	if (gate == nullptr) g1::utilize(pack);
-	else gate->send(pack);
+	} else {
+		//Ветка транзитного пакета. Логика поиска врат и пересылки.
+		g1::gateway* gate = g1::find_target_gateway(pack);
+		if (gate == nullptr) g1::utilize(pack);
+		else {
+			//Здесь пакет штампуется временем отправки и пересылается во врата.
+			//Врата должны после пересылки отправить его назад в башню
+			//с помощью return_to_tower для контроля качества.
+			pack->last_request_time = g1::millis();
+			gate->send(pack);
+		}
+	}
 }
 
 uint16_t __seqcounter = 0;
@@ -137,4 +152,38 @@ void g1::send_ack2(g1::packet* pack) {
 	ack->block->seqid = pack->block->seqid;
 	memcpy(ack->addrptr(), pack->addrptr(), pack->block->alen);
 	g1::travell(ack);
+}
+
+/**
+	@todo Переделать очередь пакетов, выстроив их в порядке работы таймеров. Это ускорит quality_work_execute
+*/
+void g1::quality_work_execute() {
+	uint16_t curtime = g1::millis();
+	
+	gxx::for_each_safe(g1::outters.begin(), g1::outters.end(), [&](g1::packet& pack) {
+		if (curtime - pack.last_request_time > pack.block->ackquant) {
+			g1::logger.debug("ack quant in outters, {}", pack.ackcount);
+			dlist_del(&pack.lnk);
+			if (++pack.ackcount == 5) {
+				g1::logger.debug("undelivered packet in outters");
+				if (g1::undelivered_handler) g1::undelivered_handler(&pack);
+				else g1::utilize(&pack);
+			} else {
+				g1::travell(&pack);
+			}		
+		}
+	});
+
+	gxx::for_each_safe(g1::incoming.begin(), g1::incoming.end(), [&](g1::packet& pack) {
+		if (curtime - pack.last_request_time > pack.block->ackquant) {
+			g1::logger.debug("ack quant in incomming, {}", pack.ackcount);
+			dlist_del(&pack.lnk);
+			if (++pack.ackcount == 5) {
+				g1::logger.debug("undelivered ack in incoming");
+				g1::utilize(&pack);
+			} else {
+				g1::send_ack(&pack);
+			}		
+		}
+	});
 }

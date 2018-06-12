@@ -1,0 +1,6 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node1" href="$structg1_1_1gateway.html" title="Абстрактный класс врат. Врата отвечают за пересылку пакетов между мирами. " alt="" coords="5,56,99,83"/>
+<area shape="rect" id="node2" href="$structg1_1_1selfgate.html" title="g1::selfgate" alt="" coords="147,5,237,32"/>
+<area shape="rect" id="node3" href="$structg1_1_1testgate.html" title="g1::testgate" alt="" coords="147,56,237,83"/>
+<area shape="rect" id="node4" href="$structg1_1_1udpgate.html" title="g1::udpgate" alt="" coords="147,107,237,133"/>
+</map>

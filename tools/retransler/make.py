@@ -30,6 +30,7 @@ application("g1-retransler",
 
 		("g1"),
 		("g1.allocator", "malloc"),
+		("g1.time", "chrono"),
 	],
 
 	#binutils = bu,

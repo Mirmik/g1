@@ -9,12 +9,18 @@ tower file
 {\ttfamily \#include $<$gxx/log/logger2.\+h$>$}\\*
 {\ttfamily \#include $<$g1/gateway.\+h$>$}\\*
 {\ttfamily \#include $<$vector$>$}\\*
-Include dependency graph for tower.\+h\+:
-\nopagebreak
+Include dependency graph for tower.\+h\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
 \includegraphics[width=350pt]{tower_8h__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{tower_8h__dep__incl}
 \end{center}
 \end{figure}
 \subsection*{Enumerations}
@@ -44,7 +50,7 @@ void \hyperlink{tower_8h_a45d1465880b33f8ac8459ae9ca8d118b}{g1\+::quality\+\_\+n
 void \hyperlink{tower_8h_a64ee25212304fecad5e7eef373454dd6}{g1\+::link\+\_\+gate} (\hyperlink{structg1_1_1gateway}{g1\+::gateway} $\ast$gate, uint8\+\_\+t id)\hypertarget{tower_8h_a64ee25212304fecad5e7eef373454dd6}{}\label{tower_8h_a64ee25212304fecad5e7eef373454dd6}
 
 \begin{DoxyCompactList}\small\item\em Подключить врата к башне. \end{DoxyCompactList}\item 
-\hyperlink{structg1_1_1gateway}{g1\+::gateway} $\ast$ {\bfseries g1\+::find\+\_\+target\+\_\+gateway} (const \hyperlink{structg1_1_1packet}{g1\+::packet} $\ast$pack)\hypertarget{tower_8h_a6ac4b08e953a4b469a84bb098aa867be}{}\label{tower_8h_a6ac4b08e953a4b469a84bb098aa867be}
+\hyperlink{structg1_1_1gateway}{g1\+::gateway} $\ast$ {\bfseries g1\+::find\+\_\+target\+\_\+gateway} (const \hyperlink{structg1_1_1packet}{g1\+::packet} $\ast$pack)\hypertarget{tower_8h_ad7ad6e4db59fd77bef5187e75106cc58}{}\label{tower_8h_ad7ad6e4db59fd77bef5187e75106cc58}
 
 \item 
 void {\bfseries g1\+::release} (\hyperlink{structg1_1_1packet}{g1\+::packet} $\ast$pack)\hypertarget{tower_8h_a102e2f815bc35cd32ff7ff66fe7354b3}{}\label{tower_8h_a102e2f815bc35cd32ff7ff66fe7354b3}
@@ -67,6 +73,11 @@ void {\bfseries g1\+::send\+\_\+ack2} (\hyperlink{structg1_1_1packet}{g1\+::pack
 \item 
 void {\bfseries g1\+::release\+\_\+if\+\_\+need} (\hyperlink{structg1_1_1packet}{g1\+::packet} $\ast$pack)\hypertarget{tower_8h_a5e21eb4e86dda1751909ce0b1661e177}{}\label{tower_8h_a5e21eb4e86dda1751909ce0b1661e177}
 
+\item 
+void \hyperlink{tower_8h_a5da1be4f2317a3323bef2bce309a63c5}{g1\+::quality\+\_\+work\+\_\+execute} ()
+\begin{DoxyCompactList}\small\item\em Проведение работ по обеспечению качества обслуживания. \end{DoxyCompactList}\item 
+uint16\+\_\+t {\bfseries g1\+::millis} ()\hypertarget{tower_8h_ac45dd24ddabb43ce518dd31fa4a3e9f0}{}\label{tower_8h_ac45dd24ddabb43ce518dd31fa4a3e9f0}
+
 \end{DoxyCompactItemize}
 \subsection*{Variables}
 \begin{DoxyCompactItemize}
@@ -74,20 +85,41 @@ void {\bfseries g1\+::release\+\_\+if\+\_\+need} (\hyperlink{structg1_1_1packet}
 gxx\+::log\+::logger {\bfseries g1\+::logger}\hypertarget{tower_8h_a31df268f98bfc93f9900632703385212}{}\label{tower_8h_a31df268f98bfc93f9900632703385212}
 
 \item 
-gxx\+::dlist$<$ \hyperlink{structg1_1_1gateway}{g1\+::gateway},\&\hyperlink{structg1_1_1gateway_a9b30f9f8c97681eb9b8ce01594200916}{g1\+::gateway\+::lnk} $>$ \hyperlink{tower_8h_a4b05b396a51091fcfe773740f033e0e1}{g1\+::gateways}\hypertarget{tower_8h_a4b05b396a51091fcfe773740f033e0e1}{}\label{tower_8h_a4b05b396a51091fcfe773740f033e0e1}
+gxx\+::dlist$<$ \hyperlink{structg1_1_1gateway}{g1\+::gateway},\&\hyperlink{structg1_1_1gateway_a9b30f9f8c97681eb9b8ce01594200916}{g1\+::gateway\+::lnk} $>$ \hyperlink{tower_8h_a416e394e746ce583aa73a547aa3fc11b}{g1\+::gateways}\hypertarget{tower_8h_a416e394e746ce583aa73a547aa3fc11b}{}\label{tower_8h_a416e394e746ce583aa73a547aa3fc11b}
 
 \begin{DoxyCompactList}\small\item\em Список врат. \end{DoxyCompactList}\item 
-gxx\+::dlist$<$ \hyperlink{structg1_1_1packet}{g1\+::packet},\&\hyperlink{structg1_1_1packet_ad385dbb95d429aa9616059bd374b359b}{g1\+::packet\+::lnk} $>$ {\bfseries g1\+::incoming}\hypertarget{tower_8h_a8273f41a72c4be15217577b5817ea0ac}{}\label{tower_8h_a8273f41a72c4be15217577b5817ea0ac}
+gxx\+::dlist$<$ \hyperlink{structg1_1_1packet}{g1\+::packet},\&\hyperlink{structg1_1_1packet_ad385dbb95d429aa9616059bd374b359b}{g1\+::packet\+::lnk} $>$ {\bfseries g1\+::incoming}\hypertarget{tower_8h_a0bbe972fbba810d549967e81d18d4c68}{}\label{tower_8h_a0bbe972fbba810d549967e81d18d4c68}
 
 \item 
-gxx\+::dlist$<$ \hyperlink{structg1_1_1packet}{g1\+::packet},\&\hyperlink{structg1_1_1packet_ad385dbb95d429aa9616059bd374b359b}{g1\+::packet\+::lnk} $>$ {\bfseries g1\+::outters}\hypertarget{tower_8h_a25edc78f817da3cdb42c3e97628c4355}{}\label{tower_8h_a25edc78f817da3cdb42c3e97628c4355}
+gxx\+::dlist$<$ \hyperlink{structg1_1_1packet}{g1\+::packet},\&\hyperlink{structg1_1_1packet_ad385dbb95d429aa9616059bd374b359b}{g1\+::packet\+::lnk} $>$ {\bfseries g1\+::outters}\hypertarget{tower_8h_a9f3531e21e2dd4d8c553646f5de01c5c}{}\label{tower_8h_a9f3531e21e2dd4d8c553646f5de01c5c}
 
 \item 
-void($\ast$ {\bfseries g1\+::incoming\+\_\+handler} )(\hyperlink{structg1_1_1packet}{g1\+::packet} $\ast$pack)\hypertarget{tower_8h_a99741a3fbef5f532f0e4a89fef95e06f}{}\label{tower_8h_a99741a3fbef5f532f0e4a89fef95e06f}
+void($\ast$ {\bfseries g1\+::incoming\+\_\+handler} )(\hyperlink{structg1_1_1packet}{g1\+::packet} $\ast$pack) = nullptr\hypertarget{tower_8h_aa846946374607fbe02f3f52a836510bf}{}\label{tower_8h_aa846946374607fbe02f3f52a836510bf}
 
-\end{DoxyCompactItemize}
+\item 
+void($\ast$ \hyperlink{tower_8h_a8fbd8d62bc6b91827f3d85adb3677749}{g1\+::undelivered\+\_\+handler} )(\hyperlink{structg1_1_1packet}{g1\+::packet} $\ast$pack) = nullptr\hypertarget{tower_8h_a8fbd8d62bc6b91827f3d85adb3677749}{}\label{tower_8h_a8fbd8d62bc6b91827f3d85adb3677749}
+
+\begin{DoxyCompactList}\small\item\em Обработчик недоставленного пакета. Определяется локальным софтом. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \subsection{Detailed Description}
 tower file 
 
+
+
+\subsection{Function Documentation}
+\index{tower.\+h@{tower.\+h}!quality\+\_\+work\+\_\+execute@{quality\+\_\+work\+\_\+execute}}
+\index{quality\+\_\+work\+\_\+execute@{quality\+\_\+work\+\_\+execute}!tower.\+h@{tower.\+h}}
+\subsubsection[{\texorpdfstring{quality\+\_\+work\+\_\+execute()}{quality_work_execute()}}]{\setlength{\rightskip}{0pt plus 5cm}void g1\+::quality\+\_\+work\+\_\+execute (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{tower_8h_file_a5da1be4f2317a3323bef2bce309a63c5}{}\label{tower_8h_file_a5da1be4f2317a3323bef2bce309a63c5}
+
+
+Проведение работ по обеспечению качества обслуживания. 
+
+может вызывать g1\+::undelivered\+\_\+handler
+
+\begin{DoxyRefDesc}{Todo}
+\item[\hyperlink{todo__todo000004}{Todo}]Переделать очередь пакетов, выстроив их в порядке работы таймеров. Это ускорит quality\+\_\+work\+\_\+execute \end{DoxyRefDesc}

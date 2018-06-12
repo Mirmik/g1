@@ -31,11 +31,13 @@ namespace g1 {
 		union {
 			uint8_t pflag; ///< Флаги пакета
 			struct {
-				uint8_t ack : 1;
-				uint8_t vaddr : 1;
-				uint8_t type : 6;
+				uint8_t ack : 1; ///< Идентифицирует ack пакеты. Доп.инф. передается в типе.
+				uint8_t vaddr : 1; ///< Поле указатель виртуального адреса @todo
+				uint8_t noexec : 1; ///< Флаг предотвращает исполнение пакета. Используется для запросов существования
+				uint8_t type : 5; ///< Доп. инф. зависит от ситуации.
 			};
 		};
+		uint16_t ackquant; ///< Таймаут для пересылки пакета.
 		uint16_t flen; ///< Полная длина пакета
 		uint16_t seqid; ///< Порядковый номер пакета. Присваивается отправителем.
 		uint8_t alen; ///< Длина поля адреса.
@@ -47,8 +49,8 @@ namespace g1 {
 	struct packet {
 		dlist_head lnk; ///< Для подключения в список.
 		g1::gateway* ingate; ///< gate, которым пакет прибыл в систему.
-		uint16_t last_ack; ///< @todo
-		uint8_t ackcounts; ///< @todo
+		uint16_t last_request_time; ///< @todo
+		uint8_t ackcount; ///< @todo
 
 		union {
 			uint8_t flags; ///< Местные флаги

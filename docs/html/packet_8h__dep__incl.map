@@ -1,4 +1,9 @@
 <map id="/home/mirmik/project/g1/g1/packet.h" name="/home/mirmik/project/g1/g1/packet.h">
-<area shape="rect" id="node2" href="$gateway_8h_source.html" title="/home/mirmik/project\l/g1/g1/gateway.h" alt="" coords="5,95,149,136"/>
-<area shape="rect" id="node3" href="$tower_8h.html" title="tower file " alt="" coords="5,184,149,225"/>
+<area shape="rect" id="node2" href="$gateway_8h_source.html" title="/home/mirmik/project\l/g1/g1/gateway.h" alt="" coords="312,95,456,136"/>
+<area shape="rect" id="node6" href="$packet_8cpp.html" title="/home/mirmik/project\l/g1/g1/src/packet.cpp" alt="" coords="112,273,260,315"/>
+<area shape="rect" id="node7" href="$tower_8cpp.html" title="/home/mirmik/project\l/g1/g1/src/tower.cpp" alt="" coords="464,273,608,315"/>
+<area shape="rect" id="node3" href="$selfgate_8h_source.html" title="/home/mirmik/project\l/g1/g1/gates/selfgate.h" alt="" coords="526,184,681,225"/>
+<area shape="rect" id="node4" href="$testgate_8h_source.html" title="/home/mirmik/project\l/g1/g1/gates/testgate.h" alt="" coords="26,184,182,225"/>
+<area shape="rect" id="node5" href="$udpgate_8h_source.html" title="/home/mirmik/project\l/g1/g1/gates/udpgate.h" alt="" coords="285,273,440,315"/>
+<area shape="rect" id="node8" href="$tower_8h.html" title="tower file " alt="" coords="257,184,401,225"/>
 </map>

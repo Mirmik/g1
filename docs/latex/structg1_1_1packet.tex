@@ -76,9 +76,9 @@ dlist\+\_\+head \hyperlink{structg1_1_1packet_ad385dbb95d429aa9616059bd374b359b}
 \hyperlink{structg1_1_1gateway}{g1\+::gateway} $\ast$ \hyperlink{structg1_1_1packet_ae5b9f8200d6c128cd9a4a436c1f8d1dc}{ingate}\hypertarget{structg1_1_1packet_ae5b9f8200d6c128cd9a4a436c1f8d1dc}{}\label{structg1_1_1packet_ae5b9f8200d6c128cd9a4a436c1f8d1dc}
 
 \begin{DoxyCompactList}\small\item\em gate, которым пакет прибыл в систему. \end{DoxyCompactList}\item 
-uint16\+\_\+t \hyperlink{structg1_1_1packet_a3a260b0ab8300cd034be8a023ff8189d}{last\+\_\+ack}
+uint16\+\_\+t \hyperlink{structg1_1_1packet_adeb6ae81faca9970d09c848a793d2a9f}{last\+\_\+request\+\_\+time}
 \item 
-uint8\+\_\+t \hyperlink{structg1_1_1packet_a885a0ecdce163a529a58cc9b53ff323b}{ackcounts}
+uint8\+\_\+t \hyperlink{structg1_1_1packet_a18df7f0ed915a9b7901c73afce275f87}{ackcount}
 \item 
 \begin{tabbing}
 xx\=xx\=xx\=xx\=xx\=xx\=xx\=xx\=xx\=\kill
@@ -103,18 +103,19 @@ union \{\\
 Структура-\/описатель блока. Создается поверх пакета для упрощения работы с ним. 
 
 \subsection{Member Data Documentation}
-\index{g1\+::packet@{g1\+::packet}!ackcounts@{ackcounts}}
-\index{ackcounts@{ackcounts}!g1\+::packet@{g1\+::packet}}
-\subsubsection[{\texorpdfstring{ackcounts}{ackcounts}}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t g1\+::packet\+::ackcounts}\hypertarget{structg1_1_1packet_a885a0ecdce163a529a58cc9b53ff323b}{}\label{structg1_1_1packet_a885a0ecdce163a529a58cc9b53ff323b}
+\index{g1\+::packet@{g1\+::packet}!ackcount@{ackcount}}
+\index{ackcount@{ackcount}!g1\+::packet@{g1\+::packet}}
+\subsubsection[{\texorpdfstring{ackcount}{ackcount}}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t g1\+::packet\+::ackcount}\hypertarget{structg1_1_1packet_a18df7f0ed915a9b7901c73afce275f87}{}\label{structg1_1_1packet_a18df7f0ed915a9b7901c73afce275f87}
+\begin{DoxyRefDesc}{Todo}
+\item[\hyperlink{todo__todo000003}{Todo}]\end{DoxyRefDesc}
+\index{g1\+::packet@{g1\+::packet}!last\+\_\+request\+\_\+time@{last\+\_\+request\+\_\+time}}
+\index{last\+\_\+request\+\_\+time@{last\+\_\+request\+\_\+time}!g1\+::packet@{g1\+::packet}}
+\subsubsection[{\texorpdfstring{last\+\_\+request\+\_\+time}{last_request_time}}]{\setlength{\rightskip}{0pt plus 5cm}uint16\+\_\+t g1\+::packet\+::last\+\_\+request\+\_\+time}\hypertarget{structg1_1_1packet_adeb6ae81faca9970d09c848a793d2a9f}{}\label{structg1_1_1packet_adeb6ae81faca9970d09c848a793d2a9f}
 \begin{DoxyRefDesc}{Todo}
 \item[\hyperlink{todo__todo000002}{Todo}]\end{DoxyRefDesc}
-\index{g1\+::packet@{g1\+::packet}!last\+\_\+ack@{last\+\_\+ack}}
-\index{last\+\_\+ack@{last\+\_\+ack}!g1\+::packet@{g1\+::packet}}
-\subsubsection[{\texorpdfstring{last\+\_\+ack}{last_ack}}]{\setlength{\rightskip}{0pt plus 5cm}uint16\+\_\+t g1\+::packet\+::last\+\_\+ack}\hypertarget{structg1_1_1packet_a3a260b0ab8300cd034be8a023ff8189d}{}\label{structg1_1_1packet_a3a260b0ab8300cd034be8a023ff8189d}
-\begin{DoxyRefDesc}{Todo}
-\item[\hyperlink{todo__todo000001}{Todo}]\end{DoxyRefDesc}
 
 
-The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+The documentation for this struct was generated from the following files\+:\begin{DoxyCompactItemize}
 \item 
-/home/mirmik/project/g1/g1/\hyperlink{packet_8h}{packet.\+h}\end{DoxyCompactItemize}
+/home/mirmik/project/g1/g1/\hyperlink{packet_8h}{packet.\+h}\item 
+/home/mirmik/project/g1/g1/src/\hyperlink{packet_8cpp}{packet.\+cpp}\end{DoxyCompactItemize}

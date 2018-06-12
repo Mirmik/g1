@@ -63,6 +63,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="annotated.html"><span>Class&#160;List</span></a></li>
       <li><a href="classes.html"><span>Class&#160;Index</span></a></li>
+      <li><a href="inherits.html"><span>Class&#160;Hierarchy</span></a></li>
       <li><a href="functions.html"><span>Class&#160;Members</span></a></li>
     </ul>
   </div>
@@ -105,7 +106,7 @@ Collaboration diagram for g1::packet:</div>
 <div class="center"><img src="structg1_1_1packet__coll__graph.png" border="0" usemap="#g1_1_1packet_coll__map" alt="Collaboration graph"/></div>
 <map name="g1_1_1packet_coll__map" id="g1_1_1packet_coll__map">
 <area shape="rect" id="node2" href="structg1_1_1packet__header.html" title="Структура заголовок пакета. " alt="" coords="5,5,135,32"/>
-<area shape="rect" id="node3" href="structg1_1_1gateway.html" title="g1::gateway" alt="" coords="159,5,253,32"/>
+<area shape="rect" id="node3" href="structg1_1_1gateway.html" title="Абстрактный класс врат. Врата отвечают за пересылку пакетов между мирами. " alt="" coords="159,5,253,32"/>
 </map>
 <center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
@@ -168,10 +169,10 @@ dlist_head&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href
 <a class="el" href="structg1_1_1gateway.html">g1::gateway</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structg1_1_1packet.html#ae5b9f8200d6c128cd9a4a436c1f8d1dc">ingate</a></td></tr>
 <tr class="memdesc:ae5b9f8200d6c128cd9a4a436c1f8d1dc"><td class="mdescLeft">&#160;</td><td class="mdescRight">gate, которым пакет прибыл в систему. <br /></td></tr>
 <tr class="separator:ae5b9f8200d6c128cd9a4a436c1f8d1dc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3a260b0ab8300cd034be8a023ff8189d"><td class="memItemLeft" align="right" valign="top">uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structg1_1_1packet.html#a3a260b0ab8300cd034be8a023ff8189d">last_ack</a></td></tr>
-<tr class="separator:a3a260b0ab8300cd034be8a023ff8189d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a885a0ecdce163a529a58cc9b53ff323b"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structg1_1_1packet.html#a885a0ecdce163a529a58cc9b53ff323b">ackcounts</a></td></tr>
-<tr class="separator:a885a0ecdce163a529a58cc9b53ff323b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adeb6ae81faca9970d09c848a793d2a9f"><td class="memItemLeft" align="right" valign="top">uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structg1_1_1packet.html#adeb6ae81faca9970d09c848a793d2a9f">last_request_time</a></td></tr>
+<tr class="separator:adeb6ae81faca9970d09c848a793d2a9f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a18df7f0ed915a9b7901c73afce275f87"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structg1_1_1packet.html#a18df7f0ed915a9b7901c73afce275f87">ackcount</a></td></tr>
+<tr class="separator:a18df7f0ed915a9b7901c73afce275f87"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af94d16abf234fdcfb447b00ed332ba9d"><td class="memItemLeft" ><a class="anchor" id="af94d16abf234fdcfb447b00ed332ba9d"></a>
 union {</td></tr>
 <tr class="memitem:a3ea23da21bc1f9434445af29fb614aec"><td class="memItemLeft" >
@@ -198,12 +199,25 @@ union {</td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Структура-описатель блока. Создается поверх пакета для упрощения работы с ним. </p>
 </div><h2 class="groupheader">Member Data Documentation</h2>
-<a class="anchor" id="a885a0ecdce163a529a58cc9b53ff323b"></a>
+<a class="anchor" id="a18df7f0ed915a9b7901c73afce275f87"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">uint8_t g1::packet::ackcounts</td>
+          <td class="memname">uint8_t g1::packet::ackcount</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000003">Todo:</a></b></dt><dd></dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="adeb6ae81faca9970d09c848a793d2a9f"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint16_t g1::packet::last_request_time</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -211,21 +225,9 @@ union {</td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a3a260b0ab8300cd034be8a023ff8189d"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">uint16_t g1::packet::last_ack</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000001">Todo:</a></b></dt><dd></dd></dl>
-
-</div>
-</div>
-<hr/>The documentation for this struct was generated from the following file:<ul>
+<hr/>The documentation for this struct was generated from the following files:<ul>
 <li>/home/mirmik/project/g1/g1/<a class="el" href="packet_8h_source.html">packet.h</a></li>
+<li>/home/mirmik/project/g1/g1/src/<a class="el" href="packet_8cpp.html">packet.cpp</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

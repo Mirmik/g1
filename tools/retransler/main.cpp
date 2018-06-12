@@ -26,6 +26,7 @@
 #include <arpa/inet.h>
 
 #include <getopt.h>
+#include <csignal>
 
 gxx::log::colored_stdout_target console_target;
 g1::testgate testgate;
@@ -49,6 +50,13 @@ int com_printin(gxx::strvec&);
 int com_printout(gxx::strvec&);
 
 void incoming_handler(g1::packet* pack);
+void quality_thread();
+
+void sigint_handler(int sig) {
+	(void) sig;
+	gxx::println("SIGINT requested. exit.");
+	exit(0);
+}
 
 int main(int argc, char* argv[]) {
 	g1::logger.link(console_target, gxx::log::level::debug);
@@ -84,9 +92,11 @@ int main(int argc, char* argv[]) {
 
 	std::thread thr_com(console);
 	std::thread thr_udp(udplistener);
+	std::thread thr_qual(quality_thread);
 
 	thr_com.join();
 	thr_udp.join();
+	thr_qual.join();
 }
 
 char* line_read;
@@ -222,5 +232,12 @@ void incoming_handler(g1::packet* pack) {
 void udplistener() {
 	while(1) {
 		udpgate.exec_syncrecv();
+	}
+}
+
+void quality_thread() {
+	while(1) {
+		g1::quality_work_execute();
+		std::this_thread::sleep_for(std::chrono::milliseconds(1));
 	}
 }

@@ -63,6 +63,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="annotated.html"><span>Class&#160;List</span></a></li>
       <li><a href="classes.html"><span>Class&#160;Index</span></a></li>
+      <li><a href="inherits.html"><span>Class&#160;Hierarchy</span></a></li>
       <li><a href="functions.html"><span>Class&#160;Members</span></a></li>
     </ul>
   </div>
@@ -110,18 +111,28 @@ union {</td></tr>
 <tr class="memitem:a4a3039864fea2668bb6bc713d929cd2a"><td class="memItemLeft" ><a class="anchor" id="a4a3039864fea2668bb6bc713d929cd2a"></a>
 &#160;&#160;&#160;struct {</td></tr>
 <tr class="memitem:a76661f94c6674a8407174b4d78ab2cfc"><td class="memItemLeft" >
-&#160;&#160;&#160;&#160;&#160;&#160;uint8_t&#160;&#160;&#160;<b>ack</b>: 1</td></tr>
+&#160;&#160;&#160;&#160;&#160;&#160;uint8_t&#160;&#160;&#160;<a class="el" href="structg1_1_1packet__header.html#aca195e6bf8702ea26416b4a472c57ece">ack</a>: 1</td></tr>
+<tr class="memdesc:a76661f94c6674a8407174b4d78ab2cfc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Идентифицирует ack пакеты. Доп.инф. передается в типе. <br /></td></tr>
 <tr class="separator:a76661f94c6674a8407174b4d78ab2cfc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab3134c5096345c7d8db210afee75c76d"><td class="memItemLeft" >
-&#160;&#160;&#160;&#160;&#160;&#160;uint8_t&#160;&#160;&#160;<b>vaddr</b>: 1</td></tr>
+<tr class="memitem:ab3134c5096345c7d8db210afee75c76d"><td class="memItemLeft" >&#160;&#160;&#160;&#160;&#160;&#160;uint8_t&#160;&#160;&#160;<a class="el" href="structg1_1_1packet__header.html#af77da0c7bd8984cd085ef435241be26d">vaddr</a>: 1</td></tr>
+<tr class="memdesc:ab3134c5096345c7d8db210afee75c76d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Поле указатель виртуального адреса  <a href="#ab3134c5096345c7d8db210afee75c76d">More...</a><br /></td></tr>
 <tr class="separator:ab3134c5096345c7d8db210afee75c76d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0d8606fc639c1303944f23ca577c7d2f"><td class="memItemLeft" >
+&#160;&#160;&#160;&#160;&#160;&#160;uint8_t&#160;&#160;&#160;<a class="el" href="structg1_1_1packet__header.html#aabd2a184ff74a6e00efeaa29ff77f8c6">noexec</a>: 1</td></tr>
+<tr class="memdesc:a0d8606fc639c1303944f23ca577c7d2f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Флаг предотвращает исполнение пакета. Используется для запросов существования <br /></td></tr>
+<tr class="separator:a0d8606fc639c1303944f23ca577c7d2f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab5b6f442e186e990cc75db145aee32cb"><td class="memItemLeft" >
-&#160;&#160;&#160;&#160;&#160;&#160;uint8_t&#160;&#160;&#160;<b>type</b>: 6</td></tr>
+&#160;&#160;&#160;&#160;&#160;&#160;uint8_t&#160;&#160;&#160;<a class="el" href="structg1_1_1packet__header.html#a22b4c753541bb0a873f193c4c40cbd5b">type</a>: 5</td></tr>
+<tr class="memdesc:ab5b6f442e186e990cc75db145aee32cb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Доп. инф. зависит от ситуации. <br /></td></tr>
 <tr class="separator:ab5b6f442e186e990cc75db145aee32cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4a3039864fea2668bb6bc713d929cd2a"><td class="memItemLeft" valign="top">&#160;&#160;&#160;}&#160;</td><td class="memItemRight" valign="bottom"></td></tr>
 <tr class="separator:a4a3039864fea2668bb6bc713d929cd2a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a51a68c60941af526631dac75cf46878f"><td class="memItemLeft" valign="top">};&#160;</td><td class="memItemRight" valign="bottom"></td></tr>
 <tr class="separator:a51a68c60941af526631dac75cf46878f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a488b4615a401abe54603c84f4a3d4efa"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a488b4615a401abe54603c84f4a3d4efa"></a>
+uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structg1_1_1packet__header.html#a488b4615a401abe54603c84f4a3d4efa">ackquant</a></td></tr>
+<tr class="memdesc:a488b4615a401abe54603c84f4a3d4efa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Таймаут для пересылки пакета. <br /></td></tr>
+<tr class="separator:a488b4615a401abe54603c84f4a3d4efa"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aed8789b03d7fa0c382855e97aaec4dd0"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aed8789b03d7fa0c382855e97aaec4dd0"></a>
 uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structg1_1_1packet__header.html#aed8789b03d7fa0c382855e97aaec4dd0">flen</a></td></tr>
 <tr class="memdesc:aed8789b03d7fa0c382855e97aaec4dd0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Полная длина пакета <br /></td></tr>
@@ -146,7 +157,23 @@ uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="s
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Структура заголовок пакета. </p>
 <p>Заголовок пакета располагается в первых байтах пакета. за заголовком следует поле адреса переменной длины, а за ним данные. </p>
-</div><hr/>The documentation for this struct was generated from the following file:<ul>
+</div><h2 class="groupheader">Member Data Documentation</h2>
+<a class="anchor" id="af77da0c7bd8984cd085ef435241be26d"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t g1::packet_header::vaddr</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Поле указатель виртуального адреса </p>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000001">Todo:</a></b></dt><dd></dd></dl>
+
+</div>
+</div>
+<hr/>The documentation for this struct was generated from the following file:<ul>
 <li>/home/mirmik/project/g1/g1/<a class="el" href="packet_8h_source.html">packet.h</a></li>
 </ul>
 </div><!-- contents -->

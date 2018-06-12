@@ -63,6 +63,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="annotated.html"><span>Class&#160;List</span></a></li>
       <li><a href="classes.html"><span>Class&#160;Index</span></a></li>
+      <li><a href="inherits.html"><span>Class&#160;Hierarchy</span></a></li>
       <li><a href="functions.html"><span>Class&#160;Members</span></a></li>
     </ul>
   </div>
@@ -95,16 +96,26 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!--header-->
 <div class="contents">
 
+<p>Абстрактный класс врат. Врата отвечают за пересылку пакетов между мирами.  
+ <a href="structg1_1_1gateway.html#details">More...</a></p>
+
 <p><code>#include &lt;<a class="el" href="gateway_8h_source.html">gateway.h</a>&gt;</code></p>
+<div class="dynheader">
+Inheritance diagram for g1::gateway:</div>
+<div class="dyncontent">
+<div class="center"><img src="structg1_1_1gateway__inherit__graph.png" border="0" usemap="#g1_1_1gateway_inherit__map" alt="Inheritance graph"/></div>
+<map name="g1_1_1gateway_inherit__map" id="g1_1_1gateway_inherit__map">
+<area shape="rect" id="node2" href="structg1_1_1selfgate.html" title="g1::selfgate" alt="" coords="5,80,96,107"/>
+<area shape="rect" id="node3" href="structg1_1_1testgate.html" title="g1::testgate" alt="" coords="120,80,211,107"/>
+<area shape="rect" id="node4" href="structg1_1_1udpgate.html" title="g1::udpgate" alt="" coords="235,80,325,107"/>
+</map>
+<center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a5748219660a573356ab0e52f715eebbf"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structg1_1_1gateway.html#a5748219660a573356ab0e52f715eebbf">send</a> (<a class="el" href="structg1_1_1packet.html">packet</a> *pack)=0</td></tr>
 <tr class="memdesc:a5748219660a573356ab0e52f715eebbf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Отправить пакет в целевой мир, согласно адресу стадии.  <a href="#a5748219660a573356ab0e52f715eebbf">More...</a><br /></td></tr>
 <tr class="separator:a5748219660a573356ab0e52f715eebbf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8554ef0120b9fbb279087eb1d8c205dd"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structg1_1_1gateway.html#a8554ef0120b9fbb279087eb1d8c205dd">receive_handler</a> (void *buf, size_t sz)</td></tr>
-<tr class="memdesc:a8554ef0120b9fbb279087eb1d8c205dd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Обработка пакета, пришедшего из другого мира.  <a href="#a8554ef0120b9fbb279087eb1d8c205dd">More...</a><br /></td></tr>
-<tr class="separator:a8554ef0120b9fbb279087eb1d8c205dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
@@ -116,43 +127,11 @@ dlist_head&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href
 uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structg1_1_1gateway.html#a9bc58cdaebf54c916deb87c4c44c0a59">id</a></td></tr>
 <tr class="memdesc:a9bc58cdaebf54c916deb87c4c44c0a59"><td class="mdescLeft">&#160;</td><td class="mdescRight">номер врат. <br /></td></tr>
 <tr class="separator:a9bc58cdaebf54c916deb87c4c44c0a59"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af6c41db1fccaf674f06a8c0893238c1d"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af6c41db1fccaf674f06a8c0893238c1d"></a>
-gxx::dlist&lt; <a class="el" href="structg1_1_1packet.html">packet</a>,&amp;<a class="el" href="structg1_1_1packet.html#ad385dbb95d429aa9616059bd374b359b">packet::lnk</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structg1_1_1gateway.html#af6c41db1fccaf674f06a8c0893238c1d">packq</a></td></tr>
-<tr class="memdesc:af6c41db1fccaf674f06a8c0893238c1d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Очередь пакетов, ожидающих отправки. <br /></td></tr>
-<tr class="separator:af6c41db1fccaf674f06a8c0893238c1d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Абстрактный класс врат. Врата отвечают за пересылку пакетов между мирами. </p>
+<p>Может содержать поле списка и некоторое время хранить отправляемые пакеты. </p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="a8554ef0120b9fbb279087eb1d8c205dd"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">int g1::gateway::receive_handler </td>
-          <td>(</td>
-          <td class="paramtype">void *&#160;</td>
-          <td class="paramname"><em>buf</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>sz</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Обработка пакета, пришедшего из другого мира. </p>
-<p>Здесь происходит реверт адреса и переправка в башню. </p>
-
-</div>
-</div>
 <a class="anchor" id="a5748219660a573356ab0e52f715eebbf"></a>
 <div class="memitem">
 <div class="memproto">
@@ -183,6 +162,8 @@ gxx::dlist&lt; <a class="el" href="structg1_1_1packet.html">packet</a>,&amp;<a c
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Статус ошибки. </dd></dl>
+
+<p>Implemented in <a class="el" href="structg1_1_1udpgate.html#ad0ae095fed19221c91dac452731235d7">g1::udpgate</a>, <a class="el" href="structg1_1_1selfgate.html#ac833bf5a5ef33393e889e910d1762b2c">g1::selfgate</a>, and <a class="el" href="structg1_1_1testgate.html#a1d66091483f19bc94ec975cbe3240789">g1::testgate</a>.</p>
 
 </div>
 </div>

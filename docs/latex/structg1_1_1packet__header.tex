@@ -18,15 +18,23 @@ union \{\\
 \>uint8\_t \hyperlink{structg1_1_1packet__header_a77b86061c82d26733d902eb73af5976c}{pflag}\\
 \>\>{\em Флаги пакета }\\
 \>struct \{\\
-\>\>uint8\_t {\bfseries ack}: 1\\
-\>\>uint8\_t {\bfseries vaddr}: 1\\
-\>\>uint8\_t {\bfseries type}: 6\\
+\>\>uint8\_t \hyperlink{structg1_1_1packet__header_aca195e6bf8702ea26416b4a472c57ece}{ack}: 1\\
+\>\>\>{\em Идентифицирует ack пакеты. Доп.инф. передается в типе. }\\
+\>\>uint8\_t \hyperlink{structg1_1_1packet__header_af77da0c7bd8984cd085ef435241be26d}{vaddr}: 1\\
+\>\>\>{\em Поле указатель виртуального адреса }\\
+\>\>uint8\_t \hyperlink{structg1_1_1packet__header_aabd2a184ff74a6e00efeaa29ff77f8c6}{noexec}: 1\\
+\>\>\>{\em Флаг предотвращает исполнение пакета. Используется для запросов существования }\\
+\>\>uint8\_t \hyperlink{structg1_1_1packet__header_a22b4c753541bb0a873f193c4c40cbd5b}{type}: 5\\
+\>\>\>{\em Доп. инф. зависит от ситуации. }\\
 \>\} \hypertarget{uniong1_1_1packet__header_1_1_0D0_a4a3039864fea2668bb6bc713d929cd2a}{}\label{uniong1_1_1packet__header_1_1_0D0_a4a3039864fea2668bb6bc713d929cd2a}
 \\
 \}; \hypertarget{structg1_1_1packet__header_a51a68c60941af526631dac75cf46878f}{}\label{structg1_1_1packet__header_a51a68c60941af526631dac75cf46878f}
 \\
 
 \end{tabbing}\item 
+uint16\+\_\+t \hyperlink{structg1_1_1packet__header_a488b4615a401abe54603c84f4a3d4efa}{ackquant}\hypertarget{structg1_1_1packet__header_a488b4615a401abe54603c84f4a3d4efa}{}\label{structg1_1_1packet__header_a488b4615a401abe54603c84f4a3d4efa}
+
+\begin{DoxyCompactList}\small\item\em Таймаут для пересылки пакета. \end{DoxyCompactList}\item 
 uint16\+\_\+t \hyperlink{structg1_1_1packet__header_aed8789b03d7fa0c382855e97aaec4dd0}{flen}\hypertarget{structg1_1_1packet__header_aed8789b03d7fa0c382855e97aaec4dd0}{}\label{structg1_1_1packet__header_aed8789b03d7fa0c382855e97aaec4dd0}
 
 \begin{DoxyCompactList}\small\item\em Полная длина пакета \end{DoxyCompactList}\item 
@@ -48,6 +56,18 @@ uint8\+\_\+t \hyperlink{structg1_1_1packet__header_a47c2109902b4ce5d558bbac33e0b
 Структура заголовок пакета. 
 
 Заголовок пакета располагается в первых байтах пакета. за заголовком следует поле адреса переменной длины, а за ним данные. 
+
+\subsection{Member Data Documentation}
+\index{g1\+::packet\+\_\+header@{g1\+::packet\+\_\+header}!vaddr@{vaddr}}
+\index{vaddr@{vaddr}!g1\+::packet\+\_\+header@{g1\+::packet\+\_\+header}}
+\subsubsection[{\texorpdfstring{vaddr}{vaddr}}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t g1\+::packet\+\_\+header\+::vaddr}\hypertarget{structg1_1_1packet__header_af77da0c7bd8984cd085ef435241be26d}{}\label{structg1_1_1packet__header_af77da0c7bd8984cd085ef435241be26d}
+
+
+Поле указатель виртуального адреса 
+
+\begin{DoxyRefDesc}{Todo}
+\item[\hyperlink{todo__todo000001}{Todo}]\end{DoxyRefDesc}
+
 
 The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
 \item 
