@@ -3,6 +3,7 @@
 
 #include <g1/tower.h>
 #include <g1/gateway.h>
+#include <g1/indexes.h>
 #include <gxx/inet/dgramm.h>
 #include <gxx/util/hexascii.h>
 
