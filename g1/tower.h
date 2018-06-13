@@ -27,9 +27,11 @@ namespace g1 {
 	extern gxx::dlist<g1::gateway, &g1::gateway::lnk> gateways;
 	extern gxx::dlist<g1::packet, &g1::packet::lnk> incoming;
 	extern gxx::dlist<g1::packet, &g1::packet::lnk> outters;
+	extern gxx::dlist<g1::packet, &g1::packet::lnk> travelled;
 
 	///Переместить пакет дальше по конвееру врат.
 	void travell(g1::packet* pack); 
+	void do_travell(g1::packet* pack); 
 	void transport(g1::packet* pack); 
 
 	///Вызывается на только что отправленный пакет. Башня или уничтожает его, или кеширует для контроля качества.
@@ -65,7 +67,7 @@ namespace g1 {
 	/** @brief Проведение работ по обеспечению качества обслуживания.
 		@details может вызывать g1::undelivered_handler
 	*/
-	void quality_work_execute();
+	void one_thread_execute();
 
 	/// Обработчик недоставленного пакета. Определяется локальным софтом.
 	extern void(*undelivered_handler)(g1::packet* pack);

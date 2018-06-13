@@ -12,17 +12,17 @@
 #include <gxx/trace.h>
 
 #include <gxx/algorithm.h>
-#include <gxx/atomic_section.h>
+#include <gxx/syslock.h>
 
 using namespace gxx::argument_literal;
 
 gxx::dlist<g1::gateway, &g1::gateway::lnk> g1::gateways;
+gxx::dlist<g1::packet, &g1::packet::lnk> g1::travelled;
 gxx::dlist<g1::packet, &g1::packet::lnk> g1::incoming;
 gxx::dlist<g1::packet, &g1::packet::lnk> g1::outters;
 void(*g1::incoming_handler)(g1::packet* pack) = nullptr;
 void(*g1::undelivered_handler)(g1::packet* pack) = nullptr;
 gxx::log::logger g1::logger("g1");
-static gxx::atomic_section atomic;
 
 g1::gateway* g1::find_target_gateway(const g1::packet* pack) {
 	uint8_t gidx = pack->gateway_index();
@@ -34,19 +34,21 @@ g1::gateway* g1::find_target_gateway(const g1::packet* pack) {
 }
 
 void g1::release(g1::packet* pack) {
-	g1::logger.debug("released by world");
-	pack->released_by_world = true;
-	g1::release_if_need(pack);
+	gxx::syslock().lock();
+	if (pack->released_by_tower) g1::utilize(pack);
+	else pack->released_by_world = true;
+	gxx::syslock().unlock();
 }
 
 void g1::qos_release(g1::packet* pack) {
-	g1::logger.debug("released by tower");
-	pack->released_by_tower = true;
-	g1::release_if_need(pack);
+	gxx::syslock().lock();
+	dlist_del(&pack->lnk);
+	if (pack->released_by_world) g1::utilize(pack);
+	else pack->released_by_tower = true;
+	gxx::syslock().unlock();
 }
 
 void utilize_from_outers(g1::packet* pack) {
-	g1::logger.debug("utilize_from_list");
 	for (auto& el : g1::outters) {
 		if (el.block->seqid == pack->block->seqid && el.addrsect() == pack->addrsect()) {
 			g1::utilize(&el);
@@ -65,18 +67,20 @@ void qos_release_from_incoming(g1::packet* pack) {
 }
 
 void add_to_incoming_list(g1::packet* pack) {
-	atomic.lock();
 	g1::incoming.move_back(*pack);
-	atomic.unlock();
 }
 
 void add_to_outters_list(g1::packet* pack) {
-	atomic.lock();
 	g1::outters.move_back(*pack);
-	atomic.unlock();	
 }
 
 void g1::travell(g1::packet* pack) {
+	gxx::syslock().lock();
+	travelled.move_back(*pack);
+	gxx::syslock().unlock();
+}
+
+void g1::do_travell(g1::packet* pack) {
 	g1::print(pack);
 	if (pack->block->stg == pack->block->alen) {
 		g1::revert_address(pack);
@@ -170,9 +174,21 @@ void g1::send_ack2(g1::packet* pack) {
 }
 
 /**
-	@todo Переделать очередь пакетов, выстроив их в порядке работы таймеров. Это ускорит quality_work_execute
+	@todo Переделать очередь пакетов, выстроив их в порядке работы таймеров. 
 */
-void g1::quality_work_execute() {
+void g1::one_thread_execute() {
+	gxx::syslock lock;
+	while(1) {
+		lock.lock();
+		bool empty = g1::travelled.empty();
+		if (empty) break;
+		g1::packet* pack = &*g1::travelled.begin();
+		g1::travelled.unbind(*pack);
+		lock.unlock();
+		g1::do_travell(pack);
+	} 
+	lock.unlock();
+
 	uint16_t curtime = g1::millis();
 	
 	gxx::for_each_safe(g1::outters.begin(), g1::outters.end(), [&](g1::packet& pack) {

@@ -19,6 +19,7 @@
 
 #include <gxx/util/hexascii.h>
 #include <gxx/util/string.h>
+#include <gxx/syslock.h>
 #include <gxx/sshell.h>
 
 #include <sys/socket.h>
@@ -37,6 +38,7 @@ g1::udpgate udpgate;
 gxx::sshell sshell;
 
 void udplistener();
+void g1executor();
 
 int console();
 int com_help(gxx::strvec&);
@@ -51,7 +53,6 @@ int com_printin(gxx::strvec&);
 int com_printout(gxx::strvec&);
 
 void incoming_handler(g1::packet* pack);
-void quality_thread();
 
 void sigint_handler(int sig) {
 	(void) sig;
@@ -93,11 +94,11 @@ int main(int argc, char* argv[]) {
 
 	std::thread thr_com(console);
 	std::thread thr_udp(udplistener);
-	std::thread thr_qual(quality_thread);
+	std::thread thr_g1(g1executor);
 
 	thr_com.join();
 	thr_udp.join();
-	thr_qual.join();
+	thr_g1.join();
 }
 
 char* line_read;
@@ -236,9 +237,13 @@ void udplistener() {
 	}
 }
 
-void quality_thread() {
+/*void quality_thread() {
 	while(1) {
 		g1::quality_work_execute();
 		std::this_thread::sleep_for(std::chrono::milliseconds(1));
 	}
+}*/
+
+void g1executor() {
+	while(1) g1::one_thread_execute();
 }
