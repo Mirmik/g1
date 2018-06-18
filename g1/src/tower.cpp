@@ -135,7 +135,7 @@ void g1::return_to_tower(g1::packet* pack, g1::status sts) {
 }
 
 void g1::print(g1::packet* pack) {
-	gxx::fprintln("(type:{}, addr:{}, stg:{}, data:{}, released:{})", (uint8_t)pack->block->type, gxx::hexascii_encode((const uint8_t*)pack->addrptr(), pack->block->alen), pack->block->stg, pack->datasect(), pack->flags);
+	g1::logger.info("(type:{}, addr:{}, stg:{}, data:{}, released:{})", (uint8_t)pack->block->type, gxx::hexascii_encode((const uint8_t*)pack->addrptr(), pack->block->alen), pack->block->stg, pack->datasect(), pack->flags);
 }
 
 void g1::release_if_need(g1::packet* pack) {
