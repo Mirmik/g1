@@ -10,6 +10,7 @@
 namespace g1 {
 	struct udpgate : public gateway {
 		gxx::inet::udp_socket sock;
+		g1::packet_header* block;
 
 		void send(g1::packet* pack) override {
 			g1::logger.debug("UdpGate: {0}", gxx::buffer(pack->dataptr(), pack->datasize()));
@@ -38,6 +39,24 @@ namespace g1 {
 
 				g1::travell(pack);
 			}
+		}
+
+		void noblock_exec() {
+			sock.nonblock(true);
+			if (block == nullptr) block = (g1::packet_header*) malloc(128);
+
+			gxx::inet::netaddr in;
+			int len = sock.recvfrom((char*)block, 128, &in);
+			if (len <= 0) return;
+			//while(1);
+
+			block = (g1::packet_header*)realloc(block, len);
+			g1::packet* pack = g1::create_packet(this, block);
+
+			pack->revert_stage(&in.port, 2, &in.addr, 4, G1_UDPGATE);
+
+			block = nullptr;
+			g1::travell(pack);
 		}
 
 		void open(int port) {
