@@ -45,12 +45,12 @@ namespace g1 {
 		QoS qos; ///< Поле качества обслуживания.
 	} PACKED;
 
-	///Структура-описатель блока. Создается поверх пакета для упрощения работы с ним.
 	struct packet {
 		dlist_head lnk; ///< Для подключения в список.
 		g1::gateway* ingate; ///< gate, которым пакет прибыл в систему.
 		uint16_t last_request_time; ///< @todo
 		uint8_t ackcount; ///< @todo
+		uint8_t status;
 
 		union {
 			uint8_t flags; ///< Местные флаги
@@ -60,8 +60,28 @@ namespace g1 {
 			};
 		};
 
+		packet_header header;
+
+		char* addrptr() const { return (char*)(&header + 1); }
+		char* dataptr() const { return (char*)(&header + 1) + header.alen; }
+		char* stageptr() const { return (char*)(&header + 1) + header.stg; }
+
+		size_t blocksize() { return header.flen; }
+		size_t datasize() { return header.flen - header.alen - sizeof(packet_header); }
+
+		void pushaddr(uint8_t u8) { addrptr()[header.stg++] = u8; }
+	};
+
+	struct packptr {
+		packet* ptr;
+		void release();
+		~packptr();
+	};
+
+	///Структура-описатель блока. Создается поверх пакета для упрощения работы с ним.
+	/*struct packet {
 		//dlist_head tlnk;
-		packet_header* block; ///< Указатель на заголовок реферируемого блока
+		//packet_header* block; ///< Указатель на заголовок реферируемого блока
 
 		///Отметить в пакете прохождение врат.
 		void revert_stage(void* addr1, uint8_t size1, void* addr2, uint8_t size2, uint8_t gateindex);
@@ -73,10 +93,7 @@ namespace g1 {
 
 		bool is_travelled() { return ingate != nullptr; } 
 
-		char* addrptr() { return (char*)(block + 1); }
-		char* dataptr() { return (char*)(block + 1) + block->alen; }
-		char* stageptr() { return (char*)(block + 1) + block->stg; }
-
+		
 		gxx::buffer addrsect() { return gxx::buffer(addrptr(), block->alen); }
 		gxx::buffer datasect() { return gxx::buffer(dataptr(), datasize()); }
 
@@ -85,13 +102,13 @@ namespace g1 {
 		void push_addr(gxx::buffer addr) { memcpy(stageptr(), addr.data(), addr.size()); block->stg += addr.size(); }
 		uint16_t datasize() { return block->flen - block->alen - sizeof(packet_header); }
 	};
-
-	packet_header* allocate_block(uint8_t asz, uint16_t bsz);
+	*/
+	/*packet_header* allocate_block(uint8_t asz, uint16_t bsz);
 	packet_header* create_block(uint8_t asz, uint16_t bsz);
 	void utilize_block(packet_header* block);
-
-	packet* allocate_packet(); 
-	packet* create_packet(gateway* ingate, packet_header* block); 
+*/
+	packet* allocate_packet(size_t adlen); 
+	packet* create_packet(gateway* ingate, size_t addrsize, size_t datasize); 
 	void utilize_packet(packet* pack);
 
 	void utilize(packet* pack);

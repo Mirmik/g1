@@ -30,7 +30,7 @@ namespace g1 {
 
 				gxx::inet::netaddr in;
 				int len = sock.recvfrom((char*)block, 128, &in);
-				gxx::println("udp input", len);
+				g1::logger.info("udp input", len);
 
 				block = (g1::packet_header*)realloc(block, len);
 				g1::packet* pack = g1::create_packet(this, block);
@@ -48,8 +48,8 @@ namespace g1 {
 			gxx::inet::netaddr in;
 			int len = sock.recvfrom((char*)block, 128, &in);
 			if (len <= 0) return;
-			//while(1);
-
+			g1::logger.info("udp input", len);
+			
 			block = (g1::packet_header*)realloc(block, len);
 			g1::packet* pack = g1::create_packet(this, block);
 
