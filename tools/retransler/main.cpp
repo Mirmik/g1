@@ -38,7 +38,7 @@ g1::udpgate udpgate;
 gxx::sshell sshell;
 
 void udplistener();
-void g1executor();
+//void g1executor();
 
 int console();
 int com_help(gxx::strvec&);
@@ -94,7 +94,7 @@ int main(int argc, char* argv[]) {
 
 	std::thread thr_com(console);
 	std::thread thr_udp(udplistener);
-	std::thread thr_g1(g1executor);
+	std::thread thr_g1(g1::spin);
 
 	thr_com.join();
 	thr_udp.join();
@@ -138,13 +138,13 @@ COMMAND commands[] = {
 	{ "printout", com_printout, "debug" }
 };
 
-std::string addr;
+g1::address addr;
 g1::QoS curqos = g1::WithoutACK;
 int console() {
 	__label__ __waitline__;
 	while(1) {
 		__waitline__:
-		char* line = rl_gets(gxx::format("{}> ", gxx::hexascii_encode(addr)).c_str());
+		char* line = rl_gets(gxx::format("{}> ", gxx::hexascii_encode(addr.str)).c_str());
 		gxx::strvec split = gxx::split(line, ' '); 
 		
 		if (split.size() == 0) goto __waitline__;
@@ -172,34 +172,24 @@ int com_exit(gxx::strvec& vec) {
 }
 
 int com_deladdr(gxx::strvec& vec) {
-	addr.clear();
+	addr.str.clear();
 	return (0);
 }
 
 int com_push8(gxx::strvec& vec) {
-	addr.push_back((char)atoi(vec[1].c_str()));
+	addr.pushuint8((char)atoi(vec[1].c_str()));
 	return (0);
 }
 
 int com_pushudp(gxx::strvec& vec) {
-	uint32_t iaddr = inet_addr(vec[1].c_str());
 	uint16_t port = htons(atoi(vec[2].c_str()));
-	addr.push_back(G1_UDPGATE);
-	addr.append((const char*)&iaddr, 4);
-	addr.append((const char*)&port, 2);
+	addr.pushudp(G1_UDPGATE, vec[1].c_str(), port);
 	return (0);
 }
 
 int com_send(gxx::strvec& vec) {
 	std::string data = vec[1];
-	auto block = g1::create_block(addr.size(), data.size());
-	auto pack = g1::create_packet(nullptr, block);
-	pack->set_type(1);
-	pack->block->qos = curqos;
-	memcpy(pack->addrptr(), addr.data(), addr.size());
-	memcpy(pack->dataptr(), data.data(), data.size());
-
-	g1::transport(pack);
+	g1::send(addr, 1, data);
 	return (0);
 }
 
@@ -216,18 +206,18 @@ int com_printtower(gxx::strvec& vec) {
 }
 
 int com_printin(gxx::strvec& vec) {
-	for (auto& pack : g1::incoming) g1::print(&pack);
+	//for (auto& pack : g1::incoming) g1::print(&pack);
 	return 0;
 }
 
 int com_printout(gxx::strvec& vec) {
-	for (auto& pack : g1::outters) g1::print(&pack);
+	//for (auto& pack : g1::outters) g1::print(&pack);
 	return 0;
 }
 
 void incoming_handler(g1::packet* pack) {
 	gxx::println("main incoming handler");
-	g1::print(pack);
+	//g1::print(pack);
 	g1::release(pack);
 }
 
@@ -243,7 +233,3 @@ void udplistener() {
 		std::this_thread::sleep_for(std::chrono::milliseconds(1));
 	}
 }*/
-
-void g1executor() {
-	while(1) g1::one_thread_execute();
-}

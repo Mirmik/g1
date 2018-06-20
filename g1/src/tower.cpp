@@ -6,10 +6,10 @@
 /*#include <g1/packet.h>
 #include <g1/gateway.h>*/
 #include <g1/indexes.h>/*
-
+*/
 #include <gxx/print.h>
 #include <gxx/util/hexascii.h>
-#include <gxx/trace.h>
+/*#include <gxx/trace.h>
 */
 #include <gxx/algorithm.h>
 
@@ -89,7 +89,7 @@ void g1::travel_error(g1::packet* pack) {
 }
 
 void g1::do_travel(g1::packet* pack) {
-	//g1::print(pack);
+	g1::print(pack);
 	if (pack->header.stg == pack->header.alen) {
 		/*g1::revert_address(pack);
 		if (pack->block->ack) {
@@ -136,15 +136,22 @@ g1::packptr g1::send(g1::packet* pack) {
 	return g1::packptr { pack }; 
 }
 
-g1::packptr g1::send(g1::address& addr, uint8_t type, const char* str) {
-	g1::packet* pack = create_packet(nullptr, addr.str.size(), strlen(str));
+g1::packptr g1::send(g1::address& addr, uint8_t type, const char* data, size_t len) {
+	g1::packet* pack = create_packet(nullptr, addr.str.size(), len);
 	pack->header.type =type;
 	memcpy(pack->addrptr(), addr.str.data(), addr.str.size());
-	memcpy(pack->dataptr(), str, strlen(str));
+	memcpy(pack->dataptr(), data, len);
 	g1::transport(pack);
 	return g1::packptr { pack }; 
 }
 
+g1::packptr g1::send(g1::address& addr, uint8_t type, const char* str) {
+	return g1::send(addr, type, str, strlen(str));
+}
+
+g1::packptr g1::send(g1::address& addr, uint8_t type, const std::string& str) {
+	return g1::send(addr, type, str.data(), str.size());
+}
 /*
 void g1::quality_notify(g1::packet* pack) {
 	if (pack->block->qos == g1::TargetACK || pack->block->qos == g1::BinaryACK) {
@@ -169,11 +176,11 @@ void g1::return_to_tower(g1::packet* pack, g1::status sts) {
 	//	g1::utilize(pack);
 	//else add_to_outters_list(pack);
 }
-/*
-void g1::print(g1::packet* pack) {
-	g1::logger.info("(type:{}, addr:{}, stg:{}, data:{}, released:{})", (uint8_t)pack->block->type, gxx::hexascii_encode((const uint8_t*)pack->addrptr(), pack->block->alen), pack->block->stg, pack->datasect(), pack->flags);
-}
 
+void g1::print(g1::packet* pack) {
+	g1::logger.info("(type:{}, addr:{}, stg:{}, data:{}, released:{})", (uint8_t)pack->header.type, gxx::hexascii_encode((const uint8_t*)pack->addrptr(), pack->header.alen), pack->header.stg, gxx::buffer(pack->dataptr(), pack->datasize()), pack->flags);
+}
+/*
 void g1::release_if_need(g1::packet* pack) {
 	if (pack->released_by_tower && pack->released_by_world) utilize(pack);
 }

@@ -20,28 +20,28 @@ namespace g1 {
 
 			g1::logger.debug("send udp datagramm addr:{}, port:{}", gxx::hexascii_encode((const uint8_t*)addr, 4), ntohs(*port));
 
-			sock.ne_sendto(*addr, *port, (const char*)pack->block, pack->block->flen);
+			sock.ne_sendto(*addr, *port, (const char*)&pack->header, pack->header.flen);
 			g1::return_to_tower(pack, g1::status::Sended);
 		}
 
 		void exec_syncrecv() {
 			while(1) {
-				g1::packet_header* block = (g1::packet_header*) malloc(128);
+				g1::packet* pack = (g1::packet*) malloc(128 + sizeof(g1::packet) - sizeof(g1::packet_header));
 
 				gxx::inet::netaddr in;
-				int len = sock.recvfrom((char*)block, 128, &in);
+				int len = sock.recvfrom((char*)&pack->header, 128, &in);
 				g1::logger.info("udp input", len);
 
-				block = (g1::packet_header*)realloc(block, len);
-				g1::packet* pack = g1::create_packet(this, block);
+				//block = (g1::packet_header*)realloc(block, len);
+				//g1::packet* pack = g1::create_packet(this, block);
 
-				pack->revert_stage(&in.port, 2, &in.addr, 4, G1_UDPGATE);
+				//pack->revert_stage(&in.port, 2, &in.addr, 4, G1_UDPGATE);
 
-				g1::travell(pack);
+				//g1::travell(pack);
 			}
 		}
 
-		void noblock_exec() {
+		/*void noblock_exec() {
 			sock.nonblock(true);
 			if (block == nullptr) block = (g1::packet_header*) malloc(128);
 
@@ -57,7 +57,7 @@ namespace g1 {
 
 			block = nullptr;
 			g1::travell(pack);
-		}
+		}*/
 
 		void open(int port) {
 			sock.bind("0.0.0.0", port);

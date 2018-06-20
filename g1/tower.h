@@ -37,7 +37,7 @@ namespace g1 {
 	void transport(g1::packet* pack); 
 	g1::packptr send(g1::packet* pack); 
 	g1::packptr send(g1::address& addr, uint8_t type, const char* str); 
-	g1::packptr send(g1::address& addr, uint8_t type, const void* data, size_t size);
+	g1::packptr send(g1::address& addr, uint8_t type, const char* data, size_t size);
 	g1::packptr send(g1::address& addr, uint8_t type, const std::string& str);
 	
 	///Вызывается на только что отправленный пакет. Башня или уничтожает его, или кеширует для контроля качества.
@@ -59,8 +59,8 @@ namespace g1 {
 
 	void release(g1::packet* pack);
 	void tower_release(g1::packet* pack);
-	/*void print(g1::packet* pack);
-
+	void print(g1::packet* pack);
+/*
 	void revert_address(g1::packet* pack);
 */
 	void send_ack(g1::packet* pack);

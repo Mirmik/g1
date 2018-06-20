@@ -70,6 +70,10 @@ namespace g1 {
 		size_t datasize() { return header.flen - header.alen - sizeof(packet_header); }
 
 		void pushaddr(uint8_t u8) { addrptr()[header.stg++] = u8; }
+	
+		void revert_stage(void* addr1, uint8_t size1, void* addr2, uint8_t size2, uint8_t gateindex);
+		void revert_stage(void* addr, uint8_t size, uint8_t gateindex);
+		void revert_stage(uint8_t gateindex);
 	};
 
 	struct packptr {
