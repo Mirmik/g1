@@ -50,10 +50,14 @@ void g1::tower_release(g1::packet* pack) {
 	else pack->released_by_tower = true;
 	gxx::syslock().unlock();
 }
-/*
+
 void utilize_from_outers(g1::packet* pack) {
 	for (auto& el : g1::outters) {
-		if (el.block->seqid == pack->block->seqid && el.addrsect() == pack->addrsect()) {
+		if (
+			el.header.seqid == pack->header.seqid && 
+			pack->header.alen == el.header.alen && 
+			!memcmp(el.addrptr(), pack->addrptr(), pack->header.alen)
+		) {
 			g1::utilize(&el);
 			return;
 		}
@@ -62,18 +66,23 @@ void utilize_from_outers(g1::packet* pack) {
 
 void qos_release_from_incoming(g1::packet* pack) {
 	for (auto& el : g1::incoming) {
-		if (el.block->seqid == pack->block->seqid && el.addrsect() == pack->addrsect()) {
-			g1::qos_release(&el);
+		if (el.header.seqid == pack->header.seqid && 
+			pack->header.alen == el.header.alen && 
+			!memcmp(el.addrptr(), pack->addrptr(), pack->header.alen)
+		) {
+			g1::tower_release(&el);
 			return;
 		}
 	}
 }
-*/
+
 void add_to_incoming_list(g1::packet* pack) {
+	pack->last_request_time = g1::millis();
 	g1::incoming.move_back(*pack);
 }
 
 void add_to_outters_list(g1::packet* pack) {
+	pack->last_request_time = g1::millis();
 	g1::outters.move_back(*pack);
 }
 
@@ -84,16 +93,16 @@ void g1::travel(g1::packet* pack) {
 }
 
 void g1::travel_error(g1::packet* pack) {
-	if (pack->ingate != nullptr) g1::utilize(pack);
-	else g1::tower_release(pack);
+	g1::utilize(pack);
 }
 
 void g1::do_travel(g1::packet* pack) {
 	g1::print(pack);
 	if (pack->header.stg == pack->header.alen) {
-		/*g1::revert_address(pack);
-		if (pack->block->ack) {
-			switch(pack->block->type) {
+		//Ветка доставленного пакета.
+		g1::revert_address(pack);
+		if (pack->header.ack) {
+			switch(pack->header.type) {
 				case G1_ACK_TYPE: utilize_from_outers(pack); break;
 				case G1_ACK21_TYPE: utilize_from_outers(pack); send_ack2(pack); break;
 				case G1_ACK22_TYPE: qos_release_from_incoming(pack); break;
@@ -102,11 +111,13 @@ void g1::do_travel(g1::packet* pack) {
 			g1::utilize(pack);
 			return;
 		}
-		if (pack->ingate) g1::quality_notify(pack);			
-		if (!pack->block->noexec && g1::incoming_handler) g1::incoming_handler(pack);
+		if (pack->ingate) g1::quality_notify(pack);	
+		else g1::tower_release(pack);
+		if (!pack->header.noexec && g1::incoming_handler) g1::incoming_handler(pack);
 		else g1::release(pack);
-		return;*/
-	} else {
+		return;
+	} 
+	else {
 		//Ветка транзитного пакета. Логика поиска врат и пересылки.
 		g1::gateway* gate = g1::find_target_gateway(pack);
 		if (gate == nullptr) { 	
@@ -117,7 +128,6 @@ void g1::do_travel(g1::packet* pack) {
 			//Здесь пакет штампуется временем отправки и пересылается во врата.
 			//Врата должны после пересылки отправить его назад в башню
 			//с помощью return_to_tower для контроля качества.
-			pack->last_request_time = g1::millis();
 			gate->send(pack);
 		}
 	}
@@ -131,36 +141,32 @@ void g1::transport(g1::packet* pack) {
 	g1::travel(pack);
 }
 
-g1::packptr g1::send(g1::packet* pack) {
-	g1::transport(pack);
-	return g1::packptr { pack }; 
-}
-
-g1::packptr g1::send(g1::address& addr, uint8_t type, const char* data, size_t len) {
-	g1::packet* pack = create_packet(nullptr, addr.str.size(), len);
-	pack->header.type =type;
+void g1::send(g1::address& addr, const char* data, size_t len, uint8_t type, g1::QoS qos, uint16_t ackquant) {
+	g1::packet* pack = g1::create_packet(nullptr, addr.str.size(), len);
+	pack->header.type = type;
+	pack->header.qos = qos;
+	pack->header.ackquant = ackquant;
 	memcpy(pack->addrptr(), addr.str.data(), addr.str.size());
 	memcpy(pack->dataptr(), data, len);
 	g1::transport(pack);
-	return g1::packptr { pack }; 
 }
 
-g1::packptr g1::send(g1::address& addr, uint8_t type, const char* str) {
-	return g1::send(addr, type, str, strlen(str));
+void g1::send(g1::address& addr, const char* str, uint8_t type, g1::QoS qos, uint16_t ackquant) {
+	g1::send(addr, str, strlen(str), type, qos, ackquant);
 }
 
-g1::packptr g1::send(g1::address& addr, uint8_t type, const std::string& str) {
-	return g1::send(addr, type, str.data(), str.size());
+void g1::send(g1::address& addr, const std::string& str, uint8_t type, g1::QoS qos, uint16_t ackquant) {
+	g1::send(addr, str.data(), str.size(), type, qos, ackquant);
 }
-/*
+
 void g1::quality_notify(g1::packet* pack) {
-	if (pack->block->qos == g1::TargetACK || pack->block->qos == g1::BinaryACK) {
+	if (pack->header.qos == g1::TargetACK || pack->header.qos == g1::BinaryACK) {
 		g1::send_ack(pack);
 	}
-	if (pack->block->qos == g1::BinaryACK) add_to_incoming_list(pack);
-	else qos_release(pack);
+	if (pack->header.qos == g1::BinaryACK) add_to_incoming_list(pack);
+	else tower_release(pack);
 }
-*/
+
 void g1::return_to_tower(g1::packet* pack, g1::status sts) {
 	if (pack->ingate != nullptr) {
 		//Пакет был отправлен, и он нездешний. Уничтожить.
@@ -171,29 +177,20 @@ void g1::return_to_tower(g1::packet* pack, g1::status sts) {
 			g1::tower_release(pack);
 		else add_to_outters_list(pack);
 	}
-
-	//if (pack->ingate != nullptr || sts != g1::status::Sended || pack->block->qos == WithoutACK) 
-	//	g1::utilize(pack);
-	//else add_to_outters_list(pack);
 }
 
 void g1::print(g1::packet* pack) {
-	g1::logger.info("(type:{}, addr:{}, stg:{}, data:{}, released:{})", (uint8_t)pack->header.type, gxx::hexascii_encode((const uint8_t*)pack->addrptr(), pack->header.alen), pack->header.stg, gxx::buffer(pack->dataptr(), pack->datasize()), pack->flags);
-}
-/*
-void g1::release_if_need(g1::packet* pack) {
-	if (pack->released_by_tower && pack->released_by_world) utilize(pack);
+	g1::logger.info("(qos:{}, alen:{}, type:{}, addr:{}, stg:{}, data:{}, released:{})", pack->header.qos, pack->header.alen, (uint8_t)pack->header.type, gxx::hexascii_encode((const uint8_t*)pack->addrptr(), pack->header.alen), pack->header.stg, gxx::buffer(pack->dataptr(), pack->datasize()), pack->flags);
 }
 
 void g1::revert_address(g1::packet* pack) {
-	gxx::buffer addr = pack->addrsect();
-	auto first = addr.begin();
-	auto last = addr.end();
+	auto first = pack->addrptr();
+	auto last = pack->addrptr() + pack->header.alen;
 	while ((first != last) && (first != --last)) {
         std::iter_swap(first++, last);
     }
 }
-*/
+
 void g1::send_ack(g1::packet* pack) {
 	auto ack = g1::create_packet(nullptr, pack->header.alen, 0);
 	ack->header.type = pack->header.qos == g1::QoS::BinaryACK ? G1_ACK21_TYPE : G1_ACK_TYPE;
@@ -204,18 +201,17 @@ void g1::send_ack(g1::packet* pack) {
 	ack->released_by_world = true;
 	g1::travel(ack);
 }
-/*
+
 void g1::send_ack2(g1::packet* pack) {
-	auto block = g1::create_block(pack->block->alen, 0);
-	auto ack = g1::create_packet(nullptr, block);
-	ack->set_type(G1_ACK22_TYPE);
-	ack->block->ack = 1;
-	ack->block->qos = g1::QoS::WithoutACK;
-	ack->block->seqid = pack->block->seqid;
-	memcpy(ack->addrptr(), pack->addrptr(), pack->block->alen);
-	g1::travell(ack);
+	auto ack = g1::create_packet(nullptr, pack->header.alen, 0);
+	ack->header.type = G1_ACK22_TYPE;
+	ack->header.ack = 1;
+	ack->header.qos = g1::QoS::WithoutACK;
+	ack->header.seqid = pack->header.seqid;
+	memcpy(ack->addrptr(), pack->addrptr(), pack->header.alen);
+	g1::travel(ack);
 }
-*/
+
 void g1::onestep_travel_only() {
 	gxx::syslock lock;
 	while(1) {

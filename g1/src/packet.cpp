@@ -31,6 +31,7 @@ g1::packet* g1::create_packet(g1::gateway* ingate, size_t addrsize, size_t datas
 	pack -> header.alen = addrsize;
 	pack -> header.ackquant = 20;
 	pack -> header.pflag = 0;
+	pack -> header.qos = (g1::QoS)0;
 	pack -> header.stg = 0;
 
 	dlist_init(&pack->lnk);
@@ -39,6 +40,13 @@ g1::packet* g1::create_packet(g1::gateway* ingate, size_t addrsize, size_t datas
 	pack -> flags = 0;
 	
 	return pack;
+}
+
+void g1::packet_initialization(g1::packet* pack, g1::gateway* ingate) { 
+	dlist_init(&pack->lnk);
+	pack -> ingate = ingate;
+	pack -> ackcount = 0; 
+	pack -> flags = 0;
 }
 
 void g1::utilize(g1::packet* pack) {
@@ -63,7 +71,7 @@ void g1::packet::revert_stage(uint8_t gateindex) {
 }
 
 
-void g1::packptr::release() {
+/*void g1::packptr::release() {
 	if (ptr) {
 		g1::release(ptr);
 		ptr = nullptr;
@@ -72,4 +80,4 @@ void g1::packptr::release() {
 
 g1::packptr::~packptr() {
 	release();
-}
+}*/

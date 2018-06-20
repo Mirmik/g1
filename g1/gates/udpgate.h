@@ -18,6 +18,9 @@ namespace g1 {
 			uint32_t* addr = (uint32_t*)(pack->stageptr() + 1);
 			uint16_t* port = (uint16_t*)(pack->stageptr() + 5);
 
+			gxx::println(*port);
+			gxx::println(*addr);
+
 			g1::logger.debug("send udp datagramm addr:{}, port:{}", gxx::hexascii_encode((const uint8_t*)addr, 4), ntohs(*port));
 
 			sock.ne_sendto(*addr, *port, (const char*)&pack->header, pack->header.flen);
@@ -29,15 +32,16 @@ namespace g1 {
 				g1::packet* pack = (g1::packet*) malloc(128 + sizeof(g1::packet) - sizeof(g1::packet_header));
 
 				gxx::inet::netaddr in;
+				gxx::println("recv");
 				int len = sock.recvfrom((char*)&pack->header, 128, &in);
 				g1::logger.info("udp input", len);
 
+				g1::packet_initialization(pack, this);
 				//block = (g1::packet_header*)realloc(block, len);
-				//g1::packet* pack = g1::create_packet(this, block);
+				//g1::packet* pack = g1::create_packet(this, );
 
-				//pack->revert_stage(&in.port, 2, &in.addr, 4, G1_UDPGATE);
-
-				//g1::travell(pack);
+				pack->revert_stage(&in.port, 2, &in.addr, 4, G1_UDPGATE);
+				g1::travel(pack);
 			}
 		}
 

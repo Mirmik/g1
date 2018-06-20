@@ -182,14 +182,14 @@ int com_push8(gxx::strvec& vec) {
 }
 
 int com_pushudp(gxx::strvec& vec) {
-	uint16_t port = htons(atoi(vec[2].c_str()));
+	uint16_t port = atoi(vec[2].c_str());
 	addr.pushudp(G1_UDPGATE, vec[1].c_str(), port);
 	return (0);
 }
 
 int com_send(gxx::strvec& vec) {
 	std::string data = vec[1];
-	g1::send(addr, 1, data);
+	g1::send(addr, data, 1, curqos, 100);
 	return (0);
 }
 

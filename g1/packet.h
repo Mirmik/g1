@@ -76,11 +76,11 @@ namespace g1 {
 		void revert_stage(uint8_t gateindex);
 	};
 
-	struct packptr {
+	/*struct packptr {
 		packet* ptr;
 		void release();
 		~packptr();
-	};
+	};*/
 
 	///Структура-описатель блока. Создается поверх пакета для упрощения работы с ним.
 	/*struct packet {
@@ -113,6 +113,7 @@ namespace g1 {
 */
 	packet* allocate_packet(size_t adlen); 
 	packet* create_packet(gateway* ingate, size_t addrsize, size_t datasize); 
+	void packet_initialization(g1::packet* pack, gateway* ingate); 
 	void utilize_packet(packet* pack);
 
 	void utilize(packet* pack);

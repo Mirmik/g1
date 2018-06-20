@@ -35,17 +35,17 @@ namespace g1 {
 	void do_travel(g1::packet* pack); 
 	
 	void transport(g1::packet* pack); 
-	g1::packptr send(g1::packet* pack); 
-	g1::packptr send(g1::address& addr, uint8_t type, const char* str); 
-	g1::packptr send(g1::address& addr, uint8_t type, const char* data, size_t size);
-	g1::packptr send(g1::address& addr, uint8_t type, const std::string& str);
+	//void send(g1::packet* pack); 
+	void send(g1::address& addr, const char* str, uint8_t type = 0, g1::QoS qos = (g1::QoS)0, uint16_t ackquant = 20); 
+	void send(g1::address& addr, const char* data, size_t size, uint8_t type = 0, g1::QoS qos = (g1::QoS)0, uint16_t ackquant = 20);
+	void send(g1::address& addr, const std::string& str, uint8_t type = 0, g1::QoS qos = (g1::QoS)0, uint16_t ackquant = 20);
 	
 	///Вызывается на только что отправленный пакет. Башня или уничтожает его, или кеширует для контроля качества.
 	void return_to_tower(g1::packet* pack, status sts);
 
-/*	///Вызывается на принятый пакет. Выполняет кеширование (если надо) и отправку ACK пакетов.
+	///Вызывается на принятый пакет. Выполняет кеширование (если надо) и отправку ACK пакетов.
 	void quality_notify(g1::packet* pack);
-*/
+
 	///Подключить врата к башне.
 	inline void link_gate(g1::gateway* gate, uint8_t id) { 
 		logger.info("gateway {} added", id);
@@ -60,9 +60,9 @@ namespace g1 {
 	void release(g1::packet* pack);
 	void tower_release(g1::packet* pack);
 	void print(g1::packet* pack);
-/*
+
 	void revert_address(g1::packet* pack);
-*/
+
 	void send_ack(g1::packet* pack);
 	void send_ack2(g1::packet* pack);
 /*
