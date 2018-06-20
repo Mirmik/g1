@@ -274,7 +274,10 @@ void g1::onestep() {
 
 
 void g1::spin() {
-	while(1) g1::onestep();
+	while(1) {
+		for (auto& gate : gateways) gate.nonblock_onestep();
+		g1::onestep();
+	}
 }
 /*
 

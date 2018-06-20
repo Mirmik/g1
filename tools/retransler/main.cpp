@@ -28,7 +28,6 @@
 
 #include <getopt.h>
 #include <csignal>
-//dcsaf  afsadf fasdfsad
 
 gxx::log::colored_stdout_target console_target;
 g1::testgate testgate;
@@ -38,7 +37,6 @@ g1::udpgate udpgate;
 gxx::sshell sshell;
 
 void udplistener();
-//void g1executor();
 
 int console();
 int com_help(gxx::strvec&);
@@ -93,12 +91,7 @@ int main(int argc, char* argv[]) {
 	g1::link_gate(&selfgate, G1_SELFGATE);
 
 	std::thread thr_com(console);
-	std::thread thr_udp(udplistener);
-	std::thread thr_g1(g1::spin);
-
-	thr_com.join();
-	thr_udp.join();
-	thr_g1.join();
+	g1::spin();
 }
 
 char* line_read;
@@ -206,30 +199,17 @@ int com_printtower(gxx::strvec& vec) {
 }
 
 int com_printin(gxx::strvec& vec) {
-	//for (auto& pack : g1::incoming) g1::print(&pack);
+	for (auto& pack : g1::incoming) g1::print(&pack);
 	return 0;
 }
 
 int com_printout(gxx::strvec& vec) {
-	//for (auto& pack : g1::outters) g1::print(&pack);
+	for (auto& pack : g1::outters) g1::print(&pack);
 	return 0;
 }
 
 void incoming_handler(g1::packet* pack) {
 	gxx::println("main incoming handler");
-	//g1::print(pack);
+	g1::print(pack);
 	g1::release(pack);
 }
-
-void udplistener() {
-	while(1) {
-		udpgate.exec_syncrecv();
-	}
-}
-
-/*void quality_thread() {
-	while(1) {
-		g1::quality_work_execute();
-		std::this_thread::sleep_for(std::chrono::milliseconds(1));
-	}
-}*/

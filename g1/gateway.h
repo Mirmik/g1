@@ -24,6 +24,8 @@ namespace g1 {
 			@return Статус ошибки.
 		*/
 		virtual void send(packet* pack) = 0;
+
+		virtual void nonblock_onestep() {};
 	};
 
 }
