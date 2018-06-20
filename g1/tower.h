@@ -9,13 +9,13 @@
 #include <g1/address.h>
 
 #include <gxx/container/dlist.h>
-#include <gxx/log/logger2.h>
+//#include <gxx/log/logger2.h>
 
 #include <g1/gateway.h>
-#include <vector>
+//#include <vector>
 
 namespace g1 {
-	extern gxx::log::logger logger;
+	//extern gxx::log::logger logger;
 
 	enum class status : uint8_t {
 		Sended,
@@ -38,7 +38,7 @@ namespace g1 {
 	//void send(g1::packet* pack); 
 	void send(g1::address& addr, const char* str, uint8_t type = 0, g1::QoS qos = (g1::QoS)0, uint16_t ackquant = 20); 
 	void send(g1::address& addr, const char* data, size_t size, uint8_t type = 0, g1::QoS qos = (g1::QoS)0, uint16_t ackquant = 20);
-	void send(g1::address& addr, const std::string& str, uint8_t type = 0, g1::QoS qos = (g1::QoS)0, uint16_t ackquant = 20);
+	//void send(g1::address& addr, const std::string& str, uint8_t type = 0, g1::QoS qos = (g1::QoS)0, uint16_t ackquant = 20);
 	
 	///Вызывается на только что отправленный пакет. Башня или уничтожает его, или кеширует для контроля качества.
 	void return_to_tower(g1::packet* pack, status sts);
@@ -48,7 +48,7 @@ namespace g1 {
 
 	///Подключить врата к башне.
 	inline void link_gate(g1::gateway* gate, uint8_t id) { 
-		logger.info("gateway {} added", id);
+		//logger.info("gateway {} added", id);
 		gateways.move_back(*gate);
 		gate->id = id; 
 	} 

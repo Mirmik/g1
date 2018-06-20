@@ -5,6 +5,8 @@
 #include <g1/packet.h>
 #include <g1/tower.h>
 
+#include <gxx/panic.h>
+
 /*#include <gxx/print.h>
 #include <gxx/trace.h>
 #include <gxx/panic.h>

@@ -7,7 +7,7 @@
 #include <g1/gateway.h>*/
 #include <g1/indexes.h>/*
 */
-#include <gxx/print.h>
+//#include <gxx/print.h>
 #include <gxx/util/hexascii.h>
 /*#include <gxx/trace.h>
 */
@@ -24,7 +24,7 @@ gxx::dlist<g1::packet, &g1::packet::lnk> g1::outters;
 void(*g1::incoming_handler)(g1::packet* pack) = nullptr;
 void(*g1::undelivered_handler)(g1::packet* pack) = nullptr;
 
-gxx::log::logger g1::logger("g1");
+//gxx::log::logger g1::logger("g1");
 
 g1::gateway* g1::find_target_gateway(const g1::packet* pack) {
 	uint8_t gidx = *pack->stageptr();
@@ -35,7 +35,7 @@ g1::gateway* g1::find_target_gateway(const g1::packet* pack) {
 }
 
 void g1::release(g1::packet* pack) {
-	g1::logger.trace("release");
+	//g1::logger.trace("release");
 	gxx::syslock().lock();
 	if (pack->released_by_tower) g1::utilize(pack);
 	else pack->released_by_world = true;
@@ -43,7 +43,7 @@ void g1::release(g1::packet* pack) {
 }
 
 void g1::tower_release(g1::packet* pack) {
-	g1::logger.trace("tower release");
+	//g1::logger.trace("tower release");
 	gxx::syslock().lock();
 	dlist_del(&pack->lnk);
 	if (pack->released_by_world) g1::utilize(pack);
@@ -121,7 +121,7 @@ void g1::do_travel(g1::packet* pack) {
 		//Ветка транзитного пакета. Логика поиска врат и пересылки.
 		g1::gateway* gate = g1::find_target_gateway(pack);
 		if (gate == nullptr) { 	
-			g1::logger.warn("WrongGate: {0}", *pack->stageptr());
+			//g1::logger.warn("WrongGate: {0}", *pack->stageptr());
 			g1::travel_error(pack);
 		}
 		else {
@@ -142,11 +142,11 @@ void g1::transport(g1::packet* pack) {
 }
 
 void g1::send(g1::address& addr, const char* data, size_t len, uint8_t type, g1::QoS qos, uint16_t ackquant) {
-	g1::packet* pack = g1::create_packet(nullptr, addr.str.size(), len);
+	g1::packet* pack = g1::create_packet(nullptr, addr.size(), len);
 	pack->header.type = type;
 	pack->header.qos = qos;
 	pack->header.ackquant = ackquant;
-	memcpy(pack->addrptr(), addr.str.data(), addr.str.size());
+	memcpy(pack->addrptr(), addr.data(), addr.size());
 	memcpy(pack->dataptr(), data, len);
 	g1::transport(pack);
 }
@@ -155,9 +155,9 @@ void g1::send(g1::address& addr, const char* str, uint8_t type, g1::QoS qos, uin
 	g1::send(addr, str, strlen(str), type, qos, ackquant);
 }
 
-void g1::send(g1::address& addr, const std::string& str, uint8_t type, g1::QoS qos, uint16_t ackquant) {
+/*void g1::send(g1::address& addr, const std::string& str, uint8_t type, g1::QoS qos, uint16_t ackquant) {
 	g1::send(addr, str.data(), str.size(), type, qos, ackquant);
-}
+}*/
 
 void g1::quality_notify(g1::packet* pack) {
 	if (pack->header.qos == g1::TargetACK || pack->header.qos == g1::BinaryACK) {
@@ -180,14 +180,17 @@ void g1::return_to_tower(g1::packet* pack, g1::status sts) {
 }
 
 void g1::print(g1::packet* pack) {
-	g1::logger.info("(qos:{}, alen:{}, type:{}, addr:{}, stg:{}, data:{}, released:{})", pack->header.qos, pack->header.alen, (uint8_t)pack->header.type, gxx::hexascii_encode((const uint8_t*)pack->addrptr(), pack->header.alen), pack->header.stg, gxx::buffer(pack->dataptr(), pack->datasize()), pack->flags);
+	//g1::logger.info("(qos:{}, alen:{}, type:{}, addr:{}, stg:{}, data:{}, released:{})", pack->header.qos, pack->header.alen, (uint8_t)pack->header.type, gxx::hexascii_encode((const uint8_t*)pack->addrptr(), pack->header.alen), pack->header.stg, gxx::buffer(pack->dataptr(), pack->datasize()), pack->flags);
 }
 
 void g1::revert_address(g1::packet* pack) {
 	auto first = pack->addrptr();
 	auto last = pack->addrptr() + pack->header.alen;
 	while ((first != last) && (first != --last)) {
-        std::iter_swap(first++, last);
+        char tmp = *last;
+        *last = *first;
+        *first++ = tmp;
+        //std::iter_swap(first++, last);
     }
 }
 
@@ -246,10 +249,10 @@ void g1::onestep() {
 	
 	gxx::for_each_safe(g1::outters.begin(), g1::outters.end(), [&](g1::packet& pack) {
 		if (curtime - pack.last_request_time > pack.header.ackquant) {
-			g1::logger.debug("ack quant in outters, {}", pack.ackcount);
+			//g1::logger.debug("ack quant in outters, {}", pack.ackcount);
 			dlist_del(&pack.lnk);
 			if (++pack.ackcount == 5) {
-				g1::logger.debug("undelivered packet in outters");
+				//g1::logger.debug("undelivered packet in outters");
 				if (g1::undelivered_handler) g1::undelivered_handler(&pack);
 				else g1::utilize(&pack);
 			} else {
@@ -260,10 +263,10 @@ void g1::onestep() {
 
 	gxx::for_each_safe(g1::incoming.begin(), g1::incoming.end(), [&](g1::packet& pack) {
 		if (curtime - pack.last_request_time > pack.header.ackquant) {
-			g1::logger.debug("ack quant in incomming, {}", pack.ackcount);
+			//g1::logger.debug("ack quant in incomming, {}", pack.ackcount);
 			dlist_del(&pack.lnk);
 			if (++pack.ackcount == 5) {
-				g1::logger.debug("undelivered ack in incoming");
+				//g1::logger.debug("undelivered ack in incoming");
 				g1::utilize(&pack);
 			} else {
 				g1::send_ack(&pack);
