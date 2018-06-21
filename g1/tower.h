@@ -6,22 +6,18 @@
 #ifndef G1_TOWER_H
 #define G1_TOWER_H
 
-#include <g1/address.h>
-
 #include <gxx/container/dlist.h>
-//#include <gxx/log/logger2.h>
-
 #include <g1/gateway.h>
-//#include <vector>
+
+#include <gxx/log/logger2.h>
 
 namespace g1 {
-	//extern gxx::log::logger logger;
-
 	enum class status : uint8_t {
 		Sended,
-//		WrongGate,
 		WrongAddress,
 	};
+
+	extern gxx::log::logger logger;
 
 	///Список врат.
 	extern gxx::dlist<g1::gateway, &g1::gateway::lnk> gateways;
@@ -35,10 +31,7 @@ namespace g1 {
 	void do_travel(g1::packet* pack); 
 	
 	void transport(g1::packet* pack); 
-	//void send(g1::packet* pack); 
-	void send(g1::address& addr, const char* str, uint8_t type = 0, g1::QoS qos = (g1::QoS)0, uint16_t ackquant = 20); 
-	void send(g1::address& addr, const char* data, size_t size, uint8_t type = 0, g1::QoS qos = (g1::QoS)0, uint16_t ackquant = 20);
-	//void send(g1::address& addr, const std::string& str, uint8_t type = 0, g1::QoS qos = (g1::QoS)0, uint16_t ackquant = 20);
+	void send(const char* addr, uint8_t asize, const char* data, uint16_t dsize, uint8_t type = 0, g1::QoS qos = (g1::QoS)0, uint16_t ackquant = 20);
 	
 	///Вызывается на только что отправленный пакет. Башня или уничтожает его, или кеширует для контроля качества.
 	void return_to_tower(g1::packet* pack, status sts);
@@ -65,9 +58,6 @@ namespace g1 {
 
 	void send_ack(g1::packet* pack);
 	void send_ack2(g1::packet* pack);
-/*
-	void release_if_need(g1::packet* pack);
-*/
 
 	extern void (*incoming_handler)(g1::packet* pack);
 
@@ -75,16 +65,7 @@ namespace g1 {
 	/// Освобождение должно производиться функцией tower_release.
 	extern void(*undelivered_handler)(g1::packet* pack);
 
-	/** @brief Проведение работ по обеспечению качества обслуживания.
-		@details может вызывать g1::undelivered_handler
-	*/
-
 	uint16_t millis();
-/*
-	void pushudp(std::string& addr, const char* ip, uint16_t port);
-	void pushgate(std::string& addr, uint8_t gate);
-*/
-
 
 	void onestep();
 	void onestep_travel_only();

@@ -2,12 +2,11 @@
 #include <gxx/print/stdprint.h>
 
 #include <g1/tower.h>
-#include <g1/packet.h>
-#include <g1/gateway.h>
 #include <g1/gates/testgate.h>
 #include <g1/gates/selfgate.h>
 #include <g1/gates/udpgate.h>
 #include <g1/indexes.h>
+#include <g1/address.h>
 
 #include <gxx/trace.h>
 #include <gxx/log/target2.h>
@@ -59,7 +58,7 @@ void sigint_handler(int sig) {
 }
 
 int main(int argc, char* argv[]) {
-	g1::logger.link(console_target, gxx::log::level::debug);
+	//g1::logger.link(console_target, gxx::log::level::debug);
 	gxx::println("G1 Retransler");
 
 	int udpport = 10004;
@@ -81,7 +80,7 @@ int main(int argc, char* argv[]) {
 		}
 	}
 
-	g1::logger.debug("udpport: {}", udpport);
+	//g1::logger.debug("udpport: {}", udpport);
 
 	udpgate.open(udpport);
 
@@ -182,7 +181,7 @@ int com_pushudp(gxx::strvec& vec) {
 
 int com_send(gxx::strvec& vec) {
 	std::string data = vec[1];
-	g1::send(addr, data, 1, curqos, 100);
+	g1::send(addr.data(), addr.size(), data.data(), data.size(), 1, curqos, 100);
 	return (0);
 }
 

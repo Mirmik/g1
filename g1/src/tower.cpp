@@ -24,7 +24,7 @@ gxx::dlist<g1::packet, &g1::packet::lnk> g1::outters;
 void(*g1::incoming_handler)(g1::packet* pack) = nullptr;
 void(*g1::undelivered_handler)(g1::packet* pack) = nullptr;
 
-//gxx::log::logger g1::logger("g1");
+gxx::log::logger g1::logger("g1");
 
 g1::gateway* g1::find_target_gateway(const g1::packet* pack) {
 	uint8_t gidx = *pack->stageptr();
@@ -97,7 +97,7 @@ void g1::travel_error(g1::packet* pack) {
 }
 
 void g1::do_travel(g1::packet* pack) {
-	g1::print(pack);
+	//g1::print(pack);
 	if (pack->header.stg == pack->header.alen) {
 		//Ветка доставленного пакета.
 		g1::revert_address(pack);
@@ -141,19 +141,20 @@ void g1::transport(g1::packet* pack) {
 	g1::travel(pack);
 }
 
-void g1::send(g1::address& addr, const char* data, size_t len, uint8_t type, g1::QoS qos, uint16_t ackquant) {
-	g1::packet* pack = g1::create_packet(nullptr, addr.size(), len);
+//void g1::send(g1::address& addr, const char* data, size_t len, uint8_t type, g1::QoS qos, uint16_t ackquant) {
+void g1::send(const char* addr, uint8_t asize, const char* data, uint16_t dsize, uint8_t type, g1::QoS qos, uint16_t ackquant) {
+	g1::packet* pack = g1::create_packet(nullptr, asize, dsize);
 	pack->header.type = type;
 	pack->header.qos = qos;
 	pack->header.ackquant = ackquant;
-	memcpy(pack->addrptr(), addr.data(), addr.size());
-	memcpy(pack->dataptr(), data, len);
+	memcpy(pack->addrptr(), addr, asize);
+	memcpy(pack->dataptr(), data, dsize);
 	g1::transport(pack);
 }
 
-void g1::send(g1::address& addr, const char* str, uint8_t type, g1::QoS qos, uint16_t ackquant) {
-	g1::send(addr, str, strlen(str), type, qos, ackquant);
-}
+//void g1::send(g1::address& addr, const char* str, uint8_t type, g1::QoS qos, uint16_t ackquant) {
+//	g1::send(addr, str, strlen(str), type, qos, ackquant);
+//}
 
 /*void g1::send(g1::address& addr, const std::string& str, uint8_t type, g1::QoS qos, uint16_t ackquant) {
 	g1::send(addr, str.data(), str.size(), type, qos, ackquant);
