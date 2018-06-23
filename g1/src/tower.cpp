@@ -137,7 +137,9 @@ uint16_t __seqcounter = 0;
 void g1::transport(g1::packet* pack) {
 	pack->header.stg = 0;
 	pack->header.ack = 0;
+	gxx::syslock().lock();
 	pack->header.seqid = __seqcounter++;
+	gxx::syslock().unlock();
 	g1::travel(pack);
 }
 
@@ -169,6 +171,7 @@ void g1::quality_notify(g1::packet* pack) {
 }
 
 void g1::return_to_tower(g1::packet* pack, g1::status sts) {
+	gxx::system_lock();
 	if (pack->ingate != nullptr) {
 		//Пакет был отправлен, и он нездешний. Уничтожить.
 		g1::utilize(pack);
@@ -178,6 +181,7 @@ void g1::return_to_tower(g1::packet* pack, g1::status sts) {
 			g1::utilize(pack);
 		else add_to_outters_list(pack);
 	}
+	gxx::system_unlock();
 }
 
 void g1::print(g1::packet* pack) {
@@ -244,10 +248,13 @@ void g1::onestep() {
 		lock.unlock();
 		g1::do_travel(pack);
 	} 
-	lock.unlock();
+	//lock.unlock();
 
+	//lock.lock();
 	uint16_t curtime = g1::millis();
 	
+
+	//lock.lock();
 	gxx::for_each_safe(g1::outters.begin(), g1::outters.end(), [&](g1::packet& pack) {
 		if (curtime - pack.last_request_time > pack.header.ackquant) {
 			//g1::logger.debug("ack quant in outters, {}", pack.ackcount);
@@ -274,6 +281,7 @@ void g1::onestep() {
 			}		
 		}
 	});
+	lock.unlock();
 }
 
 
