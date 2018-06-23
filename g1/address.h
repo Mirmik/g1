@@ -20,12 +20,14 @@ namespace g1 {
 			*(uint32_t*)(str.data() + str.size() - 2) = htons(port);
 		}
 
-		void pushuint8(uint8_t c) {
+		void pushu8(uint8_t c) {
 			str.push_back(c);
 		}
 
 		const char* data() { return str.data(); }
 		uint16_t size() { return str.size(); }
+
+		operator gxx::buffer() { return gxx::buffer(str.data(), str.size()); }
 	};
 }
 

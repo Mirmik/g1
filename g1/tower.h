@@ -41,7 +41,7 @@ namespace g1 {
 
 	///Подключить врата к башне.
 	inline void link_gate(g1::gateway* gate, uint8_t id) { 
-		//logger.info("gateway {} added", id);
+		//logger.debug("gateway {} added", id);
 		gateways.move_back(*gate);
 		gate->id = id; 
 	} 

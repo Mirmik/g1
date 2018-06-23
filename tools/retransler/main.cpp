@@ -5,8 +5,11 @@
 #include <g1/gates/testgate.h>
 #include <g1/gates/selfgate.h>
 #include <g1/gates/udpgate.h>
+#include <g1/gates/serial_gstuff.h>
 #include <g1/indexes.h>
 #include <g1/address.h>
+
+#include <g0/services/echo.h>
 
 #include <gxx/trace.h>
 #include <gxx/log/target2.h>
@@ -18,6 +21,7 @@
 
 #include <gxx/util/hexascii.h>
 #include <gxx/util/string.h>
+#include <gxx/io/file.h>
 #include <gxx/syslock.h>
 #include <gxx/sshell.h>
 
@@ -27,6 +31,7 @@
 
 #include <getopt.h>
 #include <csignal>
+#include <gxx/serial/serial.h>
 
 gxx::log::colored_stdout_target console_target;
 g1::testgate testgate;
@@ -57,32 +62,64 @@ void sigint_handler(int sig) {
 	exit(0);
 }
 
+struct srvcls : public g0::service {
+	void incoming_message(g0::message* msg) override {
+		gxx::print("g0: ");
+		gxx::writeln(msg->data, msg->size);
+		g0::utilize(msg);
+	}
+};
+
+std::string serial_port;
+
+g0::echo_service echo;
+
 int main(int argc, char* argv[]) {
 	//g1::logger.link(console_target, gxx::log::level::debug);
+	//g0::logger.link(console_target, gxx::log::level::debug);
 	gxx::println("G1 Retransler");
 
 	int udpport = 10004;
+	srvcls srv;
+	g0::link_service(&srv, 0);
 
 	const struct option long_options[] = {
 		{"udp", required_argument, NULL, 'u'},
+		{"serial", required_argument, NULL, 's'},
 		{NULL,0,NULL,0}
 	};
 
     int long_index =0;
 	int opt= 0;
-	while ((opt = getopt_long(argc, argv, "u", long_options, &long_index)) != -1) {
-		GXX_PRINT(optarg);
-		GXX_PRINT(long_index);
-		GXX_PRINT(opt);
+	while ((opt = getopt_long(argc, argv, "us", long_options, &long_index)) != -1) {
 		switch (opt) {
-			 case 'u': udpport = atoi(optarg); break;
-			 case 0: break;
+			case 'u': udpport = atoi(optarg); break;
+			case 's': serial_port = optarg; break;
+			case 0: break;
 		}
 	}
 
+	g0::link_service(&echo,2);
 	//g1::logger.debug("udpport: {}", udpport);
 
 	udpgate.open(udpport);
+
+	if (!serial_port.empty()) {
+		gxx::println("open", serial_port);
+		
+		auto ser = new serial::Serial(serial_port, 38400);
+		auto* serial = new gxx::io::file(ser->fd());
+
+		if (serial->is_open()) {
+			//serial->nonblock(true);
+			perror("open");
+			auto* serialgate = new g1::serial_gstuff_gate(serial);
+			g1::link_gate(serialgate, 0x42);
+		}
+		else {
+			perror("open");
+		}
+	}
 
 	g1::incoming_handler = incoming_handler;
 	g1::link_gate(&testgate, G1_TESTGATE);
@@ -169,7 +206,7 @@ int com_deladdr(gxx::strvec& vec) {
 }
 
 int com_push8(gxx::strvec& vec) {
-	addr.pushuint8((char)atoi(vec[1].c_str()));
+	addr.pushu8((char)atoi(vec[1].c_str()));
 	return (0);
 }
 
@@ -208,7 +245,13 @@ int com_printout(gxx::strvec& vec) {
 }
 
 void incoming_handler(g1::packet* pack) {
-	gxx::println("main incoming handler");
+	//gxx::println("main incoming handler");
 	g1::print(pack);
-	g1::release(pack);
+
+	if (pack->header.type == G1_G0TYPE) {
+		//gxx::println("retrans to g0");
+		g0::travell(pack);
+	} else {
+		g1::release(pack);
+	}
 }

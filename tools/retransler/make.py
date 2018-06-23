@@ -8,6 +8,7 @@ from licant.modules import submodule
 import licant.cxx_make
 
 licant.libs.include("gxx")
+licant.libs.include("g0")
 licant.execute("../../g1.g.py")
 
 bu = licant.cxx_make.binutils(
@@ -25,13 +26,16 @@ application("g1-retransler",
 		("gxx", "posix"),
 		("gxx.print", "cout"),
 		("gxx.dprint", "cout"),
-		("gxx.log2"),
+		("gxx.log2", "impl"),
 		("gxx.inet", "posix"),
 		("gxx.syslock", "mutex"),
+		("gxx.serial"),
 
 		("g1"),
 		("g1.allocator", "malloc"),
 		("g1.time", "chrono"),
+
+		("g0"),
 	],
 
 	#binutils = bu,

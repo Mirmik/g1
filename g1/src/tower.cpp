@@ -35,7 +35,7 @@ g1::gateway* g1::find_target_gateway(const g1::packet* pack) {
 }
 
 void g1::release(g1::packet* pack) {
-	//g1::logger.trace("release");
+	g1::logger.trace("release");
 	gxx::syslock().lock();
 	if (pack->released_by_tower) g1::utilize(pack);
 	else pack->released_by_world = true;
@@ -43,7 +43,7 @@ void g1::release(g1::packet* pack) {
 }
 
 void g1::tower_release(g1::packet* pack) {
-	//g1::logger.trace("tower release");
+	g1::logger.trace("tower release");
 	gxx::syslock().lock();
 	dlist_del(&pack->lnk);
 	if (pack->released_by_world) g1::utilize(pack);
@@ -97,7 +97,7 @@ void g1::travel_error(g1::packet* pack) {
 }
 
 void g1::do_travel(g1::packet* pack) {
-	//g1::print(pack);
+	g1::print(pack);
 	if (pack->header.stg == pack->header.alen) {
 		//Ветка доставленного пакета.
 		g1::revert_address(pack);
@@ -175,13 +175,13 @@ void g1::return_to_tower(g1::packet* pack, g1::status sts) {
 	} else {
 		//Пакет здешний.
 		if (sts != g1::status::Sended || pack->header.qos == WithoutACK) 
-			g1::tower_release(pack);
+			g1::utilize(pack);
 		else add_to_outters_list(pack);
 	}
 }
 
 void g1::print(g1::packet* pack) {
-	//g1::logger.info("(qos:{}, alen:{}, type:{}, addr:{}, stg:{}, data:{}, released:{})", pack->header.qos, pack->header.alen, (uint8_t)pack->header.type, gxx::hexascii_encode((const uint8_t*)pack->addrptr(), pack->header.alen), pack->header.stg, gxx::buffer(pack->dataptr(), pack->datasize()), pack->flags);
+	g1::logger.debug("(qos:{}, alen:{}, type:{}, addr:{}, stg:{}, data:{}, released:{})", pack->header.qos, pack->header.alen, (uint8_t)pack->header.type, gxx::hexascii_encode((const uint8_t*)pack->addrptr(), pack->header.alen), pack->header.stg, gxx::buffer(pack->dataptr(), pack->datasize()), pack->flags);
 }
 
 void g1::revert_address(g1::packet* pack) {

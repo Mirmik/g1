@@ -6,6 +6,7 @@
 #include <g1/tower.h>
 
 #include <gxx/panic.h>
+#include <gxx/syslock.h>
 
 /*#include <gxx/print.h>
 #include <gxx/trace.h>
@@ -27,7 +28,9 @@ g1::packet_header* g1::create_block(uint8_t alen, uint16_t dlen) {
 }
 */
 g1::packet* g1::create_packet(g1::gateway* ingate, size_t addrsize, size_t datasize) { 
+	gxx::system_lock();
 	g1::packet* pack = g1::allocate_packet(addrsize + datasize);
+	gxx::system_unlock();
 	
 	pack -> header.flen = sizeof(g1::packet_header) + addrsize + datasize;
 	pack -> header.alen = addrsize;
@@ -52,8 +55,11 @@ void g1::packet_initialization(g1::packet* pack, g1::gateway* ingate) {
 }
 
 void g1::utilize(g1::packet* pack) {
+	g1::logger.debug("utilize");
+	gxx::system_lock();
 	dlist_del(&pack->lnk);
 	g1::utilize_packet(pack);
+	gxx::system_unlock();
 }
 
 void g1::packet::revert_stage(void* addr1, uint8_t size1, void* addr2, uint8_t size2, uint8_t gateindex) {

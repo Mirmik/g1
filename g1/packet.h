@@ -65,6 +65,7 @@ namespace g1 {
 		char* addrptr() const { return (char*)(&header + 1); }
 		char* dataptr() const { return (char*)(&header + 1) + header.alen; }
 		char* stageptr() const { return (char*)(&header + 1) + header.stg; }
+		char* endptr() const { return (char*)(&header) + header.flen; }
 
 		size_t blocksize() { return header.flen; }
 		size_t datasize() { return header.flen - header.alen - sizeof(packet_header); }

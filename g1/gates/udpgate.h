@@ -13,7 +13,7 @@ namespace g1 {
 		g1::packet* block = nullptr;
 
 		void send(g1::packet* pack) override {
-			//g1::logger.debug("UdpGate: {0}", gxx::buffer(pack->dataptr(), pack->datasize()));
+			g1::logger.debug("UdpGate: {0}", gxx::buffer(pack->dataptr(), pack->datasize()));
 
 			uint32_t* addr = (uint32_t*)(pack->stageptr() + 1);
 			uint16_t* port = (uint16_t*)(pack->stageptr() + 5);
@@ -46,7 +46,7 @@ namespace g1 {
 			gxx::inet::netaddr in;
 			int len = sock.recvfrom((char*)&block->header, 128, &in);
 			if (len <= 0) return;
-			//g1::logger.info("udp input", len);
+			g1::logger.info("udp input", len);
 			
 			g1::packet_initialization(block, this);
 
