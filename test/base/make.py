@@ -17,9 +17,12 @@ application("target",
 		("gxx.print", "cout"),
 		("gxx.dprint", "cout"),
 		("gxx.log2"),
+		("gxx.syslock", "mutex"),
 
 		("g1"),
 		("g1.allocator", "malloc"),
+		("g1.time", "chrono"),
+		
 	],
 )
 

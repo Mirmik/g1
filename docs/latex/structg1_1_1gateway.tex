@@ -1,0 +1,70 @@
+\hypertarget{structg1_1_1gateway}{}\section{g1\+:\+:gateway Struct Reference}
+\label{structg1_1_1gateway}\index{g1\+::gateway@{g1\+::gateway}}
+
+
+Абстрактный класс врат. Врата отвечают за пересылку пакетов между мирами.  
+
+
+
+
+{\ttfamily \#include $<$gateway.\+h$>$}
+
+
+
+Inheritance diagram for g1\+:\+:gateway\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=320pt]{structg1_1_1gateway__inherit__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+virtual void \hyperlink{structg1_1_1gateway_a5748219660a573356ab0e52f715eebbf}{send} (\hyperlink{structg1_1_1packet}{packet} $\ast$pack)=0
+\begin{DoxyCompactList}\small\item\em Отправить пакет в целевой мир, согласно адресу стадии. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+dlist\+\_\+head \hyperlink{structg1_1_1gateway_a9b30f9f8c97681eb9b8ce01594200916}{lnk}\hypertarget{structg1_1_1gateway_a9b30f9f8c97681eb9b8ce01594200916}{}\label{structg1_1_1gateway_a9b30f9f8c97681eb9b8ce01594200916}
+
+\begin{DoxyCompactList}\small\item\em встроенное поле списка. \end{DoxyCompactList}\item 
+uint16\+\_\+t \hyperlink{structg1_1_1gateway_a9bc58cdaebf54c916deb87c4c44c0a59}{id}\hypertarget{structg1_1_1gateway_a9bc58cdaebf54c916deb87c4c44c0a59}{}\label{structg1_1_1gateway_a9bc58cdaebf54c916deb87c4c44c0a59}
+
+\begin{DoxyCompactList}\small\item\em номер врат. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Абстрактный класс врат. Врата отвечают за пересылку пакетов между мирами. 
+
+Может содержать поле списка и некоторое время хранить отправляемые пакеты. 
+
+\subsection{Member Function Documentation}
+\index{g1\+::gateway@{g1\+::gateway}!send@{send}}
+\index{send@{send}!g1\+::gateway@{g1\+::gateway}}
+\subsubsection[{\texorpdfstring{send(packet $\ast$pack)=0}{send(packet *pack)=0}}]{\setlength{\rightskip}{0pt plus 5cm}virtual void g1\+::gateway\+::send (
+\begin{DoxyParamCaption}
+\item[{{\bf packet} $\ast$}]{pack}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [pure virtual]}}\hypertarget{structg1_1_1gateway_a5748219660a573356ab0e52f715eebbf}{}\label{structg1_1_1gateway_a5748219660a573356ab0e52f715eebbf}
+
+
+Отправить пакет в целевой мир, согласно адресу стадии. 
+
+Убить зверя. 
+\begin{DoxyParams}{Parameters}
+{\em pack} & Пересылаемый пакет \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Статус ошибки. 
+\end{DoxyReturn}
+
+
+Implemented in \hyperlink{structg1_1_1udpgate_ad0ae095fed19221c91dac452731235d7}{g1\+::udpgate}, \hyperlink{structg1_1_1selfgate_ac833bf5a5ef33393e889e910d1762b2c}{g1\+::selfgate}, and \hyperlink{structg1_1_1testgate_a1d66091483f19bc94ec975cbe3240789}{g1\+::testgate}.
+
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/home/mirmik/project/g1/g1/gateway.\+h\end{DoxyCompactItemize}

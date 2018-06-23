@@ -1,27 +1,23 @@
 #include <gxx/print.h>
+#include <gxx/log/target2.h>
 
 #include <g1/tower.h>
-#include <g1/packet.h>
-#include <g1/gateway.h>
+#include <g1/indexes.h>
 #include <g1/gates/testgate.h>
-
-#include <gxx/trace.h>
 
 g1::testgate tgate;
 
+gxx::log::colored_stdout_target console_target;
+
 int main() {
-	GXX_TRACE_SIMPLE();
+	g1::logger.link(console_target, gxx::log::level::trace);
 	g1::link_gate(&tgate, 99);
+	
+	g1::address addr;
+	addr.pushudp(G1_UDPGATE, "127.0.0.1", 5025);
 
-	g1::packet_header* block = g1::create_block(1, 10);
-	g1::packet* pack = g1::create_packet(nullptr, block);	
+	auto pptr = g1::send(addr, 9, "HelloWorld");
+	g1::onestep_travel_only();
 
-	pack->set_type(9);
-	pack->push_addr(99);
-
-	memcpy(pack->dataptr(), "HelloWorld", 10);
-
-	gxx::print_dump(block, block->flen);
-
-	g1::transport(pack);
+	gxx::println(pptr.ptr->status);
 }

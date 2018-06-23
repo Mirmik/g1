@@ -1,0 +1,5 @@
+<map id="g1::gateway" name="g1::gateway">
+<area shape="rect" id="node2" href="$structg1_1_1selfgate.html" title="g1::selfgate" alt="" coords="5,80,96,107"/>
+<area shape="rect" id="node3" href="$structg1_1_1testgate.html" title="g1::testgate" alt="" coords="120,80,211,107"/>
+<area shape="rect" id="node4" href="$structg1_1_1udpgate.html" title="g1::udpgate" alt="" coords="235,80,325,107"/>
+</map>
