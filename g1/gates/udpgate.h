@@ -13,13 +13,8 @@ namespace g1 {
 		g1::packet* block = nullptr;
 
 		void send(g1::packet* pack) override {
-			g1::logger.debug("UdpGate: {0}", gxx::buffer(pack->dataptr(), pack->datasize()));
-
 			uint32_t* addr = (uint32_t*)(pack->stageptr() + 1);
 			uint16_t* port = (uint16_t*)(pack->stageptr() + 5);
-
-			//g1::logger.debug("send udp datagramm addr:{}, port:{}", gxx::hexascii_encode((const uint8_t*)addr, 4), ntohs(*port));
-
 			sock.ne_sendto(*addr, *port, (const char*)&pack->header, pack->header.flen);
 			g1::return_to_tower(pack, g1::status::Sended);
 		}
@@ -28,13 +23,9 @@ namespace g1 {
 			sock.nonblock(false);
 			while(1) {
 				g1::packet* pack = (g1::packet*) malloc(128 + sizeof(g1::packet) - sizeof(g1::packet_header));
-
 				gxx::inet::netaddr in;
 				int len = sock.recvfrom((char*)&pack->header, 128, &in);
-				//g1::logger.info("udp input", len);
-
-				g1::packet_initialization(pack, this);
-				
+				g1::packet_initialization(pack, this);				
 				pack->revert_stage(&in.port, 2, &in.addr, 4, G1_UDPGATE);
 				g1::travel(pack);
 			}
@@ -45,9 +36,7 @@ namespace g1 {
 
 			gxx::inet::netaddr in;
 			int len = sock.recvfrom((char*)&block->header, 128, &in);
-			if (len <= 0) return;
-			g1::logger.info("udp input", len);
-			
+			if (len <= 0) return;			
 			g1::packet_initialization(block, this);
 
 			block->revert_stage(&in.port, 2, &in.addr, 4, G1_UDPGATE);

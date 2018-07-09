@@ -12,7 +12,6 @@ namespace g1 {
 		gxx::gstuff::sender sender;
 
 		g1::packet* rpack = nullptr;
-		//char buffer[128];
 		gxx::io::iostream* strm;
 
 
@@ -22,8 +21,6 @@ namespace g1 {
 		}
 
 		void send(g1::packet* pack) override {
-			g1::logger.debug("serial_gstuff_gate::send");
-			//gxx::print_dump((char*)&pack->header, pack->header.flen);
 			sender.start_message();
 			sender.write((char*)&pack->header, pack->header.flen);
 			sender.end_message();
@@ -38,7 +35,6 @@ namespace g1 {
 			char c;
 			int len = strm->read(&c, 1);
 			if (len == 1) {
-				//dprhexln(c);
 				recver.newchar(c);
 			}
 		}

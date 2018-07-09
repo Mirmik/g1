@@ -3,21 +3,13 @@
 */
 
 #include <g1/tower.h>
-/*#include <g1/packet.h>
-#include <g1/gateway.h>*/
-#include <g1/indexes.h>/*
-*/
-//#include <gxx/print.h>
+#include <g1/indexes.h>
 #include <gxx/util/hexascii.h>
-/*#include <gxx/trace.h>
-*/
 #include <gxx/algorithm.h>
 #include <gxx/util/string.h>
-
 #include <gxx/syslock.h>
-/*
-using namespace gxx::argument_literal;
-*/
+#include <gxx/print/stdprint.h>
+
 gxx::dlist<g1::gateway, &g1::gateway::lnk> g1::gateways;
 gxx::dlist<g1::packet, &g1::packet::lnk> g1::travelled;
 gxx::dlist<g1::packet, &g1::packet::lnk> g1::incoming;
@@ -27,7 +19,6 @@ void(*g1::undelivered_handler)(g1::packet* pack) = nullptr;
 void(*g1::traveling_handler)(g1::packet* pack) = nullptr;
 void(*g1::transit_handler)(g1::packet* pack) = nullptr;
 
-gxx::log::logger g1::logger("g1");
 
 g1::gateway* g1::find_target_gateway(const g1::packet* pack) {
 	uint8_t gidx = *pack->stageptr();
@@ -38,7 +29,6 @@ g1::gateway* g1::find_target_gateway(const g1::packet* pack) {
 }
 
 void g1::release(g1::packet* pack) {
-	g1::logger.trace("release");
 	gxx::syslock().lock();
 	if (pack->released_by_tower) g1::utilize(pack);
 	else pack->released_by_world = true;
@@ -46,7 +36,6 @@ void g1::release(g1::packet* pack) {
 }
 
 void g1::tower_release(g1::packet* pack) {
-	g1::logger.trace("tower release");
 	gxx::syslock().lock();
 	dlist_del(&pack->lnk);
 	if (pack->released_by_world) g1::utilize(pack);
@@ -101,7 +90,6 @@ void g1::travel_error(g1::packet* pack) {
 
 void g1::do_travel(g1::packet* pack) {
 	if (traveling_handler) traveling_handler(pack);
-	//g1::print(pack);
 	if (pack->header.stg == pack->header.alen) {
 		//Ветка доставленного пакета.
 		g1::revert_address(pack);
@@ -126,7 +114,6 @@ void g1::do_travel(g1::packet* pack) {
 		//Ветка транзитного пакета. Логика поиска врат и пересылки.
 		g1::gateway* gate = g1::find_target_gateway(pack);
 		if (gate == nullptr) { 	
-			//g1::logger.warn("WrongGate: {0}", *pack->stageptr());
 			g1::travel_error(pack);
 		}
 		else {
@@ -158,14 +145,6 @@ void g1::send(const void* addr, uint8_t asize, const char* data, uint16_t dsize,
 	memcpy(pack->dataptr(), data, dsize);
 	g1::transport(pack);
 }
-
-//void g1::send(g1::address& addr, const char* str, uint8_t type, g1::QoS qos, uint16_t ackquant) {
-//	g1::send(addr, str, strlen(str), type, qos, ackquant);
-//}
-
-/*void g1::send(g1::address& addr, const std::string& str, uint8_t type, g1::QoS qos, uint16_t ackquant) {
-	g1::send(addr, str.data(), str.size(), type, qos, ackquant);
-}*/
 
 void g1::quality_notify(g1::packet* pack) {
 	if (pack->header.qos == g1::TargetACK || pack->header.qos == g1::BinaryACK) {
@@ -220,7 +199,6 @@ void g1::revert_address(g1::packet* pack) {
         char tmp = *last;
         *last = *first;
         *first++ = tmp;
-        //std::iter_swap(first++, last);
     }
 }
 
@@ -273,19 +251,12 @@ void g1::onestep() {
 		lock.unlock();
 		g1::do_travel(pack);
 	} 
-	//lock.unlock();
 
-	//lock.lock();
 	uint16_t curtime = g1::millis();
-	
-
-	//lock.lock();
 	gxx::for_each_safe(g1::outters.begin(), g1::outters.end(), [&](g1::packet& pack) {
 		if (curtime - pack.last_request_time > pack.header.ackquant) {
-			//g1::logger.debug("ack quant in outters, {}", pack.ackcount);
 			dlist_del(&pack.lnk);
 			if (++pack.ackcount == 5) {
-				//g1::logger.debug("undelivered packet in outters");
 				if (g1::undelivered_handler) g1::undelivered_handler(&pack);
 				else g1::utilize(&pack);
 			} else {
@@ -296,19 +267,13 @@ void g1::onestep() {
 
 	gxx::for_each_safe(g1::incoming.begin(), g1::incoming.end(), [&](g1::packet& pack) {
 		if (curtime - pack.last_request_time > pack.header.ackquant) {
-			//g1::logger.debug("ack quant in incomming, {}", pack.ackcount);
 			dlist_del(&pack.lnk);
-			if (++pack.ackcount == 5) {
-				//g1::logger.debug("undelivered ack in incoming");
-				g1::utilize(&pack);
-			} else {
-				g1::send_ack(&pack);
-			}		
+			if (++pack.ackcount == 5) g1::utilize(&pack);
+			else g1::send_ack(&pack);	
 		}
 	});
 	lock.unlock();
 }
-
 
 void g1::spin() {
 	while(1) {
@@ -316,15 +281,3 @@ void g1::spin() {
 		g1::onestep();
 	}
 }
-/*
-
-#include <gxx/inet/dgramm.h>
-void g1::pushudp(std::string& addr, const char* ip, uint16_t port) {
-	addr.resize(addr.size() + 6);
-	*(uint32_t*)(addr.data() + addr.size() - 6) = inet_addr(ip);
-	*(uint32_t*)(addr.data() + addr.size() - 2) = htons(port);
-}
-
-void g1::pushgate(std::string& addr, uint8_t c) {
-	addr.push_back(c);
-}*/

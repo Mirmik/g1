@@ -8,16 +8,13 @@
 
 #include <gxx/container/dlist.h>
 #include <g1/gateway.h>
-
-#include <gxx/log/logger2.h>
+#include <gxx/print.h>
 
 namespace g1 {
 	enum class status : uint8_t {
 		Sended,
 		WrongAddress,
 	};
-
-	extern gxx::log::logger logger;
 
 	///Список врат.
 	extern gxx::dlist<g1::gateway, &g1::gateway::lnk> gateways;

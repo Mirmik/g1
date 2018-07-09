@@ -25,17 +25,16 @@ gxx::log::colored_stdout_target console_target;
 
 void incoming_handler(g1::packet* pack) {
 	if (packmon) {
-		//gxx::print_dump(pack->dataptr(), pack->datasize());
-		gxx::print("incoming: "); g1::print(pack); gxx::println();
+		gxx::print("incoming: "); 
+		g1::print(pack); 
+		gxx::println();
 	} else {
 		gxx::write(pack->dataptr(), pack->datasize());
 	}
 	g1::release(pack);
 }
 
-void traveling_handler(g1::packet* pack) {
-	//g1::print(pack);
-}
+void traveling_handler(g1::packet* pack) {}
 
 void transit_handler(g1::packet* pack) {
 	if (sniffer) {
@@ -59,8 +58,6 @@ std::string serial_port;
 int serialfd;
 
 int main(int argc, char* argv[]) {
-	g1::logger.link(console_target, gxx::log::level::trace);
-
 	const struct option long_options[] = {
 		{"udp", required_argument, NULL, 'u'},
 		{"serial", required_argument, NULL, 'S'},
@@ -97,8 +94,6 @@ int main(int argc, char* argv[]) {
 	}
 
 	if (optind < argc) {
-		//gxx::println("send mode");
-
 		addrsize = hexer(addr, 128, argv[optind], strlen(argv[optind]));
 		if (addrsize < 0) {
 			gxx::println("Wrong address format");
