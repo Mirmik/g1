@@ -37,13 +37,20 @@ namespace g1 {
 				uint8_t type : 5; ///< Доп. инф. зависит от ситуации.
 			};
 		};
-		uint16_t ackquant; ///< Таймаут для пересылки пакета.
 		uint16_t flen; ///< Полная длина пакета
-		uint16_t seqid; ///< Порядковый номер пакета. Присваивается отправителем.
 		uint8_t alen; ///< Длина поля адреса.
 		uint8_t stg; ///< Поля стадии. Используется для того, чтобы цепочка врат знала, какую часть адреса обрабатывать.
+		uint16_t ackquant; ///< Таймаут для пересылки пакета.
+		uint16_t seqid; ///< Порядковый номер пакета. Присваивается отправителем.
 		QoS qos; ///< Поле качества обслуживания.
 	} PACKED;
+
+	//struct reliable_packet_header {
+	//	packet_header phead;	
+	//	uint16_t ackquant; ///< Таймаут для пересылки пакета.
+	//	uint16_t seqid; ///< Порядковый номер пакета. Присваивается отправителем.
+	//	QoS qos; ///< Поле качества обслуживания.
+	//} PACKED;
 
 	struct packet {
 		dlist_head lnk; ///< Для подключения в список.
@@ -60,11 +67,14 @@ namespace g1 {
 			};
 		};
 
+		//union {
 		packet_header header;
+		//	reliable_packet_header rpheader;
+		//};
 
-		char* addrptr() const { return (char*)(&header + 1); }
+		uint8_t* addrptr() const { return (uint8_t*)(&header + 1); }
 		char* dataptr() const { return (char*)(&header + 1) + header.alen; }
-		char* stageptr() const { return (char*)(&header + 1) + header.stg; }
+		uint8_t* stageptr() const { return (uint8_t*)(&header + 1) + header.stg; }
 		char* endptr() const { return (char*)(&header) + header.flen; }
 
 		size_t blocksize() { return header.flen; }
@@ -75,7 +85,7 @@ namespace g1 {
 		void revert_stage(void* addr1, uint8_t size1, void* addr2, uint8_t size2, uint8_t gateindex);
 		void revert_stage(void* addr, uint8_t size, uint8_t gateindex);
 		void revert_stage(uint8_t gateindex);
-	};
+	} PACKED;
 
 	/*struct packptr {
 		packet* ptr;

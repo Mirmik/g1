@@ -62,10 +62,10 @@ void sigint_handler(int sig) {
 	exit(0);
 }
 
-struct srvcls : public g0::service {
+struct srvcls : public g0::basic_service {
 	void incoming_message(g0::message* msg) override {
 		gxx::print("g0: ");
-		gxx::writeln(msg->data, msg->size);
+		gxx::write(msg->data, msg->size);
 		g0::utilize(msg);
 	}
 };
@@ -107,7 +107,7 @@ int main(int argc, char* argv[]) {
 	if (!serial_port.empty()) {
 		gxx::println("open", serial_port);
 		
-		auto ser = new serial::Serial(serial_port, 38400);
+		auto ser = new serial::Serial(serial_port, 115200);
 		auto* serial = new gxx::io::file(ser->fd());
 
 		if (serial->is_open()) {

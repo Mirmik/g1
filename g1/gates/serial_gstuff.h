@@ -38,6 +38,7 @@ namespace g1 {
 			char c;
 			int len = strm->read(&c, 1);
 			if (len == 1) {
+				//dprhexln(c);
 				recver.newchar(c);
 			}
 		}
@@ -48,7 +49,6 @@ namespace g1 {
 		}
 
 		void handler(gxx::buffer) {
-			//gxx::println("handler");
 			g1::packet* block = rpack;
 			init_recv();
 

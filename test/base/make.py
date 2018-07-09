@@ -16,7 +16,7 @@ application("target",
 		("gxx", "posix"),
 		("gxx.print", "cout"),
 		("gxx.dprint", "cout"),
-		("gxx.log2"),
+		("gxx.log2", "impl"),
 		("gxx.syslock", "mutex"),
 
 		("g1"),

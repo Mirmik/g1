@@ -63,6 +63,13 @@ namespace g1 {
 			sock.nonblock(true);
 		}
 	};
+
+	inline g1::udpgate* make_udpgate(uint16_t port) {
+		auto g = new udpgate;
+		g->open(port);
+		g1::link_gate(g, G1_UDPGATE);
+		return g;
+	}
 }
 
 #endif

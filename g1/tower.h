@@ -31,7 +31,7 @@ namespace g1 {
 	void do_travel(g1::packet* pack); 
 	
 	void transport(g1::packet* pack); 
-	void send(const char* addr, uint8_t asize, const char* data, uint16_t dsize, uint8_t type = 0, g1::QoS qos = (g1::QoS)0, uint16_t ackquant = 20);
+	void send(const uint8_t* addr, uint8_t asize, const char* data, uint16_t dsize, uint8_t type = 0, g1::QoS qos = (g1::QoS)0, uint16_t ackquant = 200);
 	
 	///Вызывается на только что отправленный пакет. Башня или уничтожает его, или кеширует для контроля качества.
 	void return_to_tower(g1::packet* pack, status sts);

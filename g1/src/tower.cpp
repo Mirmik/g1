@@ -144,7 +144,7 @@ void g1::transport(g1::packet* pack) {
 }
 
 //void g1::send(g1::address& addr, const char* data, size_t len, uint8_t type, g1::QoS qos, uint16_t ackquant) {
-void g1::send(const char* addr, uint8_t asize, const char* data, uint16_t dsize, uint8_t type, g1::QoS qos, uint16_t ackquant) {
+void g1::send(const uint8_t* addr, uint8_t asize, const char* data, uint16_t dsize, uint8_t type, g1::QoS qos, uint16_t ackquant) {
 	g1::packet* pack = g1::create_packet(nullptr, asize, dsize);
 	pack->header.type = type;
 	pack->header.qos = qos;
