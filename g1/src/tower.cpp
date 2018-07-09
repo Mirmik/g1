@@ -12,6 +12,7 @@
 /*#include <gxx/trace.h>
 */
 #include <gxx/algorithm.h>
+#include <gxx/util/string.h>
 
 #include <gxx/syslock.h>
 /*
@@ -23,6 +24,8 @@ gxx::dlist<g1::packet, &g1::packet::lnk> g1::incoming;
 gxx::dlist<g1::packet, &g1::packet::lnk> g1::outters;
 void(*g1::incoming_handler)(g1::packet* pack) = nullptr;
 void(*g1::undelivered_handler)(g1::packet* pack) = nullptr;
+void(*g1::traveling_handler)(g1::packet* pack) = nullptr;
+void(*g1::transit_handler)(g1::packet* pack) = nullptr;
 
 gxx::log::logger g1::logger("g1");
 
@@ -97,7 +100,8 @@ void g1::travel_error(g1::packet* pack) {
 }
 
 void g1::do_travel(g1::packet* pack) {
-	g1::print(pack);
+	if (traveling_handler) traveling_handler(pack);
+	//g1::print(pack);
 	if (pack->header.stg == pack->header.alen) {
 		//Ветка доставленного пакета.
 		g1::revert_address(pack);
@@ -118,6 +122,7 @@ void g1::do_travel(g1::packet* pack) {
 		return;
 	} 
 	else {
+		if (transit_handler) transit_handler(pack);
 		//Ветка транзитного пакета. Логика поиска врат и пересылки.
 		g1::gateway* gate = g1::find_target_gateway(pack);
 		if (gate == nullptr) { 	
@@ -144,7 +149,7 @@ void g1::transport(g1::packet* pack) {
 }
 
 //void g1::send(g1::address& addr, const char* data, size_t len, uint8_t type, g1::QoS qos, uint16_t ackquant) {
-void g1::send(const uint8_t* addr, uint8_t asize, const char* data, uint16_t dsize, uint8_t type, g1::QoS qos, uint16_t ackquant) {
+void g1::send(const void* addr, uint8_t asize, const char* data, uint16_t dsize, uint8_t type, g1::QoS qos, uint16_t ackquant) {
 	g1::packet* pack = g1::create_packet(nullptr, asize, dsize);
 	pack->header.type = type;
 	pack->header.qos = qos;
@@ -185,7 +190,27 @@ void g1::return_to_tower(g1::packet* pack, g1::status sts) {
 }
 
 void g1::print(g1::packet* pack) {
-	g1::logger.debug("(qos:{}, alen:{}, type:{}, addr:{}, stg:{}, data:{}, released:{})", pack->header.qos, pack->header.alen, (uint8_t)pack->header.type, gxx::hexascii_encode((const uint8_t*)pack->addrptr(), pack->header.alen), pack->header.stg, gxx::buffer(pack->dataptr(), pack->datasize()), pack->flags);
+	g1:print_to(*gxx::standart_output, pack);
+}
+
+void g1::print_to(gxx::io::ostream& out, g1::packet* pack) {
+	gxx::fprint_to(out, "("
+		"qos:{}, "
+		"alen:{}, "
+		"type:{}, "
+		"addr:{}, "
+		"stg:{}, "
+		"data:{}, "
+		"released:{}"
+		")", 
+		pack->header.qos, 
+		pack->header.alen, 
+		(uint8_t)pack->header.type, 
+		gxx::hexascii_encode((const uint8_t*)pack->addrptr(), pack->header.alen), 
+		pack->header.stg, 
+		gxx::dstring(pack->dataptr(), pack->datasize()), 
+		pack->flags
+	);
 }
 
 void g1::revert_address(g1::packet* pack) {

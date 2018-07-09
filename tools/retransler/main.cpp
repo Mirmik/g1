@@ -218,6 +218,7 @@ int com_pushudp(gxx::strvec& vec) {
 
 int com_send(gxx::strvec& vec) {
 	std::string data = vec[1];
+	data += '\n';
 	g1::send(addr.data(), addr.size(), data.data(), data.size(), 1, curqos, 100);
 	return (0);
 }

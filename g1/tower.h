@@ -31,7 +31,7 @@ namespace g1 {
 	void do_travel(g1::packet* pack); 
 	
 	void transport(g1::packet* pack); 
-	void send(const uint8_t* addr, uint8_t asize, const char* data, uint16_t dsize, uint8_t type = 0, g1::QoS qos = (g1::QoS)0, uint16_t ackquant = 200);
+	void send(const void* addr, uint8_t asize, const char* data, uint16_t dsize, uint8_t type = 0, g1::QoS qos = (g1::QoS)0, uint16_t ackquant = 200);
 	
 	///Вызывается на только что отправленный пакет. Башня или уничтожает его, или кеширует для контроля качества.
 	void return_to_tower(g1::packet* pack, status sts);
@@ -53,6 +53,7 @@ namespace g1 {
 	void release(g1::packet* pack);
 	void tower_release(g1::packet* pack);
 	void print(g1::packet* pack);
+	void print_to(gxx::io::ostream& out, g1::packet* pack);
 
 	void revert_address(g1::packet* pack);
 
@@ -60,6 +61,8 @@ namespace g1 {
 	void send_ack2(g1::packet* pack);
 
 	extern void (*incoming_handler)(g1::packet* pack);
+	extern void (*traveling_handler)(g1::packet* pack);
+	extern void (*transit_handler)(g1::packet* pack);
 
 	/// Обработчик недоставленного пакета. Определяется локальным софтом.
 	/// Освобождение должно производиться функцией tower_release.
