@@ -4,11 +4,12 @@
 import licant
 from licant.cxx_modules import application
 from licant.libs import include
+import os
 
 licant.libs.include("g1")
 licant.libs.include("gxx")
 
-application("g1listener", 
+application("g1trans", 
 	sources = ["main.cpp"],
 	include_modules = [
 		("g1"),
@@ -27,4 +28,9 @@ application("g1listener",
 	libs = ["pthread"]
 )
 
-licant.ex("g1listener")
+@licant.routine
+def install():
+	licant.do("g1trans")
+	os.system("cp g1trans /usr/local/bin")
+
+licant.ex("g1trans")
