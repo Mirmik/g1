@@ -1,4 +1,4 @@
-#include <g0/core.h>
+//#include <g0/core.h>
 #include <g1/tower.h>
 #include <g1/indexes.h>
 #include <g1/gates/udpgate.h>

@@ -5,7 +5,7 @@ import licant
 from licant.cxx_modules import application
 from licant.libs import include
 
-licant.execute("../../g0.g.py")
+#licant.execute("../../g0.g.py")
 licant.libs.include("g1")
 licant.libs.include("gxx")
 
@@ -16,7 +16,7 @@ application("g0send",
 		("g1.allocator", "malloc"),
 		("g1.time", "chrono"),
 	
-		("g0"),
+	#	("g0"),
 		
 		("gxx", "posix"),
 		("gxx.log2", "impl"),
