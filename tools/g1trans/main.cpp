@@ -85,8 +85,6 @@ int main(int argc, char* argv[]) {
 		}
 	}
 
-	gxx::println(udpport);
-
 	g1::udpgate udpgate;
 	if (udpport != -1) { 
 		int ret = udpgate.open(udpport);
