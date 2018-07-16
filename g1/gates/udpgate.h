@@ -47,9 +47,15 @@ namespace g1 {
 			g1::travel(pack);
 		}
 
-		void open(int port) {
-			sock.bind("0.0.0.0", port);
+		int open(int port) {
+			int ret = sock.bind("0.0.0.0", port);
+			if (ret >= 0) sock.nonblock(true);
+			return ret;
+		}
+
+		int open() {
 			sock.nonblock(true);
+			return 0;
 		}
 	};
 

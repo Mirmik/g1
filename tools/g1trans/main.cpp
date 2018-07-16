@@ -58,7 +58,7 @@ void console_listener() {
 	}
 }
 
-uint16_t udpport = 9034;
+int udpport = -1;
 std::string serial_port;
 int serialfd;
 
@@ -85,8 +85,17 @@ int main(int argc, char* argv[]) {
 		}
 	}
 
+	gxx::println(udpport);
+
 	g1::udpgate udpgate;
-	udpgate.open(udpport);
+	if (udpport != -1) { 
+		int ret = udpgate.open(udpport);
+		if (ret < 0) {
+			perror("udpgate open");
+			exit(-1);
+		}
+	}
+	else udpgate.open();
 
 	g1::incoming_handler = incoming_handler;
 	g1::traveling_handler = traveling_handler;
