@@ -5,15 +5,18 @@ import licant
 from licant.cxx_modules import application
 from licant.libs import include
 
+#licant.execute("../../g0.g.py")
 licant.libs.include("g1")
 licant.libs.include("gxx")
 
-application("g1listener", 
+application("g0send", 
 	sources = ["main.cpp"],
 	include_modules = [
 		("g1"),
 		("g1.allocator", "malloc"),
 		("g1.time", "chrono"),
+	
+	#	("g0"),
 		
 		("gxx", "posix"),
 		("gxx.log2", "impl"),
@@ -27,4 +30,4 @@ application("g1listener",
 	libs = ["pthread"]
 )
 
-licant.ex("g1listener")
+licant.ex("g0send")

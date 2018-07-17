@@ -1,3 +1,4 @@
+//#include <g0/core.h>
 #include <g1/tower.h>
 #include <g1/indexes.h>
 #include <g1/gates/udpgate.h>
@@ -15,33 +16,13 @@
 #include <getopt.h>
 
 uint8_t addr[128];
+int srvid;
 int addrsize;
-
-bool raw;
-bool packmon;
-bool sniffer;
 
 gxx::log::colored_stdout_target console_target;
 
 void incoming_handler(g1::packet* pack) {
-	if (packmon) {
-		gxx::print("incoming: "); 
-		g1::print(pack); 
-		gxx::println();
-	} else {
-		gxx::write(pack->dataptr(), pack->datasize());
-	}
-	g1::release(pack);
-}
-
-void traveling_handler(g1::packet* pack) {}
-
-void transit_handler(g1::packet* pack) {
-	if (sniffer) {
-		gxx::print("transit: ");
-		g1::print(pack);
-		gxx::println();
-	}
+	gxx::println("incomming handler")
 }
 
 void console_listener() {
@@ -49,8 +30,12 @@ void console_listener() {
 	while(1) {
 		std::getline(std::cin, in);
 		in += '\n';
-		g1::send(addr, addrsize, in.data(), in.size(), 0, (g1::QoS) 0);
+		g0::send(0, srvid, addr, addrsize, in.data(), in.size(), (g1::QoS) 0);
 	}
+}
+
+void answer_listener(g0::message* msg) {
+	gxx::write(msg->data, msg->size);
 }
 
 uint16_t udpport = 9034;
@@ -58,22 +43,21 @@ std::string serial_port;
 int serialfd;
 
 int main(int argc, char* argv[]) {
+	g1::logger.link(console_target, gxx::log::level::trace);
+	g0::logger.link(console_target, gxx::log::level::trace);
+
 	const struct option long_options[] = {
 		{"udp", required_argument, NULL, 'u'},
-		{"serial", required_argument, NULL, 'S'},
-		{"sniffer", no_argument, NULL, 's'},
-		{"pack", no_argument, NULL, 'v'},
+		{"serial", required_argument, NULL, 's'},
 		{NULL,0,NULL,0}
 	};
 
     int long_index =0;
 	int opt= 0;
-	while ((opt = getopt_long(argc, argv, "uvSs", long_options, &long_index)) != -1) {
+	while ((opt = getopt_long(argc, argv, "us", long_options, &long_index)) != -1) {
 		switch (opt) {
 			case 'u': udpport = atoi(optarg); break;
-			case 'S': serial_port = optarg; break;
-			case 's': sniffer = true; break;
-			case 'v': packmon = true; break;
+			case 's': serial_port = optarg; break;
 			case 0: break;
 		}
 	}
@@ -82,8 +66,8 @@ int main(int argc, char* argv[]) {
 	udpgate.open(udpport);
 
 	g1::incoming_handler = incoming_handler;
-	g1::traveling_handler = traveling_handler;
-	g1::transit_handler = transit_handler;
+	g0::make_service(0, answer_listener);
+
 	g1::link_gate(&udpgate, G1_UDPGATE);
 	
 	if (!serial_port.empty()) {
@@ -92,17 +76,28 @@ int main(int argc, char* argv[]) {
 		auto* serialgate = new g1::serial_gstuff_gate(serial);
 		g1::link_gate(serialgate, 42);
 	}
+	//	addrsize = hexer(addr, 128, ".42", 3);
 
-	if (optind < argc) {
+	//	srvid = atoi(argv[optind]);
+	//	gxx::println(srvid);
+	//}
+	//else {
+		if (argc < 3) {
+			gxx::println("Usage g0send addr srvid");
+			exit(-1);	
+		} 
+
 		addrsize = hexer(addr, 128, argv[optind], strlen(argv[optind]));
 		if (addrsize < 0) {
 			gxx::println("Wrong address format");
 			exit(-1);
-		}	
-		auto thr = new std::thread(console_listener);
-		thr->detach();
-	}
+		}
+		srvid = atoi(argv[optind+1]);
+	//}
 
+
+	auto thr = new std::thread(console_listener);
 	g1::spin();
+	//thr.join();
 }
 
