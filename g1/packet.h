@@ -10,7 +10,7 @@
 #include <gxx/buffer.h>
 #include <gxx/datastruct/dlist_head.h>
 
-#define PACKED __attribute__((packed))
+#define G1_PACKED __attribute__((packed))
 
 namespace g1 {
 	struct gateway;
@@ -43,7 +43,7 @@ namespace g1 {
 		uint16_t ackquant; ///< Таймаут для пересылки пакета.
 		uint16_t seqid; ///< Порядковый номер пакета. Присваивается отправителем.
 		QoS qos; ///< Поле качества обслуживания.
-	} PACKED;
+	} G1_PACKED;
 
 	//struct reliable_packet_header {
 	//	packet_header phead;	
@@ -85,7 +85,7 @@ namespace g1 {
 		void revert_stage(void* addr1, uint8_t size1, void* addr2, uint8_t size2, uint8_t gateindex);
 		void revert_stage(void* addr, uint8_t size, uint8_t gateindex);
 		void revert_stage(uint8_t gateindex);
-	} PACKED;
+	} G1_PACKED;
 
 	/*struct packptr {
 		packet* ptr;
