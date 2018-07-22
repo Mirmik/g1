@@ -9,6 +9,7 @@
 #include <gxx/container/dlist.h>
 #include <g1/gateway.h>
 #include <gxx/print.h>
+#include <gxx/datastruct/iovec.h>
 
 namespace g1 {
 	enum class status : uint8_t {
@@ -29,6 +30,7 @@ namespace g1 {
 	
 	void transport(g1::packet* pack); 
 	void send(const void* addr, uint8_t asize, const char* data, uint16_t dsize, uint8_t type = 0, g1::QoS qos = (g1::QoS)0, uint16_t ackquant = 200);
+	void send(const void* addr, uint8_t asize, const gxx::iovec* vec, size_t veclen, uint8_t type = 0, g1::QoS qos = (g1::QoS)0, uint16_t ackquant = 200);
 	
 	///Вызывается на только что отправленный пакет. Башня или уничтожает его, или кеширует для контроля качества.
 	void return_to_tower(g1::packet* pack, status sts);

@@ -45,13 +45,6 @@ namespace g1 {
 		QoS qos; ///< Поле качества обслуживания.
 	} G1_PACKED;
 
-	//struct reliable_packet_header {
-	//	packet_header phead;	
-	//	uint16_t ackquant; ///< Таймаут для пересылки пакета.
-	//	uint16_t seqid; ///< Порядковый номер пакета. Присваивается отправителем.
-	//	QoS qos; ///< Поле качества обслуживания.
-	//} PACKED;
-
 	struct packet {
 		dlist_head lnk; ///< Для подключения в список.
 		g1::gateway* ingate; ///< gate, которым пакет прибыл в систему.
@@ -67,16 +60,14 @@ namespace g1 {
 			};
 		};
 
-		//union {
 		packet_header header;
-		//	reliable_packet_header rpheader;
-		//};
 
 		uint8_t* addrptr() const { return (uint8_t*)(&header + 1); }
 		char* dataptr() const { return (char*)(&header + 1) + header.alen; }
 		uint8_t* stageptr() const { return (uint8_t*)(&header + 1) + header.stg; }
 		char* endptr() const { return (char*)(&header) + header.flen; }
 
+		size_t addrsize() { return header.alen; }
 		size_t blocksize() { return header.flen; }
 		size_t datasize() { return header.flen - header.alen - sizeof(packet_header); }
 
@@ -87,41 +78,6 @@ namespace g1 {
 		void revert_stage(uint8_t gateindex);
 	} G1_PACKED;
 
-	/*struct packptr {
-		packet* ptr;
-		void release();
-		~packptr();
-	};*/
-
-	///Структура-описатель блока. Создается поверх пакета для упрощения работы с ним.
-	/*struct packet {
-		//dlist_head tlnk;
-		//packet_header* block; ///< Указатель на заголовок реферируемого блока
-
-		///Отметить в пакете прохождение врат.
-		void revert_stage(void* addr1, uint8_t size1, void* addr2, uint8_t size2, uint8_t gateindex);
-		void revert_stage(void* addr, uint8_t size, uint8_t gateindex);
-		void revert_stage(uint8_t gateindex);
-
-		uint8_t gateway_index() const;
-		gxx::buffer gateway_address(uint8_t asz) const;
-
-		bool is_travelled() { return ingate != nullptr; } 
-
-		
-		gxx::buffer addrsect() { return gxx::buffer(addrptr(), block->alen); }
-		gxx::buffer datasect() { return gxx::buffer(dataptr(), datasize()); }
-
-		void set_type(uint8_t type) { block->type = type; }
-		void push_addr(uint8_t addr) { *stageptr() = addr; block->stg += 1; }
-		void push_addr(gxx::buffer addr) { memcpy(stageptr(), addr.data(), addr.size()); block->stg += addr.size(); }
-		uint16_t datasize() { return block->flen - block->alen - sizeof(packet_header); }
-	};
-	*/
-	/*packet_header* allocate_block(uint8_t asz, uint16_t bsz);
-	packet_header* create_block(uint8_t asz, uint16_t bsz);
-	void utilize_block(packet_header* block);
-*/
 	packet* allocate_packet(size_t adlen); 
 	packet* create_packet(gateway* ingate, size_t addrsize, size_t datasize); 
 	void packet_initialization(g1::packet* pack, gateway* ingate); 

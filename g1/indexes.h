@@ -10,5 +10,6 @@
 #define G1_ACK22_TYPE 2
 
 #define G1_G0TYPE 3
+#define G1_G2TYPE 4
 
 #endif
