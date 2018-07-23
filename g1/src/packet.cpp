@@ -15,7 +15,7 @@ g1::packet* g1::create_packet(g1::gateway* ingate, size_t addrsize, size_t datas
 	
 	pack -> header.flen = sizeof(g1::packet_header) + addrsize + datasize;
 	pack -> header.alen = addrsize;
-	pack -> header.ackquant = 20;
+	pack -> header.ackquant = 200;
 	pack -> header.pflag = 0;
 	pack -> header.qos = (g1::QoS)0;
 	pack -> header.stg = 0;

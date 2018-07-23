@@ -146,6 +146,32 @@ void g1::send(const void* addr, uint8_t asize, const char* data, uint16_t dsize,
 	g1::transport(pack);
 }
 
+void g1::send(const void* addr, uint8_t asize, const gxx::iovec* vec, size_t veclen, uint8_t type, g1::QoS qos, uint16_t ackquant) {
+	size_t dsize = 0;
+	const gxx::iovec* it = vec;
+	const gxx::iovec* const eit = vec + veclen;
+
+	for (; it != eit; ++it) {
+		dsize += it->size;
+	}
+
+	g1::packet* pack = g1::create_packet(nullptr, asize, dsize);
+	pack->header.type = type;
+	pack->header.qos = qos;
+	pack->header.ackquant = ackquant;
+	memcpy(pack->addrptr(), addr, asize);
+
+	it = vec;
+	char* dst = pack->dataptr(); 
+	for (; it != eit; ++it) {
+		memcpy(dst, it->data, it->size);
+		dst += it->size;
+	}
+	
+	g1::transport(pack);
+}
+
+
 void g1::quality_notify(g1::packet* pack) {
 	if (pack->header.qos == g1::TargetACK || pack->header.qos == g1::BinaryACK) {
 		g1::send_ack(pack);
