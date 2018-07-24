@@ -2,6 +2,7 @@
 #define G1_GATEWAY_H
 
 #include <g1/packet.h>
+#include <g1/indexes.h>
 #include <gxx/container/dlist.h>
 
 namespace g1 {

@@ -59,12 +59,14 @@ namespace g1 {
 		}
 	};
 
-	inline g1::udpgate* make_udpgate(uint16_t port) {
+	/*inline g1::udpgate* make_udpgate(uint16_t port) {
 		auto g = new udpgate;
 		g->open(port);
 		g1::link_gate(g, G1_UDPGATE);
 		return g;
-	}
+	}*/
+
+	udpgate* create_udpgate(uint16_t port, uint8_t id = G1_UDPGATE);
 }
 
 #endif
