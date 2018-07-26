@@ -141,6 +141,7 @@ void g1::send(const void* addr, uint8_t asize, const char* data, uint16_t dsize,
 	pack->header.type = type;
 	pack->header.qos = qos;
 	pack->header.ackquant = ackquant;
+	//if (addr) 
 	memcpy(pack->addrptr(), addr, asize);
 	memcpy(pack->dataptr(), data, dsize);
 	g1::transport(pack);
@@ -159,6 +160,7 @@ void g1::send(const void* addr, uint8_t asize, const gxx::iovec* vec, size_t vec
 	pack->header.type = type;
 	pack->header.qos = qos;
 	pack->header.ackquant = ackquant;
+	//if (addr) 
 	memcpy(pack->addrptr(), addr, asize);
 
 	it = vec;
@@ -196,6 +198,11 @@ void g1::return_to_tower(g1::packet* pack, g1::status sts) {
 
 void g1::print(g1::packet* pack) {
 	g1:print_to(*gxx::standart_output, pack);
+}
+
+void g1::println(g1::packet* pack) {
+	g1:print_to(*gxx::standart_output, pack);
+	gxx::print_to(*gxx::standart_output, "\n");
 }
 
 void g1::print_to(gxx::io::ostream& out, g1::packet* pack) {

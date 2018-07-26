@@ -52,7 +52,9 @@ namespace g1 {
 	void release(g1::packet* pack);
 	void tower_release(g1::packet* pack);
 	void print(g1::packet* pack);
+	void println(g1::packet* pack);
 	void print_to(gxx::io::ostream& out, g1::packet* pack);
+	void println_to(gxx::io::ostream& out, g1::packet* pack);
 
 	void revert_address(g1::packet* pack);
 
