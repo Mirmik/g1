@@ -208,6 +208,7 @@ void g1::println(g1::packet* pack) {
 void g1::print_to(gxx::io::ostream& out, g1::packet* pack) {
 	gxx::fprint_to(out, "("
 		"qos:{}, "
+		"ack:{}, "
 		"alen:{}, "
 		"type:{}, "
 		"addr:{}, "
@@ -215,7 +216,8 @@ void g1::print_to(gxx::io::ostream& out, g1::packet* pack) {
 		"data:{}, "
 		"released:{}"
 		")", 
-		pack->header.qos, 
+		pack->header.qos,
+		(uint8_t)pack->header.ack, 
 		pack->header.alen, 
 		(uint8_t)pack->header.type, 
 		gxx::hexascii_encode((const uint8_t*)pack->addrptr(), pack->header.alen), 
